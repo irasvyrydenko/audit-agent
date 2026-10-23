@@ -1,0 +1,47 @@
+[project]
+name = "audit-agent"
+version = "0.1.0"
+description = "SEC 10-K financial report analyzer (course project). Analysis tool, not investment advice."
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "requests>=2.31",
+    "pyyaml>=6.0",
+    "python-dotenv>=1.0",
+    "pydantic>=2.6",
+    "beautifulsoup4>=4.12",
+    "lxml>=5.0",
+    "pandas>=2.1",
+    "scikit-learn>=1.4",
+    "openai>=1.30",
+    "streamlit>=1.35",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0", "ruff>=0.6"]
+tracing = ["langfuse>=2.0"]
+datasets = ["datasets>=2.19"]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+src = ["src", "."]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "N", "SIM", "ANN"]
+ignore = ["ANN401"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["ANN"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src", "."]
+addopts = "-q"

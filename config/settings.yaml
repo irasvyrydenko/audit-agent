@@ -1,0 +1,75 @@
+# Single source of truth for model, paths, limits and eval thresholds.
+# Code must read these via audit_agent.common.config.load_settings() — never hardcode.
+
+llm:
+  provider: openrouter
+  base_url: https://openrouter.ai/api/v1
+  # ONE fixed model for reproducible evaluation. Changing it invalidates eval comparisons:
+  # log the change in docs/decisions.md and re-run all evals.
+  # TODO(confirm): check the model is still free at https://openrouter.ai/models?q=free
+  model: meta-llama/llama-3.3-70b-instruct:free
+  api_key_env: OPENROUTER_API_KEY
+  temperature: 0.0
+  max_tokens: 1024
+  seed: 42
+  cache_dir: data/cache/llm
+
+edgar:
+  user_agent_env: EDGAR_USER_AGENT
+  max_requests_per_second: 8  # SEC limit is 10; keep headroom
+  raw_dir: data/raw/edgar
+  tickers_url: https://www.sec.gov/files/company_tickers.json
+  submissions_url: https://data.sec.gov/submissions/CIK{cik}.json
+  companyfacts_url: https://data.sec.gov/api/xbrl/companyfacts/CIK{cik}.json
+  archives_url: https://www.sec.gov/Archives/edgar/data/{cik_int}/{accession_nodash}/{document}
+
+paths:
+  raw: data/raw
+  processed: data/processed
+  gold: data/gold
+
+filing:
+  items: ["1A", "7", "8"]  # Items the loader must segment
+
+# KPI -> candidate XBRL tags (tried in order unless aggregation = sum).
+kpis:
+  - {name: revenue, period_type: duration, tags: [Revenues, RevenueFromContractWithCustomerExcludingAssessedTax, SalesRevenueNet]}
+  - {name: cost_of_revenue, period_type: duration, tags: [CostOfRevenue, CostOfGoodsAndServicesSold]}
+  - {name: operating_income, period_type: duration, tags: [OperatingIncomeLoss]}
+  - {name: net_income, period_type: duration, tags: [NetIncomeLoss]}
+  - {name: sga, period_type: duration, tags: [SellingGeneralAndAdministrativeExpense]}
+  - {name: depreciation, period_type: duration, tags: [DepreciationDepletionAndAmortization, DepreciationAndAmortization]}
+  - {name: operating_cash_flow, period_type: duration, tags: [NetCashProvidedByUsedInOperatingActivities]}
+  - {name: cash, period_type: instant, tags: [CashAndCashEquivalentsAtCarryingValue]}
+  - {name: accounts_receivable, period_type: instant, tags: [AccountsReceivableNetCurrent]}
+  - {name: current_assets, period_type: instant, tags: [AssetsCurrent]}
+  - {name: total_assets, period_type: instant, tags: [Assets]}
+  - {name: ppe_net, period_type: instant, tags: [PropertyPlantAndEquipmentNet]}
+  - {name: current_liabilities, period_type: instant, tags: [LiabilitiesCurrent]}
+  - {name: total_liabilities, period_type: instant, tags: [Liabilities]}
+  - {name: retained_earnings, period_type: instant, tags: [RetainedEarningsAccumulatedDeficit]}
+  - {name: stockholders_equity, period_type: instant, tags: [StockholdersEquity]}
+  # TODO(confirm): total_debt definition — see docs/decisions.md open questions
+  - {name: total_debt, period_type: instant, aggregation: sum, tags: [LongTermDebtNoncurrent, LongTermDebtCurrent, ShortTermBorrowings]}
+
+risk_labels:
+  - going_concern
+  - litigation
+  - customer_concentration
+  - debt_covenants
+  - cybersecurity
+  - liquidity
+  - regulatory
+  - supply_chain
+  - none  # paragraph carries no salient risk
+
+consistency:
+  numeric_tolerance: 0.005  # relative tolerance when comparing a claimed number to computed
+
+eval:
+  kpi_relative_tolerance: 0.005  # exact match within 0.5% vs XBRL
+  random_seed: 42
+
+tracing:
+  backend: json  # json | langfuse
+  log_dir: logs

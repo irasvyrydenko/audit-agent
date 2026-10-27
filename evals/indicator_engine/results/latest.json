@@ -1,0 +1,44 @@
+{
+  "component": "indicator_engine",
+  "timestamp": "2026-10-27T17:59:19.830096+00:00",
+  "git_commit": "779dc7c",
+  "model": "nvidia/nemotron-3.5-super-vl:free",
+  "status": "ok",
+  "dataset": {
+    "name": "gold/indicator_engine",
+    "n": 5,
+    "fiscal_year": 2024
+  },
+  "metrics": {
+    "hand_calc_match_rate": 1.0,
+    "hand_calc_n": 22,
+    "coverage": {
+      "revenue_growth": 1.0,
+      "net_income_growth": 1.0,
+      "operating_cash_flow_growth": 1.0,
+      "gross_margin": 0.75,
+      "operating_margin": 0.5,
+      "net_margin": 1.0,
+      "current_ratio": 1.0,
+      "debt_to_equity": 1.0,
+      "liabilities_to_assets": 1.0,
+      "cash_conversion": 1.0,
+      "dso": 1.0,
+      "accounts_receivable_growth": 1.0,
+      "altman_z2": 1.0
+    },
+    "not_applicable_count": 9,
+    "flags_triggered": {
+      "revenue_decline": 0,
+      "weak_cash_conversion": 0,
+      "high_leverage": 0,
+      "low_liquidity": 2,
+      "altman_distress": 0,
+      "receivables_outpace_revenue": 2,
+      "negative_equity": 0,
+      "negative_operating_cash_flow": 0
+    }
+  },
+  "baseline": null,
+  "notes": "Full chain XBRL -> indicators. Hand calcs drafted by the coding agent from Item 8 figures (AAPL, WMT); spot-check pending."
+}

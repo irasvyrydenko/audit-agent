@@ -44,6 +44,10 @@ kpis:
   - {name: net_income, period_type: duration, tags: [NetIncomeLoss]}
   - {name: sga, period_type: duration, tags: [SellingGeneralAndAdministrativeExpense]}
   - {name: depreciation, period_type: duration, tags: [DepreciationDepletionAndAmortization, DepreciationAndAmortization, DepreciationAmortizationAndAccretionNet]}
+  - {name: pretax_income, period_type: duration, tags: [IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest, IncomeLossFromContinuingOperationsBeforeIncomeTaxesMinorityInterestAndIncomeLossFromEquityMethodInvestments]}
+  - {name: interest_expense, period_type: duration, tags: [InterestExpense, InterestExpenseNonoperating, InterestExpenseDebt]}
+  # EBIT for Altman Z'': operating income, else pre-tax income + interest expense (D-012).
+  - {name: ebit, period_type: duration, tags: [operating_income, "pretax_income + interest_expense"]}
   - {name: operating_cash_flow, period_type: duration, tags: [NetCashProvidedByUsedInOperatingActivities]}
   - {name: cash, period_type: instant, tags: [CashAndCashEquivalentsAtCarryingValue]}
   - {name: accounts_receivable, period_type: instant, tags: [AccountsReceivableNetCurrent, ReceivablesNetCurrent]}
@@ -59,6 +63,20 @@ kpis:
   - {name: current_debt, period_type: instant, tags: [DebtCurrent, "ShortTermBorrowings? + CommercialPaper? + LongTermDebtCurrent?"]}
   - {name: long_term_debt, period_type: instant, tags: [LongTermDebtNoncurrent, LongTermDebtAndCapitalLeaseObligations]}
   - {name: total_debt, period_type: instant, tags: ["current_debt + long_term_debt"]}
+
+# indicator_engine thresholds (D-012). Formula coefficients live in code with a reference.
+indicators:
+  days_in_year: 365
+  altman_z2_zones: {distress_below: 1.1, safe_above: 2.6}  # Altman Z'' (1995) zones
+  # Indicators/flags meaningless for banks: no current/non-current split, debt = funding,
+  # operating cash flow swings with trading assets.
+  not_applicable_for_banks: [gross_margin, operating_margin, current_ratio, dso, accounts_receivable_growth, debt_to_equity, altman_z2, operating_cash_flow_growth, cash_conversion, negative_operating_cash_flow]
+  anomaly:
+    revenue_decline_below: 0.0          # revenue growth < 0
+    cash_conversion_below: 0.8          # operating cash flow / net income
+    receivables_growth_gap_above: 0.10  # receivables growth - revenue growth
+    debt_to_equity_above: 2.0
+    current_ratio_below: 1.0
 
 risk_labels:
   - going_concern

@@ -56,6 +56,26 @@ class KPIDefinition(BaseModel):
     period_type: Literal["duration", "instant"]
 
 
+class AltmanZones(BaseModel):
+    distress_below: float
+    safe_above: float
+
+
+class AnomalyThresholds(BaseModel):
+    revenue_decline_below: float
+    cash_conversion_below: float
+    receivables_growth_gap_above: float
+    debt_to_equity_above: float
+    current_ratio_below: float
+
+
+class IndicatorSettings(BaseModel):
+    days_in_year: int = 365
+    altman_z2_zones: AltmanZones
+    not_applicable_for_banks: list[str] = []
+    anomaly: AnomalyThresholds
+
+
 class ConsistencySettings(BaseModel):
     numeric_tolerance: float
 
@@ -76,6 +96,7 @@ class Settings(BaseModel):
     paths: PathSettings
     filing: FilingSettings
     kpis: list[KPIDefinition]
+    indicators: IndicatorSettings
     risk_labels: list[str]
     consistency: ConsistencySettings
     eval: EvalSettings
@@ -87,6 +108,7 @@ class Company(BaseModel):
     name: str
     sector: str
     confirmed: bool = False
+    bank: bool = False  # bank-specific "not applicable" indicators (D-012)
     cik: str | None = None  # override for ticker->CIK lookup (D-008)
     notes: str = ""
 

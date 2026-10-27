@@ -1,0 +1,80 @@
+{
+ "notes": "Inputs typed from the FY2024 10-K Item 8 statements ($ millions); expected values computed by plain arithmetic outside src/. Drafted by the coding agent; spot-check before final submission. WMT total_liabilities = total liabilities & equity - total equity (D-011).",
+ "tolerance": 0.005,
+ "cases": [
+  {
+   "ticker": "AAPL",
+   "fiscal_year": 2024,
+   "inputs_musd": {
+    "revenue": 391035,
+    "cost_of_revenue": 210352,
+    "operating_income": 123216,
+    "net_income": 93736,
+    "operating_cash_flow": 118254,
+    "current_assets": 152987,
+    "current_liabilities": 176392,
+    "total_assets": 364980,
+    "total_liabilities": 308030,
+    "stockholders_equity": 56950,
+    "retained_earnings": -19154,
+    "accounts_receivable": 33410,
+    "current_debt": 20879,
+    "long_term_debt": 85750
+   },
+   "prior_inputs_musd": {
+    "revenue": 383285,
+    "accounts_receivable": 29508
+   },
+   "expected": {
+    "revenue_growth": 0.02022,
+    "gross_margin": 0.462063,
+    "operating_margin": 0.315102,
+    "net_margin": 0.239713,
+    "current_ratio": 0.867313,
+    "debt_to_equity": 1.872327,
+    "liabilities_to_assets": 0.843964,
+    "cash_conversion": 1.261564,
+    "dso": 31.185572,
+    "accounts_receivable_growth": 0.132235,
+    "altman_z2": 1.871023
+   }
+  },
+  {
+   "ticker": "WMT",
+   "fiscal_year": 2024,
+   "inputs_musd": {
+    "revenue": 648125,
+    "cost_of_revenue": 490142,
+    "operating_income": 27012,
+    "net_income": 15511,
+    "operating_cash_flow": 35726,
+    "current_assets": 76877,
+    "current_liabilities": 92415,
+    "total_assets": 252399,
+    "total_liabilities": 162050,
+    "stockholders_equity": 83861,
+    "retained_earnings": 89814,
+    "accounts_receivable": 8796,
+    "current_debt": 4325,
+    "long_term_debt": 36132
+   },
+   "prior_inputs_musd": {
+    "revenue": 611289,
+    "accounts_receivable": 7933
+   },
+   "expected": {
+    "revenue_growth": 0.06026,
+    "gross_margin": 0.243754,
+    "operating_margin": 0.041677,
+    "net_margin": 0.023932,
+    "current_ratio": 0.831867,
+    "debt_to_equity": 0.482429,
+    "liabilities_to_assets": 0.642039,
+    "cash_conversion": 2.303269,
+    "dso": 4.953581,
+    "accounts_receivable_growth": 0.108786,
+    "altman_z2": 2.018758
+   }
+  }
+ ]
+}

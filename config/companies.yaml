@@ -12,6 +12,7 @@ companies:
   - ticker: JPM
     name: JPMorgan Chase & Co.
     sector: Financials (bank)
+    bank: true  # some indicators not applicable (D-012)
     confirmed: true
     notes: >-
       Bank balance sheet — Altman Z, Beneish M and DSO are not meaningful; no

@@ -56,7 +56,7 @@ Legend: solid = data, dashed = LLM call. Cylinders = external sources.
 - **Input → Output:** `KPISet` (current, prior) → `list[Indicator]`, `list[AnomalyFlag]`.
 - **Model / tool:** none (pure functions).
 - **Eval:** unit tests vs hand calculations.
-- **Status:** stub.
+- **Status:** implemented except Beneish M (D-012); hand-calc match 22/22 (AAPL, WMT).
 
 ## risk_detector
 - **Purpose:** multi-label risk classification of paragraphs.

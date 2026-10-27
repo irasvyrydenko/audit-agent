@@ -9,7 +9,7 @@ Updated after each work session (see `.claude/skills/crisp-dm-log`). Entries are
 |---|---|---|---|---|
 | filing_loader | ✓ 2026-10-27 | ✓ 2026-10-27 | ✓ 2026-10-27 (dev) | segmentation acc. 0.933 (14/15) |
 | kpi_extractor | ✓ 2026-10-27 | ✓ XBRL part 2026-10-27 | ✓ 2026-10-27 (XBRL checks) | table match 0.987, coverage 0.86 |
-| indicator_engine | – | – | – | – |
+| indicator_engine | ✓ 2026-10-27 | ✓ 2026-10-27 (no Beneish) | ✓ 2026-10-27 | hand-calc match 1.0 (22/22) |
 | risk_detector | – | – | – | – |
 | consistency_checker | – | – | – | – |
 | report_generator | – | – | – | – |
@@ -69,6 +69,10 @@ Open questions to answer by inspecting real data:
   JNJ `DebtCurrent` (6,000) is a rounded text value, balance sheet shows 5,983. JPM (bank)
   has no cost of revenue, current assets/liabilities, receivables or long-term debt tags.
   Fiscal years: AAPL/WMT 52–53 weeks. [→ D-011]
+- 2026-10-27 — indicator_engine — Business: turn KPIs into comparable ratios + red flags the
+  report can cite. Data: no market prices → Altman Z'' (book equity). XOM/JNJ have no
+  operating income → EBIT = pre-tax income + interest expense. JPM (bank) has no
+  current/non-current split and its operating cash flow swings with trading assets. [→ D-012]
 
 ## 3. Data Preparation
 
@@ -88,6 +92,8 @@ Open questions to answer by inspecting real data:
 ## 4. Modeling
 
 ### Log
+- 2026-10-27 — indicator_engine — 13 indicators as specs (name, formula, inputs, function)
+  and 8 rule-based flags; thresholds in settings.yaml `indicators`; bank not-applicable list.
 - _(prompts, baseline config, rules; link decisions.md entries)_
 
 ## 5. Evaluation
@@ -105,6 +111,11 @@ what they mean.
   Item 8 table match 0.987 (74/75 single-fact KPIs; miss = JNJ current_debt, see D-011),
   cross-filing agreement 1.0 (82 prior-year values equal the FY2023 10-K). LLM-vs-XBRL
   metrics pending. Takeaway: XBRL selection is reliable enough to be ground truth.
+- 2026-10-27 — indicator_engine — 34 unit tests (hand calcs, None/zero-denominator, bank,
+  flags). Full chain on FY2024: hand-calc match 1.0 (22/22, AAPL + WMT from Item 8 figures,
+  drafted by the agent — spot-check pending); coverage 1.0 except gross margin 0.75 and
+  operating margin 0.5 (concept not reported); 9 not-applicable (JPM). Flags: low liquidity
+  AAPL/WMT, receivables outpace revenue AAPL/XOM.
 
 ## 6. Deployment
 

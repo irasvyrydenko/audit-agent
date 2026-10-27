@@ -119,8 +119,27 @@ Add an entry for every non-obvious choice. Never delete entries; mark superseded
 - **Consequences:** JNJ current_debt uses a rounded `DebtCurrent` (6,000 vs 5,983, 0.3%).
   JPM has no long-term-debt tag in this scheme → total_debt None (bank; see open question).
 
+## D-012 — Indicator definitions, Altman Z'', bank handling (2026-10-27)
+- **Context:** original Altman Z needs market value of equity (no price data in scope);
+  XOM and JNJ do not tag operating income; ratios like current ratio / DSO / Altman are
+  meaningless for a bank.
+- **Decision:**
+  1. Altman **Z''** (1995, book equity): 6.56·WC/TA + 3.26·RE/TA + 6.72·EBIT/TA +
+     1.05·Equity/TL; zones < 1.1 distress, > 2.6 safe (config).
+  2. KPI `ebit` = `operating_income`, else `pretax_income + interest_expense`.
+  3. DSO on year-end receivables (not average); growth = (cur − prior) / |prior|.
+  4. Debt/equity and cash conversion are None for non-positive denominators (negative
+     equity is its own flag).
+  5. Companies with `bank: true` (JPM) get status `not_applicable` for the indicators and
+     flags listed in `indicators.not_applicable_for_banks`.
+  6. Flags are omitted (not "false") when inputs are missing or not applicable.
+- **Alternatives:** original Z with market cap from an external price API (extra
+  dependency); Z' (manufacturers only); average-receivables DSO (needs two balance sheets,
+  fine but less common in screening).
+- **Consequences:** Z'' values are not comparable to original-Z thresholds. EBIT fallback
+  includes non-operating items for XOM/JNJ. Beneish M deferred.
+
 ## Open questions
 - ~~**total_debt definition**~~ → resolved in D-011.
-- **Altman Z variant:** original Z needs market value of equity (price data, out of scope) → Z'' (book equity, non-manufacturers) is likely. Decide in indicator_engine.
-- **Banks (JPM):** mark Altman Z / Beneish M / DSO as not applicable rather than computing them.
+- ~~**Altman Z variant**~~ / ~~**Banks (JPM)**~~ → resolved in D-012.
 - ~~**Fiscal year matching**~~ → resolved in D-009.

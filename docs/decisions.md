@@ -96,8 +96,31 @@ Add an entry for every non-obvious choice. Never delete entries; mark superseded
   starts at management's internal-control report rather than the auditor's report (gold uses
   the same convention).
 
+## D-011 — XBRL KPI selection: candidate expressions, borrowings-only debt (2026-10-27)
+- **Context:** the 5 companies tag the same KPI differently (see crisp_dm.md Data
+  Understanding); some totals are not tagged at all (WMT `Liabilities`); debt lines overlap
+  differently (JNJ short-term borrowings already include the current part of long-term debt,
+  WMT's do not).
+- **Decision:**
+  1. Facts only from the chosen 10-K (`accn`), `end` = period end, durations 350–380 days,
+     instants without `start`; duplicates → latest `filed`.
+  2. Prior year = comparatives in the same 10-K; prior end = FY start − 1 day.
+  3. Each KPI lists candidate expressions tried in order (`A`, `A - B`, `A? + B? + C?`,
+     KPI references in snake_case). The KPI cites every fact it used.
+  4. `total_debt = current_debt + long_term_debt`, borrowings only (no leases);
+     `current_debt` = `DebtCurrent`, else `ShortTermBorrowings? + CommercialPaper? +
+     LongTermDebtCurrent?`; `long_term_debt` = `LongTermDebtNoncurrent`, else
+     `LongTermDebtAndCapitalLeaseObligations`.
+  5. WMT total liabilities = `LiabilitiesAndStockholdersEquity −
+     StockholdersEquityIncludingPortionAttributableToNoncontrollingInterest` (includes
+     redeemable NCI, ~0.1%).
+- **Alternatives:** fixed per-company tag map (not generic); summing all debt tags (double
+  counts JNJ); including leases (inconsistent across filers, ASC 842 operating leases).
+- **Consequences:** JNJ current_debt uses a rounded `DebtCurrent` (6,000 vs 5,983, 0.3%).
+  JPM has no long-term-debt tag in this scheme → total_debt None (bank; see open question).
+
 ## Open questions
-- **total_debt definition:** sum of `LongTermDebtNoncurrent + LongTermDebtCurrent + ShortTermBorrowings`? Include finance leases / commercial paper? Decide after inspecting companyfacts for the 5 companies.
+- ~~**total_debt definition**~~ → resolved in D-011.
 - **Altman Z variant:** original Z needs market value of equity (price data, out of scope) → Z'' (book equity, non-manufacturers) is likely. Decide in indicator_engine.
 - **Banks (JPM):** mark Altman Z / Beneish M / DSO as not applicable rather than computing them.
 - ~~**Fiscal year matching**~~ → resolved in D-009.

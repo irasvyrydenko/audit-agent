@@ -50,11 +50,10 @@ class FilingSettings(BaseModel):
 
 class KPIDefinition(BaseModel):
     name: str
-    tags: list[str] = Field(min_length=1)
+    tags: list[str] = Field(min_length=1)  # candidate expressions, tried in order (D-011)
     taxonomy: str = "us-gaap"
     unit: str = "USD"
     period_type: Literal["duration", "instant"]
-    aggregation: Literal["first", "sum"] = "first"
 
 
 class ConsistencySettings(BaseModel):

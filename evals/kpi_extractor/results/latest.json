@@ -1,0 +1,47 @@
+{
+  "component": "kpi_extractor",
+  "timestamp": "2026-10-27T16:24:23.863193+00:00",
+  "git_commit": "827db1e",
+  "model": "nvidia/nemotron-3.5-super-vl:free",
+  "status": "ok",
+  "dataset": {
+    "name": "xbrl_companyfacts",
+    "n": 5,
+    "fiscal_year": 2024,
+    "kpis": 19
+  },
+  "metrics": {
+    "coverage_rate": 0.8632,
+    "missing_rate": 0.1368,
+    "per_kpi_coverage": {
+      "revenue": 1.0,
+      "cost_of_revenue": 0.6,
+      "operating_income": 0.4,
+      "net_income": 1.0,
+      "sga": 0.8,
+      "depreciation": 1.0,
+      "operating_cash_flow": 1.0,
+      "cash": 0.8,
+      "accounts_receivable": 0.8,
+      "current_assets": 0.8,
+      "total_assets": 1.0,
+      "ppe_net": 0.8,
+      "current_liabilities": 0.8,
+      "stockholders_equity": 1.0,
+      "total_liabilities": 1.0,
+      "retained_earnings": 1.0,
+      "current_debt": 1.0,
+      "long_term_debt": 0.8,
+      "total_debt": 0.8
+    },
+    "table_match_rate": 0.9867,
+    "table_match_n": 75,
+    "cross_filing_agreement_rate": 1.0,
+    "cross_filing_n": 82,
+    "exact_match_rate": null,
+    "scale_error_rate": null,
+    "sign_error_rate": null
+  },
+  "baseline": null,
+  "notes": "XBRL part only: coverage, Item 8 table match, cross-filing agreement. LLM-vs-XBRL metrics pending (extract_with_llm not implemented)."
+}

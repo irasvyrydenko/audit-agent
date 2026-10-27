@@ -1,0 +1,252 @@
+{"check": "coverage", "ticker": "AAPL", "kpi": "revenue", "present": true}
+{"check": "coverage", "ticker": "AAPL", "kpi": "cost_of_revenue", "present": true}
+{"check": "coverage", "ticker": "AAPL", "kpi": "operating_income", "present": true}
+{"check": "coverage", "ticker": "AAPL", "kpi": "net_income", "present": true}
+{"check": "coverage", "ticker": "AAPL", "kpi": "sga", "present": true}
+{"check": "coverage", "ticker": "AAPL", "kpi": "depreciation", "present": true}
+{"check": "coverage", "ticker": "AAPL", "kpi": "operating_cash_flow", "present": true}
+{"check": "coverage", "ticker": "AAPL", "kpi": "cash", "present": true}
+{"check": "coverage", "ticker": "AAPL", "kpi": "accounts_receivable", "present": true}
+{"check": "coverage", "ticker": "AAPL", "kpi": "current_assets", "present": true}
+{"check": "coverage", "ticker": "AAPL", "kpi": "total_assets", "present": true}
+{"check": "coverage", "ticker": "AAPL", "kpi": "ppe_net", "present": true}
+{"check": "coverage", "ticker": "AAPL", "kpi": "current_liabilities", "present": true}
+{"check": "coverage", "ticker": "AAPL", "kpi": "stockholders_equity", "present": true}
+{"check": "coverage", "ticker": "AAPL", "kpi": "total_liabilities", "present": true}
+{"check": "coverage", "ticker": "AAPL", "kpi": "retained_earnings", "present": true}
+{"check": "coverage", "ticker": "AAPL", "kpi": "current_debt", "present": true}
+{"check": "coverage", "ticker": "AAPL", "kpi": "long_term_debt", "present": true}
+{"check": "coverage", "ticker": "AAPL", "kpi": "total_debt", "present": true}
+{"check": "table", "ticker": "AAPL", "kpi": "revenue", "found": true}
+{"check": "table", "ticker": "AAPL", "kpi": "cost_of_revenue", "found": true}
+{"check": "table", "ticker": "AAPL", "kpi": "operating_income", "found": true}
+{"check": "table", "ticker": "AAPL", "kpi": "net_income", "found": true}
+{"check": "table", "ticker": "AAPL", "kpi": "sga", "found": true}
+{"check": "table", "ticker": "AAPL", "kpi": "depreciation", "found": true}
+{"check": "table", "ticker": "AAPL", "kpi": "operating_cash_flow", "found": true}
+{"check": "table", "ticker": "AAPL", "kpi": "cash", "found": true}
+{"check": "table", "ticker": "AAPL", "kpi": "accounts_receivable", "found": true}
+{"check": "table", "ticker": "AAPL", "kpi": "current_assets", "found": true}
+{"check": "table", "ticker": "AAPL", "kpi": "total_assets", "found": true}
+{"check": "table", "ticker": "AAPL", "kpi": "ppe_net", "found": true}
+{"check": "table", "ticker": "AAPL", "kpi": "current_liabilities", "found": true}
+{"check": "table", "ticker": "AAPL", "kpi": "stockholders_equity", "found": true}
+{"check": "table", "ticker": "AAPL", "kpi": "total_liabilities", "found": true}
+{"check": "table", "ticker": "AAPL", "kpi": "retained_earnings", "found": true}
+{"check": "table", "ticker": "AAPL", "kpi": "long_term_debt", "found": true}
+{"check": "cross_filing", "ticker": "AAPL", "kpi": "revenue", "this_filing": 383285000000.0, "earlier_filing": 383285000000.0, "agree": true}
+{"check": "cross_filing", "ticker": "AAPL", "kpi": "cost_of_revenue", "this_filing": 214137000000.0, "earlier_filing": 214137000000.0, "agree": true}
+{"check": "cross_filing", "ticker": "AAPL", "kpi": "operating_income", "this_filing": 114301000000.0, "earlier_filing": 114301000000.0, "agree": true}
+{"check": "cross_filing", "ticker": "AAPL", "kpi": "net_income", "this_filing": 96995000000.0, "earlier_filing": 96995000000.0, "agree": true}
+{"check": "cross_filing", "ticker": "AAPL", "kpi": "sga", "this_filing": 24932000000.0, "earlier_filing": 24932000000.0, "agree": true}
+{"check": "cross_filing", "ticker": "AAPL", "kpi": "depreciation", "this_filing": 11519000000.0, "earlier_filing": 11519000000.0, "agree": true}
+{"check": "cross_filing", "ticker": "AAPL", "kpi": "operating_cash_flow", "this_filing": 110543000000.0, "earlier_filing": 110543000000.0, "agree": true}
+{"check": "cross_filing", "ticker": "AAPL", "kpi": "cash", "this_filing": 29965000000.0, "earlier_filing": 29965000000.0, "agree": true}
+{"check": "cross_filing", "ticker": "AAPL", "kpi": "accounts_receivable", "this_filing": 29508000000.0, "earlier_filing": 29508000000.0, "agree": true}
+{"check": "cross_filing", "ticker": "AAPL", "kpi": "current_assets", "this_filing": 143566000000.0, "earlier_filing": 143566000000.0, "agree": true}
+{"check": "cross_filing", "ticker": "AAPL", "kpi": "total_assets", "this_filing": 352583000000.0, "earlier_filing": 352583000000.0, "agree": true}
+{"check": "cross_filing", "ticker": "AAPL", "kpi": "ppe_net", "this_filing": 43715000000.0, "earlier_filing": 43715000000.0, "agree": true}
+{"check": "cross_filing", "ticker": "AAPL", "kpi": "current_liabilities", "this_filing": 145308000000.0, "earlier_filing": 145308000000.0, "agree": true}
+{"check": "cross_filing", "ticker": "AAPL", "kpi": "stockholders_equity", "this_filing": 62146000000.0, "earlier_filing": 62146000000.0, "agree": true}
+{"check": "cross_filing", "ticker": "AAPL", "kpi": "total_liabilities", "this_filing": 290437000000.0, "earlier_filing": 290437000000.0, "agree": true}
+{"check": "cross_filing", "ticker": "AAPL", "kpi": "retained_earnings", "this_filing": -214000000.0, "earlier_filing": -214000000.0, "agree": true}
+{"check": "cross_filing", "ticker": "AAPL", "kpi": "current_debt", "this_filing": 15807000000.0, "earlier_filing": 15807000000.0, "agree": true}
+{"check": "cross_filing", "ticker": "AAPL", "kpi": "long_term_debt", "this_filing": 95281000000.0, "earlier_filing": 95281000000.0, "agree": true}
+{"check": "cross_filing", "ticker": "AAPL", "kpi": "total_debt", "this_filing": 111088000000.0, "earlier_filing": 111088000000.0, "agree": true}
+{"check": "coverage", "ticker": "JPM", "kpi": "revenue", "present": true}
+{"check": "coverage", "ticker": "JPM", "kpi": "cost_of_revenue", "present": false}
+{"check": "coverage", "ticker": "JPM", "kpi": "operating_income", "present": false}
+{"check": "coverage", "ticker": "JPM", "kpi": "net_income", "present": true}
+{"check": "coverage", "ticker": "JPM", "kpi": "sga", "present": false}
+{"check": "coverage", "ticker": "JPM", "kpi": "depreciation", "present": true}
+{"check": "coverage", "ticker": "JPM", "kpi": "operating_cash_flow", "present": true}
+{"check": "coverage", "ticker": "JPM", "kpi": "cash", "present": false}
+{"check": "coverage", "ticker": "JPM", "kpi": "accounts_receivable", "present": false}
+{"check": "coverage", "ticker": "JPM", "kpi": "current_assets", "present": false}
+{"check": "coverage", "ticker": "JPM", "kpi": "total_assets", "present": true}
+{"check": "coverage", "ticker": "JPM", "kpi": "ppe_net", "present": false}
+{"check": "coverage", "ticker": "JPM", "kpi": "current_liabilities", "present": false}
+{"check": "coverage", "ticker": "JPM", "kpi": "stockholders_equity", "present": true}
+{"check": "coverage", "ticker": "JPM", "kpi": "total_liabilities", "present": true}
+{"check": "coverage", "ticker": "JPM", "kpi": "retained_earnings", "present": true}
+{"check": "coverage", "ticker": "JPM", "kpi": "current_debt", "present": true}
+{"check": "coverage", "ticker": "JPM", "kpi": "long_term_debt", "present": false}
+{"check": "coverage", "ticker": "JPM", "kpi": "total_debt", "present": false}
+{"check": "table", "ticker": "JPM", "kpi": "revenue", "found": true}
+{"check": "table", "ticker": "JPM", "kpi": "net_income", "found": true}
+{"check": "table", "ticker": "JPM", "kpi": "depreciation", "found": true}
+{"check": "table", "ticker": "JPM", "kpi": "operating_cash_flow", "found": true}
+{"check": "table", "ticker": "JPM", "kpi": "total_assets", "found": true}
+{"check": "table", "ticker": "JPM", "kpi": "stockholders_equity", "found": true}
+{"check": "table", "ticker": "JPM", "kpi": "total_liabilities", "found": true}
+{"check": "table", "ticker": "JPM", "kpi": "retained_earnings", "found": true}
+{"check": "table", "ticker": "JPM", "kpi": "current_debt", "found": true}
+{"check": "cross_filing", "ticker": "JPM", "kpi": "revenue", "this_filing": 158104000000.0, "earlier_filing": 158104000000.0, "agree": true}
+{"check": "cross_filing", "ticker": "JPM", "kpi": "net_income", "this_filing": 49552000000.0, "earlier_filing": 49552000000.0, "agree": true}
+{"check": "cross_filing", "ticker": "JPM", "kpi": "depreciation", "this_filing": 7512000000.0, "earlier_filing": 7512000000.0, "agree": true}
+{"check": "cross_filing", "ticker": "JPM", "kpi": "operating_cash_flow", "this_filing": 12974000000.0, "earlier_filing": 12974000000.0, "agree": true}
+{"check": "cross_filing", "ticker": "JPM", "kpi": "total_assets", "this_filing": 3875393000000.0, "earlier_filing": 3875393000000.0, "agree": true}
+{"check": "cross_filing", "ticker": "JPM", "kpi": "stockholders_equity", "this_filing": 327878000000.0, "earlier_filing": 327878000000.0, "agree": true}
+{"check": "cross_filing", "ticker": "JPM", "kpi": "total_liabilities", "this_filing": 3547515000000.0, "earlier_filing": 3547515000000.0, "agree": true}
+{"check": "cross_filing", "ticker": "JPM", "kpi": "retained_earnings", "this_filing": 332901000000.0, "earlier_filing": 332901000000.0, "agree": true}
+{"check": "cross_filing", "ticker": "JPM", "kpi": "current_debt", "this_filing": 44712000000.0, "earlier_filing": 44712000000.0, "agree": true}
+{"check": "coverage", "ticker": "XOM", "kpi": "revenue", "present": true}
+{"check": "coverage", "ticker": "XOM", "kpi": "cost_of_revenue", "present": false}
+{"check": "coverage", "ticker": "XOM", "kpi": "operating_income", "present": false}
+{"check": "coverage", "ticker": "XOM", "kpi": "net_income", "present": true}
+{"check": "coverage", "ticker": "XOM", "kpi": "sga", "present": true}
+{"check": "coverage", "ticker": "XOM", "kpi": "depreciation", "present": true}
+{"check": "coverage", "ticker": "XOM", "kpi": "operating_cash_flow", "present": true}
+{"check": "coverage", "ticker": "XOM", "kpi": "cash", "present": true}
+{"check": "coverage", "ticker": "XOM", "kpi": "accounts_receivable", "present": true}
+{"check": "coverage", "ticker": "XOM", "kpi": "current_assets", "present": true}
+{"check": "coverage", "ticker": "XOM", "kpi": "total_assets", "present": true}
+{"check": "coverage", "ticker": "XOM", "kpi": "ppe_net", "present": true}
+{"check": "coverage", "ticker": "XOM", "kpi": "current_liabilities", "present": true}
+{"check": "coverage", "ticker": "XOM", "kpi": "stockholders_equity", "present": true}
+{"check": "coverage", "ticker": "XOM", "kpi": "total_liabilities", "present": true}
+{"check": "coverage", "ticker": "XOM", "kpi": "retained_earnings", "present": true}
+{"check": "coverage", "ticker": "XOM", "kpi": "current_debt", "present": true}
+{"check": "coverage", "ticker": "XOM", "kpi": "long_term_debt", "present": true}
+{"check": "coverage", "ticker": "XOM", "kpi": "total_debt", "present": true}
+{"check": "table", "ticker": "XOM", "kpi": "revenue", "found": true}
+{"check": "table", "ticker": "XOM", "kpi": "net_income", "found": true}
+{"check": "table", "ticker": "XOM", "kpi": "sga", "found": true}
+{"check": "table", "ticker": "XOM", "kpi": "depreciation", "found": true}
+{"check": "table", "ticker": "XOM", "kpi": "operating_cash_flow", "found": true}
+{"check": "table", "ticker": "XOM", "kpi": "cash", "found": true}
+{"check": "table", "ticker": "XOM", "kpi": "accounts_receivable", "found": true}
+{"check": "table", "ticker": "XOM", "kpi": "current_assets", "found": true}
+{"check": "table", "ticker": "XOM", "kpi": "total_assets", "found": true}
+{"check": "table", "ticker": "XOM", "kpi": "ppe_net", "found": true}
+{"check": "table", "ticker": "XOM", "kpi": "current_liabilities", "found": true}
+{"check": "table", "ticker": "XOM", "kpi": "stockholders_equity", "found": true}
+{"check": "table", "ticker": "XOM", "kpi": "total_liabilities", "found": true}
+{"check": "table", "ticker": "XOM", "kpi": "retained_earnings", "found": true}
+{"check": "table", "ticker": "XOM", "kpi": "current_debt", "found": true}
+{"check": "table", "ticker": "XOM", "kpi": "long_term_debt", "found": true}
+{"check": "cross_filing", "ticker": "XOM", "kpi": "revenue", "this_filing": 344582000000.0, "earlier_filing": 344582000000.0, "agree": true}
+{"check": "cross_filing", "ticker": "XOM", "kpi": "net_income", "this_filing": 36010000000.0, "earlier_filing": 36010000000.0, "agree": true}
+{"check": "cross_filing", "ticker": "XOM", "kpi": "sga", "this_filing": 9919000000.0, "earlier_filing": 9919000000.0, "agree": true}
+{"check": "cross_filing", "ticker": "XOM", "kpi": "depreciation", "this_filing": 20641000000.0, "earlier_filing": 20641000000.0, "agree": true}
+{"check": "cross_filing", "ticker": "XOM", "kpi": "operating_cash_flow", "this_filing": 55369000000.0, "earlier_filing": 55369000000.0, "agree": true}
+{"check": "cross_filing", "ticker": "XOM", "kpi": "cash", "this_filing": 31539000000.0, "earlier_filing": 31539000000.0, "agree": true}
+{"check": "cross_filing", "ticker": "XOM", "kpi": "accounts_receivable", "this_filing": 30296000000.0, "earlier_filing": 30296000000.0, "agree": true}
+{"check": "cross_filing", "ticker": "XOM", "kpi": "current_assets", "this_filing": 96609000000.0, "earlier_filing": 96609000000.0, "agree": true}
+{"check": "cross_filing", "ticker": "XOM", "kpi": "total_assets", "this_filing": 376317000000.0, "earlier_filing": 376317000000.0, "agree": true}
+{"check": "cross_filing", "ticker": "XOM", "kpi": "ppe_net", "this_filing": 214940000000.0, "earlier_filing": 214940000000.0, "agree": true}
+{"check": "cross_filing", "ticker": "XOM", "kpi": "current_liabilities", "this_filing": 65316000000.0, "earlier_filing": 65316000000.0, "agree": true}
+{"check": "cross_filing", "ticker": "XOM", "kpi": "stockholders_equity", "this_filing": 204802000000.0, "earlier_filing": 204802000000.0, "agree": true}
+{"check": "cross_filing", "ticker": "XOM", "kpi": "total_liabilities", "this_filing": 163779000000.0, "earlier_filing": 163779000000.0, "agree": true}
+{"check": "cross_filing", "ticker": "XOM", "kpi": "retained_earnings", "this_filing": 453927000000.0, "earlier_filing": 453927000000.0, "agree": true}
+{"check": "cross_filing", "ticker": "XOM", "kpi": "current_debt", "this_filing": 4090000000.0, "earlier_filing": 4090000000.0, "agree": true}
+{"check": "cross_filing", "ticker": "XOM", "kpi": "long_term_debt", "this_filing": 37483000000.0, "earlier_filing": 37483000000.0, "agree": true}
+{"check": "cross_filing", "ticker": "XOM", "kpi": "total_debt", "this_filing": 41573000000.0, "earlier_filing": 41573000000.0, "agree": true}
+{"check": "coverage", "ticker": "JNJ", "kpi": "revenue", "present": true}
+{"check": "coverage", "ticker": "JNJ", "kpi": "cost_of_revenue", "present": true}
+{"check": "coverage", "ticker": "JNJ", "kpi": "operating_income", "present": false}
+{"check": "coverage", "ticker": "JNJ", "kpi": "net_income", "present": true}
+{"check": "coverage", "ticker": "JNJ", "kpi": "sga", "present": true}
+{"check": "coverage", "ticker": "JNJ", "kpi": "depreciation", "present": true}
+{"check": "coverage", "ticker": "JNJ", "kpi": "operating_cash_flow", "present": true}
+{"check": "coverage", "ticker": "JNJ", "kpi": "cash", "present": true}
+{"check": "coverage", "ticker": "JNJ", "kpi": "accounts_receivable", "present": true}
+{"check": "coverage", "ticker": "JNJ", "kpi": "current_assets", "present": true}
+{"check": "coverage", "ticker": "JNJ", "kpi": "total_assets", "present": true}
+{"check": "coverage", "ticker": "JNJ", "kpi": "ppe_net", "present": true}
+{"check": "coverage", "ticker": "JNJ", "kpi": "current_liabilities", "present": true}
+{"check": "coverage", "ticker": "JNJ", "kpi": "stockholders_equity", "present": true}
+{"check": "coverage", "ticker": "JNJ", "kpi": "total_liabilities", "present": true}
+{"check": "coverage", "ticker": "JNJ", "kpi": "retained_earnings", "present": true}
+{"check": "coverage", "ticker": "JNJ", "kpi": "current_debt", "present": true}
+{"check": "coverage", "ticker": "JNJ", "kpi": "long_term_debt", "present": true}
+{"check": "coverage", "ticker": "JNJ", "kpi": "total_debt", "present": true}
+{"check": "table", "ticker": "JNJ", "kpi": "revenue", "found": true}
+{"check": "table", "ticker": "JNJ", "kpi": "cost_of_revenue", "found": true}
+{"check": "table", "ticker": "JNJ", "kpi": "net_income", "found": true}
+{"check": "table", "ticker": "JNJ", "kpi": "sga", "found": true}
+{"check": "table", "ticker": "JNJ", "kpi": "depreciation", "found": true}
+{"check": "table", "ticker": "JNJ", "kpi": "operating_cash_flow", "found": true}
+{"check": "table", "ticker": "JNJ", "kpi": "cash", "found": true}
+{"check": "table", "ticker": "JNJ", "kpi": "accounts_receivable", "found": true}
+{"check": "table", "ticker": "JNJ", "kpi": "current_assets", "found": true}
+{"check": "table", "ticker": "JNJ", "kpi": "total_assets", "found": true}
+{"check": "table", "ticker": "JNJ", "kpi": "ppe_net", "found": true}
+{"check": "table", "ticker": "JNJ", "kpi": "current_liabilities", "found": true}
+{"check": "table", "ticker": "JNJ", "kpi": "stockholders_equity", "found": true}
+{"check": "table", "ticker": "JNJ", "kpi": "total_liabilities", "found": true}
+{"check": "table", "ticker": "JNJ", "kpi": "retained_earnings", "found": true}
+{"check": "table", "ticker": "JNJ", "kpi": "current_debt", "found": false}
+{"check": "table", "ticker": "JNJ", "kpi": "long_term_debt", "found": true}
+{"check": "cross_filing", "ticker": "JNJ", "kpi": "revenue", "this_filing": 85159000000.0, "earlier_filing": 85159000000.0, "agree": true}
+{"check": "cross_filing", "ticker": "JNJ", "kpi": "cost_of_revenue", "this_filing": 26553000000.0, "earlier_filing": 26553000000.0, "agree": true}
+{"check": "cross_filing", "ticker": "JNJ", "kpi": "net_income", "this_filing": 35153000000.0, "earlier_filing": 35153000000.0, "agree": true}
+{"check": "cross_filing", "ticker": "JNJ", "kpi": "sga", "this_filing": 21512000000.0, "earlier_filing": 21512000000.0, "agree": true}
+{"check": "cross_filing", "ticker": "JNJ", "kpi": "depreciation", "this_filing": 7486000000.0, "earlier_filing": 7486000000.0, "agree": true}
+{"check": "cross_filing", "ticker": "JNJ", "kpi": "operating_cash_flow", "this_filing": 22791000000.0, "earlier_filing": 22791000000.0, "agree": true}
+{"check": "cross_filing", "ticker": "JNJ", "kpi": "cash", "this_filing": 21859000000.0, "earlier_filing": 21859000000.0, "agree": true}
+{"check": "cross_filing", "ticker": "JNJ", "kpi": "accounts_receivable", "this_filing": 14873000000.0, "earlier_filing": 14873000000.0, "agree": true}
+{"check": "cross_filing", "ticker": "JNJ", "kpi": "current_assets", "this_filing": 53495000000.0, "earlier_filing": 53495000000.0, "agree": true}
+{"check": "cross_filing", "ticker": "JNJ", "kpi": "total_assets", "this_filing": 167558000000.0, "earlier_filing": 167558000000.0, "agree": true}
+{"check": "cross_filing", "ticker": "JNJ", "kpi": "ppe_net", "this_filing": 19898000000.0, "earlier_filing": 19898000000.0, "agree": true}
+{"check": "cross_filing", "ticker": "JNJ", "kpi": "current_liabilities", "this_filing": 46282000000.0, "earlier_filing": 46282000000.0, "agree": true}
+{"check": "cross_filing", "ticker": "JNJ", "kpi": "stockholders_equity", "this_filing": 68774000000.0, "earlier_filing": 68774000000.0, "agree": true}
+{"check": "cross_filing", "ticker": "JNJ", "kpi": "total_liabilities", "this_filing": 98784000000.0, "earlier_filing": 98784000000.0, "agree": true}
+{"check": "cross_filing", "ticker": "JNJ", "kpi": "retained_earnings", "this_filing": 153843000000.0, "earlier_filing": 153843000000.0, "agree": true}
+{"check": "cross_filing", "ticker": "JNJ", "kpi": "current_debt", "this_filing": 3500000000.0, "earlier_filing": 3500000000.0, "agree": true}
+{"check": "cross_filing", "ticker": "JNJ", "kpi": "long_term_debt", "this_filing": 25881000000.0, "earlier_filing": 25881000000.0, "agree": true}
+{"check": "cross_filing", "ticker": "JNJ", "kpi": "total_debt", "this_filing": 29381000000.0, "earlier_filing": 29381000000.0, "agree": true}
+{"check": "coverage", "ticker": "WMT", "kpi": "revenue", "present": true}
+{"check": "coverage", "ticker": "WMT", "kpi": "cost_of_revenue", "present": true}
+{"check": "coverage", "ticker": "WMT", "kpi": "operating_income", "present": true}
+{"check": "coverage", "ticker": "WMT", "kpi": "net_income", "present": true}
+{"check": "coverage", "ticker": "WMT", "kpi": "sga", "present": true}
+{"check": "coverage", "ticker": "WMT", "kpi": "depreciation", "present": true}
+{"check": "coverage", "ticker": "WMT", "kpi": "operating_cash_flow", "present": true}
+{"check": "coverage", "ticker": "WMT", "kpi": "cash", "present": true}
+{"check": "coverage", "ticker": "WMT", "kpi": "accounts_receivable", "present": true}
+{"check": "coverage", "ticker": "WMT", "kpi": "current_assets", "present": true}
+{"check": "coverage", "ticker": "WMT", "kpi": "total_assets", "present": true}
+{"check": "coverage", "ticker": "WMT", "kpi": "ppe_net", "present": true}
+{"check": "coverage", "ticker": "WMT", "kpi": "current_liabilities", "present": true}
+{"check": "coverage", "ticker": "WMT", "kpi": "stockholders_equity", "present": true}
+{"check": "coverage", "ticker": "WMT", "kpi": "total_liabilities", "present": true}
+{"check": "coverage", "ticker": "WMT", "kpi": "retained_earnings", "present": true}
+{"check": "coverage", "ticker": "WMT", "kpi": "current_debt", "present": true}
+{"check": "coverage", "ticker": "WMT", "kpi": "long_term_debt", "present": true}
+{"check": "coverage", "ticker": "WMT", "kpi": "total_debt", "present": true}
+{"check": "table", "ticker": "WMT", "kpi": "revenue", "found": true}
+{"check": "table", "ticker": "WMT", "kpi": "cost_of_revenue", "found": true}
+{"check": "table", "ticker": "WMT", "kpi": "operating_income", "found": true}
+{"check": "table", "ticker": "WMT", "kpi": "net_income", "found": true}
+{"check": "table", "ticker": "WMT", "kpi": "sga", "found": true}
+{"check": "table", "ticker": "WMT", "kpi": "depreciation", "found": true}
+{"check": "table", "ticker": "WMT", "kpi": "operating_cash_flow", "found": true}
+{"check": "table", "ticker": "WMT", "kpi": "cash", "found": true}
+{"check": "table", "ticker": "WMT", "kpi": "accounts_receivable", "found": true}
+{"check": "table", "ticker": "WMT", "kpi": "current_assets", "found": true}
+{"check": "table", "ticker": "WMT", "kpi": "total_assets", "found": true}
+{"check": "table", "ticker": "WMT", "kpi": "ppe_net", "found": true}
+{"check": "table", "ticker": "WMT", "kpi": "current_liabilities", "found": true}
+{"check": "table", "ticker": "WMT", "kpi": "stockholders_equity", "found": true}
+{"check": "table", "ticker": "WMT", "kpi": "retained_earnings", "found": true}
+{"check": "table", "ticker": "WMT", "kpi": "long_term_debt", "found": true}
+{"check": "cross_filing", "ticker": "WMT", "kpi": "revenue", "this_filing": 611289000000.0, "earlier_filing": 611289000000.0, "agree": true}
+{"check": "cross_filing", "ticker": "WMT", "kpi": "cost_of_revenue", "this_filing": 463721000000.0, "earlier_filing": 463721000000.0, "agree": true}
+{"check": "cross_filing", "ticker": "WMT", "kpi": "operating_income", "this_filing": 20428000000.0, "earlier_filing": 20428000000.0, "agree": true}
+{"check": "cross_filing", "ticker": "WMT", "kpi": "net_income", "this_filing": 11680000000.0, "earlier_filing": 11680000000.0, "agree": true}
+{"check": "cross_filing", "ticker": "WMT", "kpi": "sga", "this_filing": 127140000000.0, "earlier_filing": 127140000000.0, "agree": true}
+{"check": "cross_filing", "ticker": "WMT", "kpi": "depreciation", "this_filing": 10945000000.0, "earlier_filing": 10945000000.0, "agree": true}
+{"check": "cross_filing", "ticker": "WMT", "kpi": "operating_cash_flow", "this_filing": 28841000000.0, "earlier_filing": 28841000000.0, "agree": true}
+{"check": "cross_filing", "ticker": "WMT", "kpi": "cash", "this_filing": 8625000000.0, "earlier_filing": 8625000000.0, "agree": true}
+{"check": "cross_filing", "ticker": "WMT", "kpi": "accounts_receivable", "this_filing": 7933000000.0, "earlier_filing": 7933000000.0, "agree": true}
+{"check": "cross_filing", "ticker": "WMT", "kpi": "current_assets", "this_filing": 75655000000.0, "earlier_filing": 75655000000.0, "agree": true}
+{"check": "cross_filing", "ticker": "WMT", "kpi": "total_assets", "this_filing": 243197000000.0, "earlier_filing": 243197000000.0, "agree": true}
+{"check": "cross_filing", "ticker": "WMT", "kpi": "ppe_net", "this_filing": 100760000000.0, "earlier_filing": 100760000000.0, "agree": true}
+{"check": "cross_filing", "ticker": "WMT", "kpi": "current_liabilities", "this_filing": 92198000000.0, "earlier_filing": 92198000000.0, "agree": true}
+{"check": "cross_filing", "ticker": "WMT", "kpi": "stockholders_equity", "this_filing": 76693000000.0, "earlier_filing": 76693000000.0, "agree": true}
+{"check": "cross_filing", "ticker": "WMT", "kpi": "total_liabilities", "this_filing": 159443000000.0, "earlier_filing": 159443000000.0, "agree": true}
+{"check": "cross_filing", "ticker": "WMT", "kpi": "retained_earnings", "this_filing": 83135000000.0, "earlier_filing": 83135000000.0, "agree": true}
+{"check": "cross_filing", "ticker": "WMT", "kpi": "current_debt", "this_filing": 4563000000.0, "earlier_filing": 4563000000.0, "agree": true}
+{"check": "cross_filing", "ticker": "WMT", "kpi": "long_term_debt", "this_filing": 34649000000.0, "earlier_filing": 34649000000.0, "agree": true}
+{"check": "cross_filing", "ticker": "WMT", "kpi": "total_debt", "this_filing": 39212000000.0, "earlier_filing": 39212000000.0, "agree": true}

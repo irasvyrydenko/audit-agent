@@ -8,7 +8,7 @@ Updated after each work session (see `.claude/skills/crisp-dm-log`). Entries are
 | Component | Bus./Data understanding | Built | Eval run | Key metric |
 |---|---|---|---|---|
 | filing_loader | ✓ 2026-10-27 | ✓ 2026-10-27 | ✓ 2026-10-27 (dev) | segmentation acc. 0.933 (14/15) |
-| kpi_extractor | – | – | – | – |
+| kpi_extractor | ✓ 2026-10-27 | ✓ XBRL part 2026-10-27 | ✓ 2026-10-27 (XBRL checks) | table match 0.987, coverage 0.86 |
 | indicator_engine | – | – | – | – |
 | risk_detector | – | – | – | – |
 | consistency_checker | – | – | – | – |
@@ -61,6 +61,14 @@ Open questions to answer by inspecting real data:
   an "Annual Report"/"Financial Section" later in the file. Table of contents lists every
   Item first; page headers/footers repeat with changing page numbers. Files are UTF-8.
   [→ D-009, D-010]
+- 2026-10-27 — kpi_extractor — Business: indicators and report need FY + prior-year KPIs
+  whose every number traces to one XBRL fact. Data: companyfacts for the 5 companies; each
+  FY2024 10-K carries 2–3 years of comparatives under its own `accn`. Tag use differs:
+  WMT has no `Liabilities` and uses `ReceivablesNetCurrent` / `DepreciationAmortizationAndAccretionNet`;
+  JNJ has only equity incl. NCI; XOM debt is `DebtCurrent` + `LongTermDebtAndCapitalLeaseObligations`;
+  JNJ `DebtCurrent` (6,000) is a rounded text value, balance sheet shows 5,983. JPM (bank)
+  has no cost of revenue, current assets/liabilities, receivables or long-term debt tags.
+  Fiscal years: AAPL/WMT 52–53 weeks. [→ D-011]
 
 ## 3. Data Preparation
 
@@ -72,6 +80,10 @@ Open questions to answer by inspecting real data:
   paragraph of Items 1A/7/8 for the 5 companies, drafted from parser output after manual
   inspection of every boundary; JPM 1A end corrected by hand. **Not independent** of the
   parser — a held-out test split (e.g. FY2022, labeled before running) is still needed.
+
+- 2026-10-27 — kpi_extractor — 19 KPIs as candidate expressions in settings.yaml (tag
+  fallbacks, `A - B` for WMT liabilities, optional-sum for current debt, `total_debt =
+  current_debt + long_term_debt`). Prior year = same 10-K, period end = FY start − 1 day.
 
 ## 4. Modeling
 
@@ -88,6 +100,11 @@ what they mean.
   start 1.0, end 0.9333, per item 1A 0.8 / 7 1.0 / 8 1.0, 0 missing (commit bee95f4+, model
   n/a). Only failure: JPM 1A keeps the running header "Parts I and II" as last paragraph.
   Takeaway: good enough for the demo; next: held-out FY2022 gold. [→ results/latest.json]
+- 2026-10-27 — kpi_extractor — XBRL checks on FY2024, 5 companies × 19 KPIs: coverage 0.863
+  (misses = concepts the company does not report: JPM bank items, XOM/JNJ operating income),
+  Item 8 table match 0.987 (74/75 single-fact KPIs; miss = JNJ current_debt, see D-011),
+  cross-filing agreement 1.0 (82 prior-year values equal the FY2023 10-K). LLM-vs-XBRL
+  metrics pending. Takeaway: XBRL selection is reliable enough to be ground truth.
 
 ## 6. Deployment
 

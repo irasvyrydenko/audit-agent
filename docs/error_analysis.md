@@ -35,7 +35,20 @@ page furniture. Pointer resolution (JPM, XOM) works on both filings.
 Build a held-out gold split before tuning further.
 
 ## kpi_extractor
-_No analysis yet._ Expected categories: wrong tag, wrong period (quarter vs FY), scale
+
+### kpi_extractor — 2026-10-27 (XBRL part, no LLM)
+- Eval run: evals/kpi_extractor/results/latest.json — table_match_rate 0.987 (74/75)
+- Sample: all failures inspected (1 table miss; 2 earlier misses were an eval parsing bug:
+  negatives written as "( 19,154 )").
+
+| Category | Count | % of failures | Example (id) | Likely cause |
+|---|---|---|---|---|
+| Rounded text fact preferred over statement line | 1 | 100% | JNJ current_debt | `DebtCurrent` = 6,000 from a note; balance sheet "Loans and notes payable" 5,983 (0.3% off) |
+
+**Findings:** missing KPIs are genuinely unreported concepts, not selection errors.
+**Actions:** none for the demo; revisit if a filer-specific current-debt rule is needed.
+
+Expected categories for the LLM part: wrong tag, wrong period (quarter vs FY), scale
 (thousands vs units), sign, restated value, missing.
 
 ## indicator_engine

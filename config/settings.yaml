@@ -33,26 +33,32 @@ paths:
 filing:
   items: ["1A", "7", "8"]  # Items the loader must segment
 
-# KPI -> candidate XBRL tags (tried in order unless aggregation = sum).
+# KPI -> candidate expressions, tried in order; the first that resolves wins (D-011).
+# Expression: terms joined by " + " / " - ". CamelCase term = us-gaap tag; snake_case term =
+# an earlier KPI in this list. Suffix "?" = optional term (counts as 0 when absent); all other
+# terms are required; at least one term must be present. Facts come only from the chosen 10-K.
 kpis:
   - {name: revenue, period_type: duration, tags: [Revenues, RevenueFromContractWithCustomerExcludingAssessedTax, SalesRevenueNet]}
   - {name: cost_of_revenue, period_type: duration, tags: [CostOfRevenue, CostOfGoodsAndServicesSold]}
   - {name: operating_income, period_type: duration, tags: [OperatingIncomeLoss]}
   - {name: net_income, period_type: duration, tags: [NetIncomeLoss]}
   - {name: sga, period_type: duration, tags: [SellingGeneralAndAdministrativeExpense]}
-  - {name: depreciation, period_type: duration, tags: [DepreciationDepletionAndAmortization, DepreciationAndAmortization]}
+  - {name: depreciation, period_type: duration, tags: [DepreciationDepletionAndAmortization, DepreciationAndAmortization, DepreciationAmortizationAndAccretionNet]}
   - {name: operating_cash_flow, period_type: duration, tags: [NetCashProvidedByUsedInOperatingActivities]}
   - {name: cash, period_type: instant, tags: [CashAndCashEquivalentsAtCarryingValue]}
-  - {name: accounts_receivable, period_type: instant, tags: [AccountsReceivableNetCurrent]}
+  - {name: accounts_receivable, period_type: instant, tags: [AccountsReceivableNetCurrent, ReceivablesNetCurrent]}
   - {name: current_assets, period_type: instant, tags: [AssetsCurrent]}
   - {name: total_assets, period_type: instant, tags: [Assets]}
   - {name: ppe_net, period_type: instant, tags: [PropertyPlantAndEquipmentNet]}
   - {name: current_liabilities, period_type: instant, tags: [LiabilitiesCurrent]}
-  - {name: total_liabilities, period_type: instant, tags: [Liabilities]}
+  - {name: stockholders_equity, period_type: instant, tags: [StockholdersEquity, StockholdersEquityIncludingPortionAttributableToNoncontrollingInterest]}
+  # WMT reports no Liabilities total -> total liabilities & equity minus total equity (incl. NCI).
+  - {name: total_liabilities, period_type: instant, tags: [Liabilities, "LiabilitiesAndStockholdersEquity - StockholdersEquityIncludingPortionAttributableToNoncontrollingInterest"]}
   - {name: retained_earnings, period_type: instant, tags: [RetainedEarningsAccumulatedDeficit]}
-  - {name: stockholders_equity, period_type: instant, tags: [StockholdersEquity]}
-  # TODO(confirm): total_debt definition — see docs/decisions.md open questions
-  - {name: total_debt, period_type: instant, aggregation: sum, tags: [LongTermDebtNoncurrent, LongTermDebtCurrent, ShortTermBorrowings]}
+  # Debt = borrowings only (no operating/finance leases) — D-011.
+  - {name: current_debt, period_type: instant, tags: [DebtCurrent, "ShortTermBorrowings? + CommercialPaper? + LongTermDebtCurrent?"]}
+  - {name: long_term_debt, period_type: instant, tags: [LongTermDebtNoncurrent, LongTermDebtAndCapitalLeaseObligations]}
+  - {name: total_debt, period_type: instant, tags: ["current_debt + long_term_debt"]}
 
 risk_labels:
   - going_concern

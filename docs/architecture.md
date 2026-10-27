@@ -46,7 +46,10 @@ Legend: solid = data, dashed = LLM call. Cylinders = external sources.
 - **Input → Output:** `Filing` + companyfacts + KPI definitions → `KPISet`.
 - **Model / tool:** LLM + EDGAR XBRL API.
 - **Eval:** exact match within 0.5%; scale and sign errors separately.
-- **Status:** stub.
+- **Modules:** `xbrl.py` (fact selection by accession + period, expression parsing),
+  `extractor.py` (KPI candidates in config order → `KPISet` current + prior).
+- **Status:** XBRL part implemented (D-011): coverage 0.86, Item 8 table match 0.987,
+  cross-filing agreement 1.0. LLM extraction pending.
 
 ## indicator_engine
 - **Purpose:** growth, margins, leverage, DSO, Altman Z, Beneish M, anomaly flags.

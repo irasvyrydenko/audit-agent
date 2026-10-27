@@ -8,13 +8,12 @@ from evals.common import REQUIRED_KEYS
 # Evals that still write placeholder results (no data / network needed).
 # Implemented evals are tested through their pure score/compare functions instead.
 STUB_EVALS = [
-    "kpi_extractor",
     "indicator_engine",
     "risk_detector",
     "consistency_checker",
     "report_generator",
 ]
-ALL_EVALS = ["filing_loader", *STUB_EVALS]
+ALL_EVALS = ["filing_loader", "kpi_extractor", *STUB_EVALS]
 
 
 @pytest.mark.parametrize("component", ALL_EVALS)

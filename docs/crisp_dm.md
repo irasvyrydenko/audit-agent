@@ -10,7 +10,7 @@ Updated after each work session (see `.claude/skills/crisp-dm-log`). Entries are
 | filing_loader | ✓ 2026-10-27 | ✓ 2026-10-27 | ✓ 2026-10-27 (dev) | segmentation acc. 0.933 (14/15) |
 | kpi_extractor | ✓ 2026-10-27 | ✓ XBRL part 2026-10-27 | ✓ 2026-10-27 (XBRL checks) | table match 0.987, coverage 0.86 |
 | indicator_engine | ✓ 2026-10-27 | ✓ 2026-10-27 (no Beneish) | ✓ 2026-10-27 | hand-calc match 1.0 (22/22) |
-| risk_detector | ✓ 2026-10-27 | ✓ LLM 2026-10-27 (no baseline) | preliminary 2026-10-27 | micro-F1 0.69 / macro-F1 0.51 (draft gold) |
+| risk_detector | ✓ 2026-10-27 | ✓ LLM + baseline 2026-10-27 | ✓ 2026-10-27 (test, n=40) | macro-F1 LLM 0.675 vs baseline 0.278 (dev-trained) / 0.720 (silver) |
 | consistency_checker | – | – | – | – |
 | report_generator | ✓ 2026-10-27 | ✓ 2026-10-27 | ✓ 2026-10-27 (template only) | faithfulness 1.0, perturbed detection 1.0 |
 | app | ✓ 2026-10-27 | ✓ 2026-10-27 | smoke test (AppTest) | 5/5 companies render |
@@ -110,6 +110,10 @@ Open questions to answer by inspecting real data:
 - 2026-10-27 — report_generator — evidence sentences by code (15–24 per company), LLM summary
   prompt lists evidence ids and requires 1–3 ids per sentence and numbers copied verbatim;
   sentences without a valid id are dropped. Faithfulness check is code, not an LLM judge.
+- 2026-10-27 — risk_detector — baseline: TF-IDF (1–2-grams, sublinear, English stop words) +
+  one logistic regression per risk label (balanced classes, threshold 0.5, "none" = no label
+  above threshold). Two training sets: gold dev (40) and LLM silver labels of the other 440
+  Item 1A paragraphs (gold excluded). [→ D-015]
 - _(prompts, baseline config, rules; link decisions.md entries)_
 
 ## 5. Evaluation
@@ -138,6 +142,15 @@ what they mean.
   Same paragraphs batched as contiguous filing text (pipeline) match gold 55/80 vs 50/80
   when shuffled across companies → batch context matters. Batch-size study on dev and the
   test-split run blocked by the OpenRouter free daily quota (50 req/day). Baseline pending.
+- 2026-10-27 — risk_detector — test split (40 paragraphs; support only litigation 3,
+  cybersecurity 6, regulatory 12, none 21). LLM (cached pipeline predictions): macro-F1
+  0.675, micro 0.710, exact 0.625. Baseline trained on gold dev: macro 0.278, micro 0.732,
+  exact 0.725 — it only learns regulatory/none from 40 examples. Baseline trained on LLM
+  silver labels: macro 0.720, micro 0.796, exact 0.700 — distillation smooths the LLM's
+  extra labels (cybersecurity precision 0.83 vs 0.50). Takeaway: the LLM beats a baseline
+  trained on the same small hand-labeled data on macro-F1; with only 40 test paragraphs
+  and draft labels, differences of a few points are not significant. Next: human review of
+  gold, more test paragraphs for rare labels.
 - 2026-10-27 — report_generator — 5 companies, 104 statements (template only; summaries
   blocked by quota): faithfulness 1.0, citation correctness 1.0, uncited 0, perturbed
   (+10% first number) detection 1.0. Limitation: the check verifies numbers and citations,

@@ -177,6 +177,24 @@ Add an entry for every non-obvious choice. Never delete entries; mark superseded
 - **Consequences:** template statements are faithful by construction (the eval mainly tests
   the summary and the checker); wording errors without wrong numbers are not caught.
 
+## D-015 — TF-IDF + LogReg baseline and risk eval protocol (2026-10-27)
+- **Context:** AGENTS.md requires an LLM-vs-baseline comparison on the same test split; only
+  80 labeled paragraphs exist; the free LLM quota is 50 requests/day.
+- **Decision:**
+  1. Baseline = TF-IDF (1–2-grams, sublinear tf, English stop words) + one balanced
+     LogisticRegression per risk label, threshold 0.5; "none" when no label passes; labels
+     with no positive training example are never predicted. Seed from config.
+  2. Two baselines, both scored on the gold `test` split: `gold_dev` (trained on the 40 dev
+     paragraphs) is the reported baseline; `silver_llm` (trained on LLM labels of all other
+     classified Item 1A paragraphs, gold excluded) is a distillation reference.
+  3. LLM test predictions come from the production pipeline (`detect_risks` on each filing,
+     contiguous 15-paragraph batches, from cache) instead of re-batching gold paragraphs.
+     This supersedes the preliminary shuffled-batch run (D-013) and costs no LLM calls.
+- **Alternatives:** cross-validation on all 80 gold paragraphs (mixes dev/test); keyword
+  rules as baseline (not a learned baseline); EDGAR-CORPUS (no risk labels).
+- **Consequences:** `silver_llm` is not independent of the LLM; its score shows how far a
+  cheap model can imitate the LLM. Test support covers only 3 risk labels.
+
 ## Open questions
 - ~~**total_debt definition**~~ → resolved in D-011.
 - ~~**Altman Z variant**~~ / ~~**Banks (JPM)**~~ → resolved in D-012.

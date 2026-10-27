@@ -1,10 +1,15 @@
-"""Eval: risk_detector — LLM classifier (TF-IDF + LogReg baseline pending).
+"""Eval: risk_detector — LLM classifier vs TF-IDF + LogReg baseline (D-013, D-015).
 
 Gold: data/gold/risk_detector/paragraphs.jsonl ({paragraph_id, ticker, fy, text, labels,
-split, labeled_by}); sample drawn by evals/risk_detector/sample_gold.py. The LLM is scored on
-the `test` split. Metrics: per_class {label: {precision, recall, f1, support}}, macro_f1
-(over labels with support > 0, excluding "none"), micro_f1, exact_match (subset accuracy).
-The baseline will go in the "baseline" field once it has its own training split.
+split, labeled_by}); sample drawn by evals/risk_detector/sample_gold.py.
+All methods are scored on the same `test` split:
+- LLM: predictions of the production pipeline (`detect_risks` over each filing's Item 1A,
+  contiguous batches, served from the LLM cache);
+- baseline.gold_dev: TF-IDF + LogReg trained on the gold `dev` split;
+- baseline.silver_llm: same model trained on LLM labels of all other Item 1A paragraphs of
+  the company set (gold paragraphs excluded) — a distillation reference, not independent.
+Metrics per method: per_class {label: {precision, recall, f1, support}}, macro_f1 (risk
+labels with support > 0, excluding "none"), micro_f1, exact_match (subset accuracy).
 Run: python -m evals.risk_detector.run_eval
 """
 
@@ -19,8 +24,10 @@ from sklearn.preprocessing import MultiLabelBinarizer
 
 from audit_agent.common.config import load_settings
 from audit_agent.common.llm_client import LLMClient
-from audit_agent.filing_loader.loader import Paragraph
-from audit_agent.risk_detector.llm_classifier import NONE_LABEL, classify_paragraphs
+from audit_agent.filing_loader.loader import Paragraph, load_filing
+from audit_agent.risk_detector.baseline import TfidfLogRegBaseline
+from audit_agent.risk_detector.labels import RiskPrediction
+from audit_agent.risk_detector.llm_classifier import NONE_LABEL, detect_risks
 from evals.common import write_results
 from evals.risk_detector.sample_gold import gold_path, read_gold
 
@@ -64,45 +71,97 @@ def score(gold: list[list[str]], pred: list[list[str]], labels: list[str]) -> di
     }
 
 
+def pipeline_predictions(
+    tickers: list[str], fiscal_year: int, client: LLMClient
+) -> tuple[dict[str, list[str]], dict[str, str]]:
+    """LLM labels and texts for every classified Item 1A paragraph, keyed 'TICKER|id'."""
+    settings = load_settings()
+    labels: dict[str, list[str]] = {}
+    texts: dict[str, str] = {}
+    for ticker in tickers:
+        filing = load_filing(ticker, fiscal_year)
+        paragraphs = filing.sections["1A"].paragraphs
+        preds: list[RiskPrediction] = detect_risks(paragraphs, client, settings)
+        text_by_id = {p.id: p.text for p in paragraphs}
+        for pred in preds:
+            key = f"{ticker}|{pred.paragraph_id}"
+            labels[key] = pred.labels
+            texts[key] = text_by_id[pred.paragraph_id]
+    return labels, texts
+
+
+def _key(row: dict[str, Any]) -> str:
+    return f"{row['ticker']}|{row['paragraph_id']}"
+
+
 def main(results_root: Path | None = None) -> int:
     settings = load_settings()
-    rows = [r for r in read_gold(gold_path()) if r["split"] == "test" and r["labels"]]
-    errors: list[str] = []
-    preds = classify_paragraphs(
-        [to_paragraph(r) for r in rows],
-        settings.risk_labels,
-        LLMClient(),
-        settings.risk_label_definitions,
-        settings.risk_detector,
-        on_error=lambda p, e: errors.append(p.id),
+    labels = settings.risk_labels
+    seed = settings.eval.random_seed
+    gold_rows = [r for r in read_gold(gold_path()) if r["labels"]]
+    dev = [r for r in gold_rows if r["split"] == "dev"]
+    test = [r for r in gold_rows if r["split"] == "test"]
+    fiscal_year = test[0]["fy"]
+    tickers = list(dict.fromkeys(r["ticker"] for r in gold_rows))
+
+    llm_labels, llm_texts = pipeline_predictions(tickers, fiscal_year, LLMClient())
+    gold_test = [r["labels"] for r in test]
+    test_texts = [r["text"] for r in test]
+    # Paragraphs the pipeline did not classify count as "none" (penalised, not dropped).
+    llm_pred = [llm_labels.get(_key(r), [NONE_LABEL]) for r in test]
+
+    dev_model = TfidfLogRegBaseline(labels, seed=seed).fit(
+        [r["text"] for r in dev], [r["labels"] for r in dev]
     )
-    by_id = {p.paragraph_id: p.labels for p in preds}
-    gold = [r["labels"] for r in rows]
-    # Failed paragraphs count as predicting "none" so errors are penalised, not dropped.
-    predicted = [by_id.get(r["paragraph_id"], [NONE_LABEL]) for r in rows]
-    metrics = score(gold, predicted, settings.risk_labels)
-    metrics["llm_failures"] = len(errors)
+    gold_keys = {_key(r) for r in gold_rows}
+    silver_keys = [k for k in llm_labels if k not in gold_keys]
+    silver_model = TfidfLogRegBaseline(labels, seed=seed).fit(
+        [llm_texts[k] for k in silver_keys], [llm_labels[k] for k in silver_keys]
+    )
+    dev_pred = dev_model.predict_labels(test_texts)
+    silver_pred = silver_model.predict_labels(test_texts)
+
+    metrics = score(gold_test, llm_pred, labels)
+    metrics["llm_unclassified"] = sum(_key(r) not in llm_labels for r in test)
+    baseline = {
+        "gold_dev": {**score(gold_test, dev_pred, labels), "train_n": len(dev)},
+        "silver_llm": {**score(gold_test, silver_pred, labels), "train_n": len(silver_keys)},
+    }
     path = write_results(
         COMPONENT,
         metrics=metrics,
-        baseline=None,
+        baseline=baseline,
         dataset={
             "name": f"gold/{COMPONENT}",
-            "n": len(rows),
+            "n": len(test),
             "split": "test",
-            "labeled_by": sorted({str(r.get("labeled_by")) for r in rows}),
+            "train_n_dev": len(dev),
+            "labeled_by": sorted({str(r.get("labeled_by")) for r in gold_rows}),
         },
-        notes="Gold labels are an agent draft pending human review. TF-IDF baseline pending "
-        "(needs a separate training split).",
+        notes="Gold labels are an agent draft pending human review; n=40 test paragraphs, "
+        "so per-class numbers are noisy. LLM = cached pipeline predictions.",
         results_root=results_root,
     )
     predictions = path.parent / "predictions_latest.jsonl"
     lines = [
-        json.dumps({"paragraph_id": r["paragraph_id"], "ticker": r["ticker"], "gold": g, "pred": q})
-        for r, g, q in zip(rows, gold, predicted, strict=True)
+        json.dumps(
+            {
+                "paragraph_id": r["paragraph_id"],
+                "ticker": r["ticker"],
+                "gold": g,
+                "llm": a,
+                "baseline_dev": b,
+                "baseline_silver": c,
+            }
+        )
+        for r, g, a, b, c in zip(test, gold_test, llm_pred, dev_pred, silver_pred, strict=True)
     ]
     predictions.write_text("\n".join(lines) + "\n", encoding="utf-8")
-    print(f"{COMPONENT}: {json.dumps(metrics, indent=1)}\n-> {path}")
+    summary = {
+        name: {k: m[k] for k in ("macro_f1", "micro_f1", "exact_match")}
+        for name, m in {"llm": metrics, **baseline}.items()
+    }
+    print(f"{COMPONENT}: {json.dumps(summary, indent=1)}\n-> {path}")
     return 0
 
 

@@ -7,8 +7,8 @@ Purpose: Multi-label classification of paragraphs into risk labels (config: risk
 Input: list[`Paragraph`] from filing_loader (Item 1A text paragraphs >= min_words, config
     `risk_detector`).
 Output: list[`RiskPrediction`] — labels + scores per paragraph, with paragraph citation.
-Status: LLM classifier implemented (`detect_risks`, batched JSON, label definitions from
-    config, D-013); TF-IDF baseline not yet.
+Status: LLM classifier (`detect_risks`, batched JSON, label definitions from config,
+    D-013) and TF-IDF + LogReg baseline (baseline.py, D-015) implemented.
 Calls a model: yes — LLM classifier (fixed model, cached); baseline is scikit-learn.
 External tool: no.
 Eval: evals/risk_detector — per-class precision/recall/F1 for LLM vs baseline on

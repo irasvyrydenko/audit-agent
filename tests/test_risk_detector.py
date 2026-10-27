@@ -159,3 +159,69 @@ def test_rate_limit_is_not_split() -> None:
     else:
         raise AssertionError("rate limit swallowed")
     assert QuotaClient.calls == 1
+
+
+# --- TF-IDF + LogReg baseline ----------------------------------------------------------------
+
+TOY_TEXTS = [
+    "hackers breached our network and stole customer data",
+    "a cyber attack disrupted our information systems",
+    "ransomware and data breach incidents threaten our systems",
+    "we are defendants in several lawsuits and class actions",
+    "litigation and legal proceedings could result in damages",
+    "court rulings in pending lawsuits may require settlements",
+    "our stock price may be volatile",
+    "competition in our markets is intense",
+    "economic downturns may reduce consumer demand",
+]
+TOY_TARGETS = [["cybersecurity"]] * 3 + [["litigation"]] * 3 + [["none"]] * 3
+
+
+def _toy_model() -> Any:
+    from audit_agent.risk_detector.baseline import TfidfLogRegBaseline
+
+    return TfidfLogRegBaseline(LABELS + ["supply_chain"], seed=42).fit(TOY_TEXTS, TOY_TARGETS)
+
+
+def test_baseline_learns_toy_labels() -> None:
+    model = _toy_model()
+    preds = model.predict_labels(
+        ["a data breach by hackers hit our systems", "new lawsuits and legal proceedings"]
+    )
+    assert preds == [["cybersecurity"], ["litigation"]]
+
+
+def test_baseline_none_and_unlearnable_label() -> None:
+    model = _toy_model()
+    assert model.models["supply_chain"] is None  # no positive examples
+    probs = model.predict_proba(["supplier shortages of components"])[0]
+    assert probs["supply_chain"] == 0.0
+    assert "none" not in model.labels
+    assert model.predict_labels(["weather is nice today"]) == [["none"]]
+
+
+def test_baseline_predict_returns_cited_predictions_and_is_deterministic(tmp_path: Any) -> None:
+    from audit_agent.risk_detector.baseline import TfidfLogRegBaseline
+
+    model = _toy_model()
+    preds = model.predict([para(1, text="hackers caused a data breach")])
+    assert preds[0].method == "baseline"
+    assert preds[0].citation.ref == "item_1A:p1"
+    assert set(preds[0].scores) == set(model.labels)
+    again = _toy_model().predict_proba(["hackers caused a data breach"])
+    assert again == model.predict_proba(["hackers caused a data breach"])
+    path = tmp_path / "baseline.pkl"
+    model.save(path)
+    loaded = TfidfLogRegBaseline.load(path)
+    assert loaded.predict_labels(["court lawsuits"]) == model.predict_labels(["court lawsuits"])
+
+
+def test_baseline_rejects_bad_input() -> None:
+    import pytest
+
+    from audit_agent.risk_detector.baseline import TfidfLogRegBaseline
+
+    with pytest.raises(ValueError):
+        TfidfLogRegBaseline(LABELS).fit([], [])
+    with pytest.raises(RuntimeError):
+        TfidfLogRegBaseline(LABELS).predict_proba(["x"])

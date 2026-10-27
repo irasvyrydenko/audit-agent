@@ -63,8 +63,9 @@ Legend: solid = data, dashed = LLM call. Cylinders = external sources.
 - **Input → Output:** `list[Paragraph]` → `list[RiskPrediction]`.
 - **Model / tool:** LLM classifier; TF-IDF + LogReg baseline (scikit-learn).
 - **Eval:** per-class P/R/F1, LLM vs baseline.
-- **Status:** LLM classifier implemented (D-013); preliminary micro-F1 0.69 on agent-drafted
-  gold; baseline pending.
+- **Status:** LLM classifier (D-013) + TF-IDF/LogReg baseline (D-015). Test (n=40, draft
+  gold): LLM macro-F1 0.675 / micro 0.710; baseline on gold dev 0.278 / 0.732; baseline on
+  LLM silver labels 0.720 / 0.796.
 
 ## consistency_checker
 - **Purpose:** extract MD&A claims (LLM), verify against KPIs/indicators (code).

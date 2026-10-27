@@ -1,5 +1,6 @@
 # Company set for development, evaluation and the demo (confirmed 2026-10-27).
-# CIKs are resolved at runtime from EDGAR company_tickers.json; do not hardcode them.
+# CIKs are resolved at runtime from EDGAR company_tickers.json. Set `cik` only when the
+# ticker maps to an entity without the 10-Ks we need (D-008).
 default_fiscal_year: 2024
 
 companies:
@@ -19,7 +20,10 @@ companies:
     name: Exxon Mobil Corporation
     sector: Energy
     confirmed: true
-    notes: Calendar fiscal year.
+    cik: "0000034088"
+    notes: >-
+      Calendar fiscal year. In 2026 the XOM ticker moved to the new ExxonMobil Holdings Corp
+      (CIK 0002115436, no 10-Ks yet); historical 10-Ks are under Exxon Mobil Corp (34088).
   - ticker: JNJ
     name: Johnson & Johnson
     sector: Healthcare

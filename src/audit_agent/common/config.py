@@ -23,6 +23,7 @@ class LLMSettings(BaseModel):
     api_key_env: str
     temperature: float = 0.0
     max_tokens: int = 1024
+    reasoning_enabled: bool = False
     seed: int | None = None
     cache_dir: Path
 
@@ -87,6 +88,7 @@ class Company(BaseModel):
     name: str
     sector: str
     confirmed: bool = False
+    cik: str | None = None  # override for ticker->CIK lookup (D-008)
     notes: str = ""
 
 

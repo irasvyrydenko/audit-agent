@@ -39,6 +39,32 @@ Add an entry for every non-obvious choice. Never delete entries; mark superseded
 - **Decision:** sha256 of canonical JSON (model, messages, temperature, max_tokens, seed, response_format).
 - **Consequences:** any prompt/model change is a miss → no stale results; cache is safe to commit-ignore and rebuild.
 
+## D-005a — Model replaced by `nvidia/nemotron-3.5-super-vl:free` (2026-10-27, supersedes D-005)
+- **Context:** one day after D-005, `nvidia/nemotron-3-super-120b-a12b:free` returned 404
+  ("unavailable for free"). Probed every free JSON-capable model with the same extraction
+  prompt: Nemotron 3.5 Super VL answered correctly in ~3 s; `xing4.0` got the scale wrong;
+  both Gemma 4 models were rate-limited (429); `dots-3-note` truncated.
+- **Decision:** `nvidia/nemotron-3.5-super-vl:free`.
+- **Consequences:** free models can vanish at any time. Mitigation: every LLM call is cached
+  on disk, so evals and the demo can be replayed from cache. Pre-warm the cache before the demo.
+
+## D-007 — Reasoning disabled for LLM calls (2026-10-27)
+- **Context:** with reasoning on, Nemotron 3.5 spent 600–1000+ tokens thinking; one run hit
+  `max_tokens=1024` and returned no content. With reasoning off: 0.7 s, 25 tokens.
+- **Decision:** `llm.reasoning_enabled: false`, `max_tokens: 2048`. Sent as
+  `extra_body.reasoning.enabled` (part of the cache key).
+- **Consequences:** without reasoning the model once misread "$391,035 million" as 391035 —
+  KPI prompts must state units/scale explicitly; the kpi_extractor eval counts scale errors.
+  Can be revisited per eval (would need a re-run).
+
+## D-008 — Optional CIK override in companies.yaml (2026-10-27)
+- **Context:** in 2026 the XOM ticker moved to ExxonMobil Holdings Corp (new CIK 0002115436,
+  no 10-Ks); all historical 10-Ks are under Exxon Mobil Corp (CIK 0000034088).
+- **Decision:** `Company.cik` optional override; `EdgarClient.resolve_cik()` uses it, else the
+  ticker lookup. Used only for XOM.
+- **Alternatives:** swap XOM for another energy company (loses the confirmed company set).
+- **Consequences:** a CIK is an identifier, not a financial number, so the no-hardcoding rule holds.
+
 ## Open questions
 - **total_debt definition:** sum of `LongTermDebtNoncurrent + LongTermDebtCurrent + ShortTermBorrowings`? Include finance leases / commercial paper? Decide after inspecting companyfacts for the 5 companies.
 - **Altman Z variant:** original Z needs market value of equity (price data, out of scope) → Z'' (book equity, non-manufacturers) is likely. Decide in indicator_engine.

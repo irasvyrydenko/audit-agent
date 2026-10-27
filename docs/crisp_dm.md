@@ -48,7 +48,12 @@ Open questions to answer by inspecting real data:
 - Label distribution of risk categories (expect heavy imbalance: going concern is rare for large caps).
 
 ### Log
-- _(per component, before building)_
+- 2026-10-27 — infra — EDGAR: AAPL/JPM/JNJ/WMT each have 32–37 10-Ks in submissions;
+  latest are FY2025. XOM ticker now points to a new holding entity without 10-Ks → CIK
+  override. [→ D-008] Report periods confirm non-calendar years: AAPL 2025-09-27,
+  WMT 2026-01-31 (Walmart calls this FY2026). XOM companyfacts: 94 us-gaap tags.
+- 2026-10-27 — infra — OpenRouter free models are unstable (chosen model disappeared within
+  a day); reasoning output can exhaust max_tokens. [→ D-005a, D-007]
 
 ## 3. Data Preparation
 

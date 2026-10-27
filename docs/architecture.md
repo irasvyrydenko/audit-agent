@@ -77,10 +77,14 @@ Legend: solid = data, dashed = LLM call. Cylinders = external sources.
 - **Purpose:** short cited summary + faithfulness check.
 - **Input → Output:** all upstream outputs → `Report`, `FaithfulnessResult`.
 - **Model / tool:** LLM.
-- **Eval:** faithfulness rate, citation correctness.
-- **Status:** stub.
+- **Eval:** faithfulness rate, citation correctness, perturbed-number detection.
+- **Modules:** `evidence.py` (code-built cited sentences), `generator.py` (LLM summary over
+  evidence ids, deterministic faithfulness check).
+- **Status:** implemented (D-014); faithfulness 1.0, citation correctness 1.0, perturbed
+  detection 1.0 on template statements; LLM summaries pending the daily quota.
 
 ## app
 - **Purpose:** Streamlit UI; `pipeline.run_pipeline` orchestrates components with one trace span per step.
 - **Input → Output:** user selection → rendered report + `logs/<run_id>.jsonl`.
-- **Status:** placeholder UI.
+- **Status:** implemented: pipeline (one trace span per step) + Streamlit tabs (Report, KPIs,
+  Indicators & flags, Risks, Trace); 3–6 s per company from cache.

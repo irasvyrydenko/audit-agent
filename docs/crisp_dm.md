@@ -12,8 +12,8 @@ Updated after each work session (see `.claude/skills/crisp-dm-log`). Entries are
 | indicator_engine | ✓ 2026-10-27 | ✓ 2026-10-27 (no Beneish) | ✓ 2026-10-27 | hand-calc match 1.0 (22/22) |
 | risk_detector | ✓ 2026-10-27 | ✓ LLM 2026-10-27 (no baseline) | preliminary 2026-10-27 | micro-F1 0.69 / macro-F1 0.51 (draft gold) |
 | consistency_checker | – | – | – | – |
-| report_generator | – | – | – | – |
-| app | – | – | – | – |
+| report_generator | ✓ 2026-10-27 | ✓ 2026-10-27 | ✓ 2026-10-27 (template only) | faithfulness 1.0, perturbed detection 1.0 |
+| app | ✓ 2026-10-27 | ✓ 2026-10-27 | smoke test (AppTest) | 5/5 companies render |
 
 ## 1. Business Understanding
 
@@ -78,6 +78,10 @@ Open questions to answer by inspecting real data:
   fragments (JPM: 247 of 666 have >= 25 words). Themes outside our label set (competition,
   macro, climate, stock price) are frequent → "none" is the largest class; going concern and
   covenants are rare for these large caps (0 in the 80-paragraph sample). [→ D-013]
+- 2026-10-27 — report_generator — Business: the user needs a short, verifiable summary;
+  uncited or invented statements are bugs. Data: all inputs are structured (KPIs,
+  indicators, flags, risk predictions) except risk paragraphs. Constraint: 50 free LLM
+  requests/day → at most one generation call per company-year. [→ D-014]
 
 ## 3. Data Preparation
 
@@ -103,6 +107,9 @@ Open questions to answer by inspecting real data:
   not passing mention" rule, 15 numbered paragraphs per call, JSON {"results":[{id, labels}]},
   split-and-retry on bad answers. Gold: 80 Item 1A paragraphs (16/company, seed 42), labels
   drafted by the coding agent with the same definitions, split 40 dev / 40 test.
+- 2026-10-27 — report_generator — evidence sentences by code (15–24 per company), LLM summary
+  prompt lists evidence ids and requires 1–3 ids per sentence and numbers copied verbatim;
+  sentences without a valid id are dropped. Faithfulness check is code, not an LLM judge.
 - _(prompts, baseline config, rules; link decisions.md entries)_
 
 ## 5. Evaluation
@@ -131,10 +138,17 @@ what they mean.
   Same paragraphs batched as contiguous filing text (pipeline) match gold 55/80 vs 50/80
   when shuffled across companies → batch context matters. Batch-size study on dev and the
   test-split run blocked by the OpenRouter free daily quota (50 req/day). Baseline pending.
+- 2026-10-27 — report_generator — 5 companies, 104 statements (template only; summaries
+  blocked by quota): faithfulness 1.0, citation correctness 1.0, uncited 0, perturbed
+  (+10% first number) detection 1.0. Limitation: the check verifies numbers and citations,
+  not wording (a flipped rose/fell with correct numbers would pass). Next: summary run
+  after quota reset, small manual review sample for judge_agreement.
 
 ## 6. Deployment
 
 Streamlit app (`make app`) with JSON tracing in `logs/`.
 
 ### Log
-- _(app milestones, demo notes)_
+- 2026-10-27 — app — `run_pipeline` + Streamlit UI working for all 5 companies (FY2024) from
+  cache in 3–6 s each; JSON trace per run in `logs/`. Demo prep: `py scripts/warm_cache.py`
+  after the LLM quota resets to add the summaries.

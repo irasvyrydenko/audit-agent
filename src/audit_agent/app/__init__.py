@@ -6,5 +6,8 @@ Input: user selection (ticker, fiscal_year).
 Output: rendered UI; trace in logs/<run_id>.jsonl (JSON backend) or Langfuse.
 Calls a model: indirectly, through the components.
 External tool: indirectly (EDGAR via filing_loader / kpi_extractor).
-Eval: none of its own; end-to-end smoke test once components exist.
+Status: `run_pipeline` wires filing_loader → kpi_extractor → indicator_engine →
+    risk_detector → report_generator (consistency_checker not yet); UI tabs: Report, KPIs,
+    Indicators & flags, Risks, Trace. `scripts/warm_cache.py` pre-fills caches.
+Eval: none of its own; covered by evals/report_generator (runs the full pipeline).
 """

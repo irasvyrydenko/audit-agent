@@ -9,9 +9,15 @@ from evals.common import REQUIRED_KEYS
 # Implemented evals are tested through their pure score/compare functions instead.
 STUB_EVALS = [
     "consistency_checker",
-    "report_generator",
 ]
-ALL_EVALS = ["filing_loader", "kpi_extractor", "indicator_engine", "risk_detector", *STUB_EVALS]
+ALL_EVALS = [
+    "filing_loader",
+    "kpi_extractor",
+    "indicator_engine",
+    "risk_detector",
+    "report_generator",
+    *STUB_EVALS,
+]
 
 
 @pytest.mark.parametrize("component", ALL_EVALS)

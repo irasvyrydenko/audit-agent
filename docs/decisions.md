@@ -159,6 +159,24 @@ Add an entry for every non-obvious choice. Never delete entries; mark superseded
   independent — human review required before final metrics. Free daily quota limits eval
   reruns; adding OpenRouter credits raises it to 1000/day.
 
+## D-014 — Report = code-built evidence + LLM summary over evidence ids; deterministic faithfulness (2026-10-27)
+- **Context:** every statement must be cited; the free LLM quota (50/day) rules out
+  generate-then-judge loops; free models sometimes invent numbers.
+- **Decision:**
+  1. Evidence sentences are built by code from KPIs, indicators, flags and risk predictions
+     and carry their citations (XBRL facts, `indicator:*`, `item_1A:p*` with a quote). They
+     form the report details.
+  2. One LLM call writes a 3–5 sentence summary; each sentence must list evidence ids.
+     Sentences without a valid id are dropped; citations are the union of the cited
+     evidence's citations. LLM failure / quota → report without summary.
+  3. Faithfulness check is deterministic: citations must resolve (paragraph exists in the
+     filing, XBRL ref among extracted facts, indicator exists) and every number in a
+     statement must match (±0.5%) a number in its cited evidence.
+- **Alternatives:** free-form LLM report with citations (hard to verify, invented numbers);
+  LLM-as-judge faithfulness (doubles calls, judge is the same weak free model).
+- **Consequences:** template statements are faithful by construction (the eval mainly tests
+  the summary and the checker); wording errors without wrong numbers are not caught.
+
 ## Open questions
 - ~~**total_debt definition**~~ → resolved in D-011.
 - ~~**Altman Z variant**~~ / ~~**Banks (JPM)**~~ → resolved in D-012.

@@ -7,7 +7,10 @@ short summary where every statement cites its source.
 
 > Analysis tool, not investment advice.
 
-**Status:** skeleton only — all components are stubs. See [docs/architecture.md](docs/architecture.md).
+**Status:** demo pipeline works end to end (filing_loader → kpi_extractor (XBRL) →
+indicator_engine → risk_detector (LLM) → cited report → Streamlit). Not yet: LLM KPI
+extraction, TF-IDF baseline, consistency_checker, Beneish M. See
+[docs/architecture.md](docs/architecture.md).
 
 ## Setup
 
@@ -34,16 +37,22 @@ Every `make <target>` has an equivalent `py scripts/tasks.py <target>`.
 | `make lint test` | ruff + pytest |
 | `make eval` | run all component evals → `evals/<component>/results/latest.json` |
 | `make eval C=kpi_extractor` | run one eval |
-| `make app` | Streamlit UI *(placeholder — pipeline not implemented)* |
+| `make app` | Streamlit UI: pick company + year → report with citations, KPIs, indicators, risks, trace |
+| `py scripts/warm_cache.py` | run the pipeline for all companies to fill EDGAR + LLM caches before a demo |
 | `make format` | auto-format with ruff |
 
-Usage of the full pipeline: *TBD once components are implemented.*
+Pipeline from Python: `run_pipeline(ticker, fiscal_year, JsonTracer(log_dir))` in
+`audit_agent.app.pipeline`; each run writes a JSON-lines trace to `logs/<run_id>.jsonl`.
+
+**LLM quota:** the free OpenRouter tier allows 50 requests/day. All answers are cached, so a
+company-year costs LLM calls only once (risk classification ≈ 3–17 calls, summary 1 call).
+When the quota is exhausted the report is still produced without the LLM summary.
 
 ## Configuration
 
 - `config/settings.yaml` — the single fixed LLM model (OpenRouter), EDGAR rate limit,
   KPI→XBRL tag mapping, risk labels, eval thresholds.
-- `config/companies.yaml` — the company set (placeholders, to be confirmed).
+- `config/companies.yaml` — the company set (AAPL, JPM, XOM, JNJ, WMT; JPM flagged as bank).
 - `.env` — `EDGAR_USER_AGENT`, `OPENROUTER_API_KEY` (never committed).
 
 ## Data

@@ -10,7 +10,7 @@ Updated after each work session (see `.claude/skills/crisp-dm-log`). Entries are
 | filing_loader | ✓ 2026-10-27 | ✓ 2026-10-27 | ✓ 2026-10-27 (dev) | segmentation acc. 0.933 (14/15) |
 | kpi_extractor | ✓ 2026-10-27 | ✓ XBRL part 2026-10-27 | ✓ 2026-10-27 (XBRL checks) | table match 0.987, coverage 0.86 |
 | indicator_engine | ✓ 2026-10-27 | ✓ 2026-10-27 (no Beneish) | ✓ 2026-10-27 | hand-calc match 1.0 (22/22) |
-| risk_detector | – | – | – | – |
+| risk_detector | ✓ 2026-10-27 | ✓ LLM 2026-10-27 (no baseline) | preliminary 2026-10-27 | micro-F1 0.69 / macro-F1 0.51 (draft gold) |
 | consistency_checker | – | – | – | – |
 | report_generator | – | – | – | – |
 | app | – | – | – | – |
@@ -73,6 +73,11 @@ Open questions to answer by inspecting real data:
   report can cite. Data: no market prices → Altman Z'' (book equity). XOM/JNJ have no
   operating income → EBIT = pre-tax income + interest expense. JPM (bank) has no
   current/non-current split and its operating cash flow swings with trading assets. [→ D-012]
+- 2026-10-27 — risk_detector — Business: the report needs the salient risk themes of Item 1A
+  with paragraph citations. Data: Item 1A has 47–666 blocks; many are sub-headings or bullet
+  fragments (JPM: 247 of 666 have >= 25 words). Themes outside our label set (competition,
+  macro, climate, stock price) are frequent → "none" is the largest class; going concern and
+  covenants are rare for these large caps (0 in the 80-paragraph sample). [→ D-013]
 
 ## 3. Data Preparation
 
@@ -94,6 +99,10 @@ Open questions to answer by inspecting real data:
 ### Log
 - 2026-10-27 — indicator_engine — 13 indicators as specs (name, formula, inputs, function)
   and 8 rule-based flags; thresholds in settings.yaml `indicators`; bank not-applicable list.
+- 2026-10-27 — risk_detector — LLM prompt: label definitions from settings.yaml, "main topic
+  not passing mention" rule, 15 numbered paragraphs per call, JSON {"results":[{id, labels}]},
+  split-and-retry on bad answers. Gold: 80 Item 1A paragraphs (16/company, seed 42), labels
+  drafted by the coding agent with the same definitions, split 40 dev / 40 test.
 - _(prompts, baseline config, rules; link decisions.md entries)_
 
 ## 5. Evaluation
@@ -116,6 +125,12 @@ what they mean.
   drafted by the agent — spot-check pending); coverage 1.0 except gross margin 0.75 and
   operating margin 0.5 (concept not reported); 9 not-applicable (JPM). Flags: low liquidity
   AAPL/WMT, receivables outpace revenue AAPL/XOM.
+- 2026-10-27 — risk_detector — **preliminary** run on all 80 gold paragraphs (before the
+  dev/test split): micro-F1 0.688, macro-F1 0.508 (6 risk labels with support), exact match
+  0.625, 0 failures. High recall / low precision: the model adds labels mentioned in passing.
+  Same paragraphs batched as contiguous filing text (pipeline) match gold 55/80 vs 50/80
+  when shuffled across companies → batch context matters. Batch-size study on dev and the
+  test-split run blocked by the OpenRouter free daily quota (50 req/day). Baseline pending.
 
 ## 6. Deployment
 

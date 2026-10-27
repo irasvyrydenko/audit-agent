@@ -1,0 +1,80 @@
+{"paragraph_id": "item_1A:p7", "ticker": "AAPL", "gold": ["none"], "pred": ["supply_chain"]}
+{"paragraph_id": "item_1A:p10", "ticker": "AAPL", "gold": ["none"], "pred": ["none"]}
+{"paragraph_id": "item_1A:p24", "ticker": "AAPL", "gold": ["none"], "pred": ["litigation", "regulatory"]}
+{"paragraph_id": "item_1A:p34", "ticker": "AAPL", "gold": ["supply_chain"], "pred": ["supply_chain"]}
+{"paragraph_id": "item_1A:p35", "ticker": "AAPL", "gold": ["supply_chain"], "pred": ["litigation"]}
+{"paragraph_id": "item_1A:p39", "ticker": "AAPL", "gold": ["none"], "pred": ["none"]}
+{"paragraph_id": "item_1A:p55", "ticker": "AAPL", "gold": ["none"], "pred": ["regulatory"]}
+{"paragraph_id": "item_1A:p59", "ticker": "AAPL", "gold": ["customer_concentration"], "pred": ["regulatory"]}
+{"paragraph_id": "item_1A:p61", "ticker": "AAPL", "gold": ["cybersecurity"], "pred": ["cybersecurity", "supply_chain"]}
+{"paragraph_id": "item_1A:p66", "ticker": "AAPL", "gold": ["cybersecurity"], "pred": ["cybersecurity"]}
+{"paragraph_id": "item_1A:p67", "ticker": "AAPL", "gold": ["cybersecurity"], "pred": ["regulatory", "supply_chain"]}
+{"paragraph_id": "item_1A:p80", "ticker": "AAPL", "gold": ["regulatory"], "pred": ["regulatory"]}
+{"paragraph_id": "item_1A:p87", "ticker": "AAPL", "gold": ["regulatory"], "pred": ["regulatory"]}
+{"paragraph_id": "item_1A:p94", "ticker": "AAPL", "gold": ["litigation", "regulatory"], "pred": ["regulatory"]}
+{"paragraph_id": "item_1A:p96", "ticker": "AAPL", "gold": ["cybersecurity"], "pred": ["litigation", "cybersecurity", "regulatory"]}
+{"paragraph_id": "item_1A:p108", "ticker": "AAPL", "gold": ["none"], "pred": ["none"]}
+{"paragraph_id": "item_1A:p1", "ticker": "JPM", "gold": ["none"], "pred": ["none"]}
+{"paragraph_id": "item_1A:p4", "ticker": "JPM", "gold": ["regulatory"], "pred": ["none"]}
+{"paragraph_id": "item_1A:p47", "ticker": "JPM", "gold": ["regulatory"], "pred": ["regulatory"]}
+{"paragraph_id": "item_1A:p55", "ticker": "JPM", "gold": ["regulatory"], "pred": ["regulatory"]}
+{"paragraph_id": "item_1A:p90", "ticker": "JPM", "gold": ["litigation", "regulatory"], "pred": ["litigation", "regulatory"]}
+{"paragraph_id": "item_1A:p155", "ticker": "JPM", "gold": ["none"], "pred": ["liquidity"]}
+{"paragraph_id": "item_1A:p211", "ticker": "JPM", "gold": ["none"], "pred": ["none"]}
+{"paragraph_id": "item_1A:p214", "ticker": "JPM", "gold": ["liquidity"], "pred": ["debt_covenants"]}
+{"paragraph_id": "item_1A:p226", "ticker": "JPM", "gold": ["litigation"], "pred": ["litigation"]}
+{"paragraph_id": "item_1A:p260", "ticker": "JPM", "gold": ["liquidity"], "pred": ["liquidity"]}
+{"paragraph_id": "item_1A:p316", "ticker": "JPM", "gold": ["cybersecurity"], "pred": ["cybersecurity"]}
+{"paragraph_id": "item_1A:p360", "ticker": "JPM", "gold": ["cybersecurity"], "pred": ["cybersecurity"]}
+{"paragraph_id": "item_1A:p361", "ticker": "JPM", "gold": ["cybersecurity"], "pred": ["cybersecurity"]}
+{"paragraph_id": "item_1A:p404", "ticker": "JPM", "gold": ["regulatory"], "pred": ["regulatory"]}
+{"paragraph_id": "item_1A:p448", "ticker": "JPM", "gold": ["none"], "pred": ["cybersecurity"]}
+{"paragraph_id": "item_1A:p535", "ticker": "JPM", "gold": ["none"], "pred": ["none"]}
+{"paragraph_id": "item_1A:p7", "ticker": "XOM", "gold": ["none"], "pred": ["supply_chain"]}
+{"paragraph_id": "item_1A:p12", "ticker": "XOM", "gold": ["regulatory"], "pred": ["regulatory"]}
+{"paragraph_id": "item_1A:p14", "ticker": "XOM", "gold": ["regulatory"], "pred": ["regulatory"]}
+{"paragraph_id": "item_1A:p16", "ticker": "XOM", "gold": ["regulatory"], "pred": ["regulatory"]}
+{"paragraph_id": "item_1A:p17", "ticker": "XOM", "gold": ["regulatory"], "pred": ["regulatory"]}
+{"paragraph_id": "item_1A:p18", "ticker": "XOM", "gold": ["regulatory"], "pred": ["regulatory"]}
+{"paragraph_id": "item_1A:p22", "ticker": "XOM", "gold": ["regulatory"], "pred": ["regulatory"]}
+{"paragraph_id": "item_1A:p25", "ticker": "XOM", "gold": ["litigation"], "pred": ["litigation", "regulatory"]}
+{"paragraph_id": "item_1A:p26", "ticker": "XOM", "gold": ["none"], "pred": ["litigation", "regulatory"]}
+{"paragraph_id": "item_1A:p29", "ticker": "XOM", "gold": ["regulatory"], "pred": ["regulatory"]}
+{"paragraph_id": "item_1A:p30", "ticker": "XOM", "gold": ["regulatory"], "pred": ["regulatory"]}
+{"paragraph_id": "item_1A:p37", "ticker": "XOM", "gold": ["none"], "pred": ["none"]}
+{"paragraph_id": "item_1A:p38", "ticker": "XOM", "gold": ["none"], "pred": ["none"]}
+{"paragraph_id": "item_1A:p40", "ticker": "XOM", "gold": ["none"], "pred": ["cybersecurity", "regulatory"]}
+{"paragraph_id": "item_1A:p42", "ticker": "XOM", "gold": ["cybersecurity"], "pred": ["cybersecurity"]}
+{"paragraph_id": "item_1A:p46", "ticker": "XOM", "gold": ["none"], "pred": ["cybersecurity", "supply_chain"]}
+{"paragraph_id": "item_1A:p4", "ticker": "JNJ", "gold": ["none"], "pred": ["none"]}
+{"paragraph_id": "item_1A:p7", "ticker": "JNJ", "gold": ["supply_chain"], "pred": ["supply_chain"]}
+{"paragraph_id": "item_1A:p13", "ticker": "JNJ", "gold": ["none"], "pred": ["litigation"]}
+{"paragraph_id": "item_1A:p15", "ticker": "JNJ", "gold": ["none"], "pred": ["none"]}
+{"paragraph_id": "item_1A:p24", "ticker": "JNJ", "gold": ["litigation", "regulatory"], "pred": ["litigation", "regulatory"]}
+{"paragraph_id": "item_1A:p26", "ticker": "JNJ", "gold": ["regulatory"], "pred": ["litigation", "regulatory"]}
+{"paragraph_id": "item_1A:p33", "ticker": "JNJ", "gold": ["none"], "pred": ["none"]}
+{"paragraph_id": "item_1A:p35", "ticker": "JNJ", "gold": ["litigation"], "pred": ["litigation"]}
+{"paragraph_id": "item_1A:p39", "ticker": "JNJ", "gold": ["none"], "pred": ["none"]}
+{"paragraph_id": "item_1A:p40", "ticker": "JNJ", "gold": ["none"], "pred": ["cybersecurity", "regulatory"]}
+{"paragraph_id": "item_1A:p47", "ticker": "JNJ", "gold": ["none"], "pred": ["regulatory"]}
+{"paragraph_id": "item_1A:p50", "ticker": "JNJ", "gold": ["none"], "pred": ["none"]}
+{"paragraph_id": "item_1A:p58", "ticker": "JNJ", "gold": ["supply_chain"], "pred": ["regulatory", "supply_chain"]}
+{"paragraph_id": "item_1A:p59", "ticker": "JNJ", "gold": ["regulatory"], "pred": ["regulatory"]}
+{"paragraph_id": "item_1A:p67", "ticker": "JNJ", "gold": ["regulatory"], "pred": ["regulatory", "supply_chain"]}
+{"paragraph_id": "item_1A:p71", "ticker": "JNJ", "gold": ["cybersecurity"], "pred": ["cybersecurity"]}
+{"paragraph_id": "item_1A:p5", "ticker": "WMT", "gold": ["none"], "pred": ["none"]}
+{"paragraph_id": "item_1A:p43", "ticker": "WMT", "gold": ["cybersecurity"], "pred": ["none"]}
+{"paragraph_id": "item_1A:p46", "ticker": "WMT", "gold": ["none"], "pred": ["cybersecurity", "supply_chain"]}
+{"paragraph_id": "item_1A:p52", "ticker": "WMT", "gold": ["cybersecurity"], "pred": ["cybersecurity"]}
+{"paragraph_id": "item_1A:p53", "ticker": "WMT", "gold": ["cybersecurity"], "pred": ["litigation", "cybersecurity", "regulatory"]}
+{"paragraph_id": "item_1A:p60", "ticker": "WMT", "gold": ["cybersecurity", "regulatory"], "pred": ["litigation", "cybersecurity", "regulatory"]}
+{"paragraph_id": "item_1A:p64", "ticker": "WMT", "gold": ["supply_chain"], "pred": ["supply_chain"]}
+{"paragraph_id": "item_1A:p72", "ticker": "WMT", "gold": ["none"], "pred": ["none"]}
+{"paragraph_id": "item_1A:p79", "ticker": "WMT", "gold": ["regulatory"], "pred": ["regulatory"]}
+{"paragraph_id": "item_1A:p83", "ticker": "WMT", "gold": ["regulatory"], "pred": ["litigation", "regulatory"]}
+{"paragraph_id": "item_1A:p87", "ticker": "WMT", "gold": ["regulatory"], "pred": ["regulatory"]}
+{"paragraph_id": "item_1A:p88", "ticker": "WMT", "gold": ["regulatory"], "pred": ["regulatory"]}
+{"paragraph_id": "item_1A:p91", "ticker": "WMT", "gold": ["regulatory"], "pred": ["regulatory"]}
+{"paragraph_id": "item_1A:p94", "ticker": "WMT", "gold": ["regulatory"], "pred": ["regulatory"]}
+{"paragraph_id": "item_1A:p97", "ticker": "WMT", "gold": ["regulatory"], "pred": ["cybersecurity", "regulatory"]}
+{"paragraph_id": "item_1A:p99", "ticker": "WMT", "gold": ["regulatory"], "pred": ["regulatory"]}

@@ -10,7 +10,7 @@ from pathlib import Path
 from typing import Literal
 
 import yaml
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, model_validator
 
 PROJECT_ROOT = Path(__file__).resolve().parents[3]
 CONFIG_DIR = PROJECT_ROOT / "config"
@@ -76,6 +76,13 @@ class IndicatorSettings(BaseModel):
     anomaly: AnomalyThresholds
 
 
+class RiskDetectorSettings(BaseModel):
+    items: list[str] = ["1A"]
+    min_words: int = 25
+    max_words: int = 250
+    batch_size: int = Field(default=15, ge=1)
+
+
 class ConsistencySettings(BaseModel):
     numeric_tolerance: float
 
@@ -98,9 +105,17 @@ class Settings(BaseModel):
     kpis: list[KPIDefinition]
     indicators: IndicatorSettings
     risk_labels: list[str]
+    risk_label_definitions: dict[str, str]
+    risk_detector: RiskDetectorSettings
     consistency: ConsistencySettings
     eval: EvalSettings
     tracing: TracingSettings
+
+    @model_validator(mode="after")
+    def _labels_defined(self) -> Settings:
+        if set(self.risk_label_definitions) != set(self.risk_labels):
+            raise ValueError("risk_label_definitions keys must equal risk_labels")
+        return self
 
 
 class Company(BaseModel):

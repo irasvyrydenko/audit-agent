@@ -139,6 +139,26 @@ Add an entry for every non-obvious choice. Never delete entries; mark superseded
 - **Consequences:** Z'' values are not comparable to original-Z thresholds. EBIT fallback
   includes non-operating items for XOM/JNJ. Beneish M deferred.
 
+## D-013 — LLM risk classifier: label definitions, batching, draft gold (2026-10-27)
+- **Context:** 9 labels in settings.yaml had no definitions; Item 1A has up to 666 blocks and
+  the free tier allows 50 requests/day; no hand-labeled risk data existed.
+- **Decision:**
+  1. Label definitions live in settings.yaml (`risk_label_definitions`, validated to match
+     `risk_labels`); the same text is the prompt and the labeling guideline.
+  2. Multi-label; a label applies only if it is a main topic of the paragraph; "none" alone
+     when nothing applies (cleaned in code: unknown labels dropped, none removed if any risk).
+  3. Classify only Item 1A text paragraphs with >= 25 words, truncated to 250 words, 15 per
+     call; incomplete/truncated/unparsable answers → split batch in half and retry; provider
+     rate limits (`LLMRateLimitError`) stop immediately.
+  4. Scores are 1.0 for chosen labels (no calibrated probabilities from the LLM).
+  5. Gold: 80 paragraphs (16 per company, seed 42), labels drafted by the coding agent from
+     the definitions, marked `labeled_by: agent-draft`; deterministic 40 dev / 40 test split.
+- **Alternatives:** one call per paragraph (most robust, ~500 calls for 5 filings — over the
+  free quota); zero-shot NLI model (extra dependency, weaker on finance text).
+- **Consequences:** batch context influences labels (see error_analysis.md). Draft gold is not
+  independent — human review required before final metrics. Free daily quota limits eval
+  reruns; adding OpenRouter credits raises it to 1000/day.
+
 ## Open questions
 - ~~**total_debt definition**~~ → resolved in D-011.
 - ~~**Altman Z variant**~~ / ~~**Banks (JPM)**~~ → resolved in D-012.

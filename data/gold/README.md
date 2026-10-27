@@ -8,7 +8,7 @@ without manual review. Planned layout:
 | `filing_loader/<TICKER>_<FY>.json` | per Item: first 80 chars of the expected first/last paragraph; `split` dev/test. FY2024 = dev (drafted from inspected parser output) |
 | `kpi_extractor/overrides.json` | manual corrections where XBRL is wrong/missing (with reason) |
 | `indicator_engine/hand_calcs.json` | hand-calculated indicators (AAPL, WMT FY2024): inputs typed from Item 8 in $M, expected values by plain arithmetic; drafted by the agent, spot-check pending |
-| `risk_detector/paragraphs.jsonl` | `{paragraph_id, ticker, fy, text, labels, split}` |
+| `risk_detector/paragraphs.jsonl` | `{paragraph_id, ticker, fy, text, labels, split, labeled_by}`; 80 Item 1A paragraphs from `evals/risk_detector/sample_gold.py`, 40 dev / 40 test; labels = agent draft (D-013), review pending |
 | `consistency_checker/claims.jsonl` | `{claim_id, paragraph_id, text, expected_verdict}` |
 | `report_generator/manual_review.jsonl` | statement-level `supported: true/false` labels |
 

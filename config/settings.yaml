@@ -89,6 +89,24 @@ risk_labels:
   - supply_chain
   - none  # paragraph carries no salient risk
 
+# Label definitions: shown to the LLM and used as gold labeling guidelines (D-013).
+risk_label_definitions:
+  going_concern: substantial doubt about continuing as a going concern; risk of insolvency, bankruptcy or inability to meet obligations as they come due
+  litigation: lawsuits, legal proceedings, government investigations, settlements, fines or legal liability
+  customer_concentration: dependence on a small number of customers, distributors, partners or contracts for a significant share of revenue
+  debt_covenants: indebtedness terms, debt covenants, credit ratings, refinancing or restrictions imposed by credit agreements
+  cybersecurity: cyberattacks, data breaches, IT or network system failures, protection of data and information security
+  liquidity: access to funding and capital markets, cash flow adequacy, funding costs, ability to meet cash needs
+  regulatory: laws, regulations, government policy, taxes, tariffs and trade restrictions, sanctions, compliance obligations
+  supply_chain: suppliers, sourcing, manufacturing capacity, logistics, shortages or price of key inputs and components
+  none: none of the categories above is a salient topic of the paragraph (e.g. competition, macroeconomy, climate, stock price, forward-looking boilerplate)
+
+risk_detector:
+  items: ["1A"]       # paragraphs classified for the report
+  min_words: 25       # shorter text paragraphs (sub-headings, fragments) are skipped
+  max_words: 250      # longer paragraphs are truncated in the prompt
+  batch_size: 15      # paragraphs per LLM call
+
 consistency:
   numeric_tolerance: 0.005  # relative tolerance when comparing a claimed number to computed
 

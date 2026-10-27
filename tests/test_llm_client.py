@@ -65,3 +65,18 @@ def test_complete_json_uses_json_mode(settings):
 def test_parse_json_rejects_garbage():
     with pytest.raises(LLMError):
         parse_json("not json")
+
+
+def test_provider_rate_limit_maps_to_llm_rate_limit_error(settings):
+    from openai import RateLimitError
+
+    from audit_agent.common.llm_client import LLMRateLimitError
+
+    response = SimpleNamespace(request=None, status_code=429, headers={})
+
+    def raise_429(**_: object) -> None:
+        raise RateLimitError("free-models-per-day", response=response, body=None)
+
+    fake = SimpleNamespace(chat=SimpleNamespace(completions=SimpleNamespace(create=raise_429)))
+    with pytest.raises(LLMRateLimitError, match="free-models-per-day"):
+        LLMClient(settings, client=fake).complete(MESSAGES)

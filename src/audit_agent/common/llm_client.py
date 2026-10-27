@@ -3,6 +3,7 @@
 - Model name comes ONLY from settings.llm.model — callers cannot override it.
 - Every call is cache-first via LLMCache, so evals are reproducible and cheap.
 - Truncated or empty answers raise LLMError and are never cached.
+- Provider rate limits (e.g. the free-tier daily quota) raise LLMRateLimitError.
 - API key is read from the env var named in settings.llm.api_key_env; never logged.
 """
 
@@ -15,7 +16,7 @@ from dataclasses import dataclass, field
 from typing import Any
 
 from dotenv import load_dotenv
-from openai import OpenAI
+from openai import OpenAI, RateLimitError
 
 from audit_agent.common.config import PROJECT_ROOT, LLMSettings, load_settings, resolve_path
 from audit_agent.common.llm_cache import LLMCache
@@ -26,6 +27,10 @@ _FENCE = re.compile(r"^```(?:json)?\s*(.*?)\s*```$", re.DOTALL)
 
 class LLMError(RuntimeError):
     """Missing API key, empty/truncated answer, or unparsable JSON."""
+
+
+class LLMRateLimitError(LLMError):
+    """Provider quota exhausted; retrying or splitting the request will not help."""
 
 
 @dataclass(frozen=True)
@@ -89,7 +94,10 @@ class LLMClient:
         if cached is not None:
             return LLMResponse(cached["text"], cached["model"], True, cached.get("usage", {}))
 
-        response = self._openai().chat.completions.create(**request)
+        try:
+            response = self._openai().chat.completions.create(**request)
+        except RateLimitError as exc:
+            raise LLMRateLimitError(f"LLM provider rate limit: {exc.message}") from exc
         choice = response.choices[0]
         text = choice.message.content or ""
         if choice.finish_reason == "length":

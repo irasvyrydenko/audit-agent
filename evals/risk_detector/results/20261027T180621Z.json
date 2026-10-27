@@ -1,0 +1,87 @@
+{
+  "component": "risk_detector",
+  "timestamp": "2026-10-27T18:06:21.925306+00:00",
+  "git_commit": "e902bef",
+  "model": "nvidia/nemotron-3.5-super-vl:free",
+  "status": "ok",
+  "dataset": {
+    "name": "gold/risk_detector",
+    "n": 80,
+    "split": "test",
+    "labeled_by": [
+      "agent-draft"
+    ]
+  },
+  "metrics": {
+    "per_class": {
+      "going_concern": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 0
+      },
+      "litigation": {
+        "precision": 0.3571,
+        "recall": 0.8333,
+        "f1": 0.5,
+        "support": 6
+      },
+      "customer_concentration": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 1
+      },
+      "debt_covenants": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 0
+      },
+      "cybersecurity": {
+        "precision": 0.6471,
+        "recall": 0.8462,
+        "f1": 0.7333,
+        "support": 13
+      },
+      "liquidity": {
+        "precision": 0.5,
+        "recall": 0.5,
+        "f1": 0.5,
+        "support": 2
+      },
+      "regulatory": {
+        "precision": 0.7,
+        "recall": 0.9655,
+        "f1": 0.8116,
+        "support": 29
+      },
+      "supply_chain": {
+        "precision": 0.3636,
+        "recall": 0.8,
+        "f1": 0.5,
+        "support": 5
+      },
+      "none": {
+        "precision": 0.8824,
+        "recall": 0.5357,
+        "f1": 0.6667,
+        "support": 28
+      }
+    },
+    "macro_f1": 0.5075,
+    "macro_f1_labels": [
+      "litigation",
+      "customer_concentration",
+      "cybersecurity",
+      "liquidity",
+      "regulatory",
+      "supply_chain"
+    ],
+    "micro_f1": 0.6882,
+    "exact_match": 0.625,
+    "llm_failures": 0
+  },
+  "baseline": null,
+  "notes": "Gold labels are an agent draft pending human review. TF-IDF baseline pending (needs a separate training split)."
+}

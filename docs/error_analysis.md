@@ -55,7 +55,23 @@ Expected categories for the LLM part: wrong tag, wrong period (quarter vs FY), s
 _No analysis yet._
 
 ## risk_detector
-_No analysis yet._
+
+### risk_detector — 2026-10-27 (preliminary, model nvidia/nemotron-3.5-super-vl:free)
+- Eval run: evals/risk_detector/results/latest.json — micro-F1 0.688 on 80 agent-drafted gold
+  paragraphs (run before the dev/test split)
+- Sample: all 30 mismatching paragraphs inspected.
+
+| Category | Count | % of failures | Example (id) | Likely cause |
+|---|---|---|---|---|
+| Risk label(s) where gold is none | 13 | 43% | XOM item_1A:p46 (reputation → cybersecurity, supply_chain) | topic mentioned in passing; some look like batch id confusion (AAPL p24, p55) |
+| Extra label, gold labels kept | 10 | 33% | WMT item_1A:p83 (+litigation) | "main topic" rule ignored; litigation/regulatory co-occur |
+| Wrong label, no overlap | 4 | 13% | AAPL item_1A:p35 (litigation for single-source components) | id confusion inside a 15-paragraph batch of unrelated text; same paragraph is correct in pipeline batches |
+| Missed label | 3 | 10% | WMT item_1A:p43 (IT upgrade → none) | IT-system failure not seen as cybersecurity; JPM p4 bullet list read as none |
+
+**Findings:** precision, not recall, is the problem; part of the error is an artefact of
+batching unrelated paragraphs.
+**Actions:** on the dev split compare batch sizes 15 / 5 / 1 and an id-echo format; tighten
+the "passing mention" rule with an example; human review of the draft gold.
 
 ## consistency_checker
 _No analysis yet._

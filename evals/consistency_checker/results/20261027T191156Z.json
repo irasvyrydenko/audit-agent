@@ -1,0 +1,56 @@
+{
+  "component": "consistency_checker",
+  "timestamp": "2026-10-27T19:11:56.142119+00:00",
+  "git_commit": "2fa362b",
+  "model": "nvidia/nemotron-3.5-super-vl:free",
+  "status": "ok",
+  "dataset": {
+    "name": "gold/consistency_checker",
+    "n": 26,
+    "n_perturbed": 19,
+    "labeled_by": [
+      "agent-draft"
+    ]
+  },
+  "metrics": {
+    "verdict_accuracy": 0.8846,
+    "perturbed_detection_rate": 1.0,
+    "overall_accuracy": 0.9333,
+    "confusion_matrix": {
+      "supported": {
+        "supported": 16,
+        "contradicted": 3,
+        "unverifiable": 0
+      },
+      "contradicted": {
+        "supported": 0,
+        "contradicted": 19,
+        "unverifiable": 0
+      },
+      "unverifiable": {
+        "supported": 0,
+        "contradicted": 0,
+        "unverifiable": 7
+      }
+    },
+    "per_verdict": {
+      "supported": {
+        "precision": 1.0,
+        "recall": 0.8421,
+        "support": 19
+      },
+      "contradicted": {
+        "precision": 0.8636,
+        "recall": 1.0,
+        "support": 19
+      },
+      "unverifiable": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "support": 7
+      }
+    }
+  },
+  "baseline": null,
+  "notes": "Verification only (structured gold claims, agent-drafted). LLM extraction not evaluated yet (free daily quota)."
+}

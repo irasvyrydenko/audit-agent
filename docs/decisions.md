@@ -195,6 +195,31 @@ Add an entry for every non-obvious choice. Never delete entries; mark superseded
 - **Consequences:** `silver_llm` is not independent of the LLM; its score shows how far a
   cheap model can imitate the LLM. Test support covers only 3 risk labels.
 
+## D-016 — MD&A consistency: LLM extracts, code verifies with written-precision tolerance (2026-10-27)
+- **Context:** MD&A claims are free text; numbers are rounded; most discuss segments; the
+  free LLM quota is 50 requests/day; free models made scale errors earlier (D-007).
+- **Decision:**
+  1. Candidate paragraphs by code (metric keyword + digit), at most 30 per filing, 10 per LLM
+     call. The LLM returns paragraph number, exact quote, metric (fixed list), scope
+     (company/segment), fiscal year, kind (level / change_pct / change_abs / change_pp /
+     direction), direction, number and unit as written. Code scales units; claims whose
+     quote is not in the paragraph are dropped.
+  2. Verification is code: segment claims, unknown metrics and changes that need FY-2 are
+     unverifiable; margins are recomputed per year from KPIs; changes use current vs prior
+     KPIs from the same 10-K.
+  3. Tolerance = half of the last written digit ("$58.5 billion" ±$0.05B, "18%" ±0.5 pp,
+     "27 basis points" ±0.5 bp); without wording: 0.5% relative (0.5 pp / 5 bp for
+     changes). Direction "flat" = |growth| < 1% (ratios: < 10 bp).
+  4. New KPI `net_income_incl_nci` (ProfitLoss, falling back to NetIncomeLoss) for
+     "consolidated net income" claims.
+  5. Eval = verification on structured gold claims + perturbed copies (flip direction or
+     value x0.5/x1.5 → must be contradicted). Extraction quality is evaluated later.
+- **Alternatives:** LLM judges claims directly (unreliable with numbers, more calls); fixed
+  relative tolerance (accepts "$58.6 billion" for 58.47); regex extraction (misses most
+  phrasings).
+- **Consequences:** concept mismatches (restricted cash, net sales vs revenue) show up as
+  contradicted — see error_analysis.md.
+
 ## Open questions
 - ~~**total_debt definition**~~ → resolved in D-011.
 - ~~**Altman Z variant**~~ / ~~**Banks (JPM)**~~ → resolved in D-012.

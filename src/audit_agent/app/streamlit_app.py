@@ -20,6 +20,7 @@ SECTION_TITLES = {
     "solvency": "Solvency",
     "red_flags": "Red flags",
     "risk_themes": "Risk themes (Item 1A)",
+    "consistency": "MD&A consistency",
 }
 
 
@@ -123,6 +124,22 @@ def risk_table(result: PipelineResult) -> pd.DataFrame:
     )
 
 
+def check_table(result: PipelineResult) -> pd.DataFrame:
+    return pd.DataFrame(
+        [
+            {
+                "Paragraph": r.claim.paragraph_id,
+                "Claim": r.claim.text,
+                "Metric": r.claim.metric or "—",
+                "Scope": r.claim.scope,
+                "Verdict": r.verdict,
+                "Rationale": r.rationale,
+            }
+            for r in result.checks
+        ]
+    )
+
+
 def render_result(result: PipelineResult) -> None:
     ref = result.filing.ref
     st.header(f"{result.company.name} ({result.company.ticker}) — FY{result.filing.fiscal_year}")
@@ -130,7 +147,7 @@ def render_result(result: PipelineResult) -> None:
         f"10-K for the period ending **{ref.report_date}**, filed {ref.filing_date} · "
         f"accession `{ref.accession}` · [open on EDGAR]({filing_url(result)})"
     )
-    tabs = st.tabs(["Report", "KPIs", "Indicators & flags", "Risks", "Trace"])
+    tabs = st.tabs(["Report", "KPIs", "Indicators & flags", "Risks", "MD&A checks", "Trace"])
     with tabs[0]:
         render_report(result)
     with tabs[1]:
@@ -147,6 +164,10 @@ def render_result(result: PipelineResult) -> None:
             st.bar_chart(counts)
             st.dataframe(risk_table(result), hide_index=True, width="stretch")
     with tabs[4]:
+        st.caption(f"Consistency checker status: {result.check_status}")
+        if result.checks:
+            st.dataframe(check_table(result), hide_index=True, width="stretch")
+    with tabs[5]:
         log_path = resolve_path(load_settings().tracing.log_dir) / f"{result.run_id}.jsonl"
         st.markdown(f"Run id `{result.run_id}` · trace file `{log_path}`")
         if log_path.exists():

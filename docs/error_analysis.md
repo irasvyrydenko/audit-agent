@@ -74,7 +74,22 @@ batching unrelated paragraphs.
 the "passing mention" rule with an example; human review of the draft gold.
 
 ## consistency_checker
-_No analysis yet._
+
+### consistency_checker — 2026-10-27 (verification only, no LLM)
+- Eval run: evals/consistency_checker/results/latest.json — verdict_accuracy 0.885 (23/26),
+  perturbed_detection_rate 1.0 (19/19)
+- Sample: all 3 failures inspected.
+
+| Category | Count | % of failures | Example (id) | Likely cause |
+|---|---|---|---|---|
+| Claim uses a broader concept than the KPI | 2 | 67% | xom-1 ($23.2B vs XBRL cash $23.03B) | MD&A "total cash" includes restricted cash (+$0.16B) |
+| Ratio defined on a different base | 1 | 33% | wmt-3 (+27 bp vs computed +23.5 bp) | Walmart's gross profit rate uses net sales; our gross_margin uses total revenues (incl. membership income) |
+
+**Findings:** no false "contradicted" from rounding — the written-precision tolerance works;
+all errors are concept mismatches that a reader would also need the notes to resolve.
+**Actions:** optional KPIs for cash incl. restricted cash and net sales
+(`RevenueFromContractWithCustomerExcludingAssessedTax`), with claim metrics to match; until
+then such claims show as contradicted with a rationale in the UI.
 
 ## report_generator
 _No analysis yet._

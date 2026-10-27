@@ -1,7 +1,7 @@
 """End-to-end pipeline used by the UI, the report eval and the cache warm-up script.
 
-filing_loader -> kpi_extractor -> indicator_engine -> risk_detector -> report_generator,
-one tracer span per step. consistency_checker is not wired in yet (not implemented).
+filing_loader -> kpi_extractor -> indicator_engine -> risk_detector -> consistency_checker
+-> report_generator, one tracer span per step.
 Every step is cached (EDGAR raw files, processed filing JSON, LLM disk cache), so a rerun
 of the same (ticker, fiscal year) makes no network or LLM calls.
 """
@@ -14,6 +14,8 @@ from audit_agent.common.config import Company, Settings, load_companies, load_se
 from audit_agent.common.edgar_client import EdgarClient
 from audit_agent.common.llm_client import LLMClient, LLMRateLimitError
 from audit_agent.common.tracing import JsonTracer
+from audit_agent.consistency_checker.checker import CheckResult, verify_claim
+from audit_agent.consistency_checker.extractor import extract_claims
 from audit_agent.filing_loader.loader import Filing, load_filing
 from audit_agent.indicator_engine.indicators import (
     AnomalyFlag,
@@ -43,6 +45,8 @@ class PipelineResult(BaseModel):
     flags: list[AnomalyFlag]
     risks: list[RiskPrediction]
     risk_status: str  # "ok" | "partial: ..." | "skipped: ..."
+    checks: list[CheckResult] = []
+    check_status: str = "not run"
     evidence: list[Evidence]
     report: Report
     faithfulness: FaithfulnessResult
@@ -71,6 +75,28 @@ def _risks(
         return [], "skipped: LLM daily quota exhausted"
     status = f"partial: {len(failed)} paragraphs failed" if failed else "ok"
     return risks, status
+
+
+def _checks(
+    filing: Filing,
+    current: KPISet,
+    prior: KPISet | None,
+    client: LLMClient,
+    settings: Settings,
+    tracer: JsonTracer,
+) -> tuple[list[CheckResult], str]:
+    cfg = settings.consistency
+    paragraphs = filing.sections["7"].paragraphs if "7" in filing.sections else []
+    try:
+        claims, failed = extract_claims(paragraphs, filing.fiscal_year, client, cfg)
+    except LLMRateLimitError as exc:
+        tracer.log("consistency_checker", "rate_limited", error=str(exc)[:200])
+        return [], "skipped: LLM daily quota exhausted"
+    results = [
+        verify_claim(c, current, prior, cfg.numeric_tolerance, cfg.flat_threshold) for c in claims
+    ]
+    status = f"partial: {failed} batches failed" if failed else "ok"
+    return results, status
 
 
 def run_pipeline(
@@ -113,6 +139,16 @@ def run_pipeline(
         risks, risk_status = _risks(filing, llm, settings, tracer)
     tracer.log("risk_detector", "result", n=len(risks), status=risk_status)
 
+    with tracer.span("consistency_checker", "check"):
+        checks, check_status = _checks(filing, current, prior, llm, settings, tracer)
+    tracer.log(
+        "consistency_checker",
+        "result",
+        n=len(checks),
+        verdicts=[c.verdict for c in checks],
+        status=check_status,
+    )
+
     with tracer.span("report_generator", "generate"):
         zones = settings.indicators.altman_z2_zones
         evidence = build_evidence(
@@ -125,6 +161,7 @@ def run_pipeline(
             risk_labels=settings.risk_labels,
             distress_below=zones.distress_below,
             safe_above=zones.safe_above,
+            checks=checks,
         )
         report = generate_report(
             company.ticker, fiscal_year, evidence, llm if summarize else None, company.name
@@ -150,6 +187,8 @@ def run_pipeline(
         flags=flags,
         risks=risks,
         risk_status=risk_status,
+        checks=checks,
+        check_status=check_status,
         evidence=evidence,
         report=report,
         faithfulness=faithfulness,

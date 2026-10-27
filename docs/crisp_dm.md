@@ -11,7 +11,7 @@ Updated after each work session (see `.claude/skills/crisp-dm-log`). Entries are
 | kpi_extractor | ✓ 2026-10-27 | ✓ XBRL part 2026-10-27 | ✓ 2026-10-27 (XBRL checks) | table match 0.987, coverage 0.86 |
 | indicator_engine | ✓ 2026-10-27 | ✓ 2026-10-27 (no Beneish) | ✓ 2026-10-27 | hand-calc match 1.0 (22/22) |
 | risk_detector | ✓ 2026-10-27 | ✓ LLM + baseline 2026-10-27 | ✓ 2026-10-27 (test, n=40) | macro-F1 LLM 0.675 vs baseline 0.278 (dev-trained) / 0.720 (silver) |
-| consistency_checker | – | – | – | – |
+| consistency_checker | ✓ 2026-10-27 | ✓ 2026-10-27 | ✓ verification 2026-10-27 | verdict acc. 0.885, perturbed detection 1.0 |
 | report_generator | ✓ 2026-10-27 | ✓ 2026-10-27 | ✓ 2026-10-27 (template only) | faithfulness 1.0, perturbed detection 1.0 |
 | app | ✓ 2026-10-27 | ✓ 2026-10-27 | smoke test (AppTest) | 5/5 companies render |
 
@@ -82,6 +82,12 @@ Open questions to answer by inspecting real data:
   uncited or invented statements are bugs. Data: all inputs are structured (KPIs,
   indicators, flags, risk predictions) except risk paragraphs. Constraint: 50 free LLM
   requests/day → at most one generation call per company-year. [→ D-014]
+- 2026-10-27 — consistency_checker — Business: does management's narrative match the
+  numbers? Data: FY2024 MD&A mostly discusses segments/products (AAPL text has no company
+  totals at all; JPM/WMT mix segment and firm-wide claims). Company-level claims quote
+  rounded numbers ("$58.5 billion", "up 18%", "27 basis points"). Definitions differ from
+  XBRL concepts: XOM "total cash" includes restricted cash, WMT margins use net sales (not
+  total revenues), WMT/XOM quote net income incl. noncontrolling interests. [→ D-016]
 
 ## 3. Data Preparation
 
@@ -114,6 +120,10 @@ Open questions to answer by inspecting real data:
   one logistic regression per risk label (balanced classes, threshold 0.5, "none" = no label
   above threshold). Two training sets: gold dev (40) and LLM silver labels of the other 440
   Item 1A paragraphs (gold excluded). [→ D-015]
+- 2026-10-27 — consistency_checker — structured claim schema (metric, scope, fiscal year,
+  kind, direction, value, as_written); new KPI net_income_incl_nci; margins computed per
+  year from KPIs; tolerance = half of the last written digit. Gold: 26 claims from real
+  MD&A paragraphs of the 5 filings (agent draft), 19 supported / 7 unverifiable.
 - _(prompts, baseline config, rules; link decisions.md entries)_
 
 ## 5. Evaluation
@@ -151,6 +161,11 @@ what they mean.
   trained on the same small hand-labeled data on macro-F1; with only 40 test paragraphs
   and draft labels, differences of a few points are not significant. Next: human review of
   gold, more test paragraphs for rare labels.
+- 2026-10-27 — consistency_checker — verification on gold: accuracy 0.885 (23/26), all 7
+  unverifiable correct; perturbed copies (flip direction or x0.5/x1.5) detected 19/19;
+  overall 0.933. The 3 errors are definition mismatches (XOM cash incl. restricted ×2, WMT
+  gross margin on net sales), i.e. the claims are true but our KPI concept differs.
+  LLM extraction not evaluated yet (quota).
 - 2026-10-27 — report_generator — 5 companies, 104 statements (template only; summaries
   blocked by quota): faithfulness 1.0, citation correctness 1.0, uncited 0, perturbed
   (+10% first number) detection 1.0. Limitation: the check verifies numbers and citations,

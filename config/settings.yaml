@@ -42,6 +42,9 @@ kpis:
   - {name: cost_of_revenue, period_type: duration, tags: [CostOfRevenue, CostOfGoodsAndServicesSold]}
   - {name: operating_income, period_type: duration, tags: [OperatingIncomeLoss]}
   - {name: net_income, period_type: duration, tags: [NetIncomeLoss]}
+  # Consolidated net income incl. noncontrolling interests (MD&A often quotes it); falls back to
+  # NetIncomeLoss for companies without NCI.
+  - {name: net_income_incl_nci, period_type: duration, tags: [ProfitLoss, NetIncomeLossIncludingPortionAttributableToNonredeemableNoncontrollingInterest, NetIncomeLoss]}
   - {name: sga, period_type: duration, tags: [SellingGeneralAndAdministrativeExpense]}
   - {name: depreciation, period_type: duration, tags: [DepreciationDepletionAndAmortization, DepreciationAndAmortization, DepreciationAmortizationAndAccretionNet]}
   - {name: pretax_income, period_type: duration, tags: [IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest, IncomeLossFromContinuingOperationsBeforeIncomeTaxesMinorityInterestAndIncomeLossFromEquityMethodInvestments]}
@@ -109,6 +112,10 @@ risk_detector:
 
 consistency:
   numeric_tolerance: 0.005  # relative tolerance when comparing a claimed number to computed
+  flat_threshold: 0.01      # |growth| below this counts as "flat" (ratios: 10 bp)
+  items: ["7"]              # MD&A
+  max_candidates: 30        # candidate paragraphs per filing sent to the LLM
+  batch_size: 10            # paragraphs per extraction call
 
 eval:
   kpi_relative_tolerance: 0.005  # exact match within 0.5% vs XBRL

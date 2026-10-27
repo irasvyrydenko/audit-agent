@@ -10,6 +10,7 @@ from collections import Counter
 from pydantic import BaseModel, Field
 
 from audit_agent.common.citations import Citation
+from audit_agent.consistency_checker.checker import RATIO_METRICS, CheckResult
 from audit_agent.filing_loader.loader import Filing
 from audit_agent.indicator_engine.indicators import AnomalyFlag, Indicator, altman_zone
 from audit_agent.kpi_extractor.extractor import KPISet
@@ -193,6 +194,48 @@ def risk_evidence(
     return items
 
 
+MAX_CLAIM_EXAMPLES = 5
+
+
+def format_computed(result: CheckResult) -> str:
+    """Computed value in the claim's own terms: $58.47B, +18.0%, +23.5 bp, 24.4%."""
+    value, claim = result.computed, result.claim
+    assert value is not None
+    if claim.kind == "change_pct" or (
+        claim.kind == "direction" and claim.metric not in RATIO_METRICS
+    ):
+        return signed_pct(value)
+    if claim.kind in ("change_pp",) or (
+        claim.kind == "direction" and claim.metric in RATIO_METRICS
+    ):
+        return f"{value * 1e4:+.1f} bp"
+    if claim.metric in RATIO_METRICS:
+        return pct(value)
+    return money(value)
+
+
+def consistency_evidence(checks: list[CheckResult]) -> list[tuple[str, str, list[Citation]]]:
+    if not checks:
+        return []
+    counts = Counter(r.verdict for r in checks)
+    examples = [r.evidence[0] for r in checks][:MAX_CLAIM_EXAMPLES]
+    summary = (
+        f"MD&A claims checked against XBRL data: {len(checks)} extracted, "
+        f"{counts['supported']} supported, {counts['contradicted']} contradicted, "
+        f"{counts['unverifiable']} unverifiable (segment-level or not computable)."
+    )
+    items = [("consistency", summary, examples)]
+    for r in checks:
+        if r.verdict == "unverifiable" or r.computed is None:
+            continue
+        text = (
+            f'MD&A claim "{r.claim.text}" ({r.claim.paragraph_id}) is {r.verdict}: '
+            f"computed {r.claim.metric} = {format_computed(r)}."
+        )
+        items.append(("consistency", text, list(r.evidence)))
+    return items
+
+
 def build_evidence(
     filing: Filing,
     current: KPISet,
@@ -204,6 +247,7 @@ def build_evidence(
     risk_labels: list[str],
     distress_below: float,
     safe_above: float,
+    checks: list[CheckResult] | None = None,
 ) -> list[Evidence]:
     by_name = {i.name: i for i in indicators}
     fy = current.fiscal_year
@@ -214,6 +258,7 @@ def build_evidence(
         *not_applicable_evidence(indicators),
         *flag_evidence(flags),
         *risk_evidence(filing, risks, risk_labels),
+        *consistency_evidence(checks or []),
     ]
     cited = [(section, text, cites) for section, text, cites in raw if cites]
     return [

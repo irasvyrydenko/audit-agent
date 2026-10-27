@@ -3,20 +3,18 @@ import json
 
 import pytest
 
-from evals.common import REQUIRED_KEYS
+from evals.common import REQUIRED_KEYS, write_results
 
-# Evals that still write placeholder results (no data / network needed).
-# Implemented evals are tested through their pure score/compare functions instead.
-STUB_EVALS = [
-    "consistency_checker",
-]
+# Real evals need cached data / network; they are tested through their pure score/compare
+# functions in the component test files. Here: every eval has a main() and the shared
+# results format is valid.
 ALL_EVALS = [
     "filing_loader",
     "kpi_extractor",
     "indicator_engine",
     "risk_detector",
+    "consistency_checker",
     "report_generator",
-    *STUB_EVALS,
 ]
 
 
@@ -26,10 +24,12 @@ def test_eval_module_has_main(component):
     assert callable(module.main)
 
 
-@pytest.mark.parametrize("component", STUB_EVALS)
-def test_stub_eval_writes_valid_results(component, tmp_path):
-    module = importlib.import_module(f"evals.{component}.run_eval")
-    assert module.main(results_root=tmp_path) == 0
-    record = json.loads((tmp_path / component / "results" / "latest.json").read_text())
+def test_write_results_format(tmp_path):
+    path = write_results(
+        "demo", metrics={"m": 1.0}, dataset={"name": "x", "n": 1}, results_root=tmp_path
+    )
+    record = json.loads(path.read_text(encoding="utf-8"))
     assert record.keys() >= REQUIRED_KEYS
-    assert record["component"] == component
+    assert record["component"] == "demo"
+    assert record["status"] == "ok"
+    assert len(list(path.parent.glob("*.json"))) == 2  # latest + timestamped copy

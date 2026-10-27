@@ -22,6 +22,7 @@ def main(fiscal_year: int | None = None) -> int:
         f = result.faithfulness
         print(
             f"{company.ticker} FY{fy}: risks {result.risk_status}, "
+            f"MD&A checks {result.check_status}, "
             f"summary {result.report.summary_status}, faithful {f.n_supported}/{f.n_statements}"
         )
     return 0

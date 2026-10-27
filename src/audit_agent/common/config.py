@@ -85,6 +85,10 @@ class RiskDetectorSettings(BaseModel):
 
 class ConsistencySettings(BaseModel):
     numeric_tolerance: float
+    flat_threshold: float = 0.01
+    items: list[str] = ["7"]
+    max_candidates: int = 30
+    batch_size: int = Field(default=10, ge=1)
 
 
 class EvalSettings(BaseModel):

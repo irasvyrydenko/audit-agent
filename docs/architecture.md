@@ -72,7 +72,9 @@ Legend: solid = data, dashed = LLM call. Cylinders = external sources.
 - **Input → Output:** MD&A `Section` + `KPISet` + indicators → `list[CheckResult]`.
 - **Model / tool:** LLM for extraction only.
 - **Eval:** verdict accuracy incl. perturbed claims.
-- **Status:** stub.
+- **Status:** implemented (D-016) and wired into the pipeline/report/UI. Verification eval:
+  accuracy 0.885 on 26 gold claims, perturbed detection 1.0 (19/19). LLM extraction waits
+  for the daily quota.
 
 ## report_generator
 - **Purpose:** short cited summary + faithfulness check.

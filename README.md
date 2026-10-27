@@ -8,8 +8,8 @@ short summary where every statement cites its source.
 > Analysis tool, not investment advice.
 
 **Status:** demo pipeline works end to end (filing_loader → kpi_extractor (XBRL) →
-indicator_engine → risk_detector (LLM) → cited report → Streamlit). Not yet: LLM KPI
-extraction, TF-IDF baseline, consistency_checker, Beneish M. See
+indicator_engine → risk_detector (LLM + TF-IDF baseline) → consistency_checker → cited
+report → Streamlit). Not yet: LLM KPI extraction, Beneish M. See
 [docs/architecture.md](docs/architecture.md).
 
 ## Setup
@@ -45,7 +45,8 @@ Pipeline from Python: `run_pipeline(ticker, fiscal_year, JsonTracer(log_dir))` i
 `audit_agent.app.pipeline`; each run writes a JSON-lines trace to `logs/<run_id>.jsonl`.
 
 **LLM quota:** the free OpenRouter tier allows 50 requests/day. All answers are cached, so a
-company-year costs LLM calls only once (risk classification ≈ 3–17 calls, summary 1 call).
+company-year costs LLM calls only once (risk classification ≈ 3–17 calls, MD&A claim
+extraction ≤ 3, summary 1).
 When the quota is exhausted the report is still produced without the LLM summary.
 
 ## Configuration

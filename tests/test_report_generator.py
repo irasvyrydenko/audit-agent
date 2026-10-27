@@ -292,3 +292,52 @@ def test_eval_perturb_and_score() -> None:
     assert metrics["citation_correctness"] == 0.9
     assert metrics["perturbed_detection_rate"] == 1.0
     assert metrics["summaries_generated"] == 0
+
+
+def test_consistency_evidence_lists_checked_claims() -> None:
+    from audit_agent.consistency_checker.checker import Claim, verify_claim
+    from audit_agent.report_generator.evidence import consistency_evidence
+
+    claims = [
+        Claim(
+            id="a",
+            paragraph_id="item_7:p1",
+            text="Revenue was $2.0 billion",
+            metric="revenue",
+            kind="level",
+            value=2.0e9,
+            as_written="$2.0 billion",
+        ),
+        Claim(
+            id="b",
+            paragraph_id="item_7:p2",
+            text="revenue up 40%",
+            metric="revenue",
+            kind="change_pct",
+            value=0.40,
+            direction="up",
+            as_written="40%",
+        ),
+        Claim(
+            id="c",
+            paragraph_id="item_7:p3",
+            text="Segment A sales rose",
+            metric="revenue",
+            scope="segment",
+            kind="direction",
+            direction="up",
+        ),
+    ]
+    checks = [verify_claim(c, CURRENT, PRIOR, 0.005) for c in claims]
+    assert [r.verdict for r in checks] == ["supported", "contradicted", "unverifiable"]
+    items = consistency_evidence(checks)
+    texts = [t for _, t, _ in items]
+    assert texts[0].startswith(
+        "MD&A claims checked against XBRL data: 3 extracted, 1 supported, 1 contradicted"
+    )
+    assert texts[1] == (
+        'MD&A claim "Revenue was $2.0 billion" (item_7:p1) is supported: computed revenue = $2.00B.'
+    )
+    assert texts[2].endswith("is contradicted: computed revenue = +25.0%.")
+    assert len(items) == 3  # unverifiable claim only counted in the summary
+    assert all(cites for _, _, cites in items)

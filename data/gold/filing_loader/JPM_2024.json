@@ -1,0 +1,21 @@
+{
+  "ticker": "JPM",
+  "fiscal_year": 2024,
+  "accession": "0000019617-25-000270",
+  "split": "dev",
+  "items": {
+    "1A": {
+      "first": "The following discussion sets forth the material risk factors that could affect ",
+      "last": "Regulatory investigations, examinations or other initiatives by U.S. and non-U.S"
+    },
+    "7": {
+      "first": "The following is Management’s discussion and analysis of the financial condition",
+      "last": "Any forward-looking statements made by or on behalf of the Firm speak only as of"
+    },
+    "8": {
+      "first": "Management of JPMorgan Chase & Co. (“JPMorganChase” or the “Firm”) is responsibl",
+      "last": "The Firm expects to achieve operating cost savings and other business synergies "
+    }
+  },
+  "notes": "1A last fixed by hand: the parser keeps the running header \"Parts I and II\" as the last paragraph."
+}

@@ -1,0 +1,20 @@
+{
+  "ticker": "AAPL",
+  "fiscal_year": 2024,
+  "accession": "0000320193-24-000123",
+  "split": "dev",
+  "items": {
+    "1A": {
+      "first": "The Company’s business, reputation, results of operations, financial condition a",
+      "last": "The Company’s stock has experienced substantial price volatility in the past and"
+    },
+    "7": {
+      "first": "The following discussion should be read in conjunction with the consolidated fin",
+      "last": "The Company is subject to various legal proceedings and claims that arise in the"
+    },
+    "8": {
+      "first": "All financial statement schedules have been omitted, since the required informat",
+      "last": "November 1, 2024"
+    }
+  }
+}

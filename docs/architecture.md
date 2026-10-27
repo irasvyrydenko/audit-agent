@@ -36,7 +36,10 @@ Legend: solid = data, dashed = LLM call. Cylinders = external sources.
 - **Input → Output:** `(ticker, fiscal_year)` → `Filing`.
 - **Model / tool:** no LLM; EDGAR HTTP.
 - **Eval:** segmentation accuracy vs `data/gold/filing_loader/`.
-- **Status:** stub.
+- **Modules:** `html_blocks.py` (HTML → ordered text/table blocks), `segmenter.py` (Item
+  boundaries, pointer resolution, page-furniture filter), `loader.py` (10-K selection,
+  paragraphs/tables, cache in `data/processed/filings/`).
+- **Status:** implemented; dev segmentation accuracy 0.933 (D-010).
 
 ## kpi_extractor
 - **Purpose:** KPIs as JSON. XBRL companyfacts = ground truth; LLM reads Item 8 tables for comparison.

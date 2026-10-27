@@ -20,7 +20,19 @@ newest analysis first within each section. Always note the eval run it refers to
 ```
 
 ## filing_loader
-_No analysis yet._
+
+### filing_loader — 2026-10-27 (dev split, no LLM)
+- Eval run: evals/filing_loader/results/latest.json — segmentation_accuracy 0.9333 (14/15)
+- Sample: all 1 failure inspected.
+
+| Category | Count | % of failures | Example (id) | Likely cause |
+|---|---|---|---|---|
+| Running header kept as paragraph | 1 | 100% | JPM_2024:1A | "Parts I and II" repeats < 3 times as a standalone block, so the boilerplate filter misses it |
+
+**Findings:** boundaries themselves are right in all 15 cases; the only error is residual
+page furniture. Pointer resolution (JPM, XOM) works on both filings.
+**Actions:** low priority — paragraph-level noise does not affect risk/claim extraction much.
+Build a held-out gold split before tuning further.
 
 ## kpi_extractor
 _No analysis yet._ Expected categories: wrong tag, wrong period (quarter vs FY), scale

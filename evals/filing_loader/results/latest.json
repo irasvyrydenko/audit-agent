@@ -1,0 +1,26 @@
+{
+  "component": "filing_loader",
+  "timestamp": "2026-10-27T12:48:14.824092+00:00",
+  "git_commit": "bee95f4",
+  "model": "nvidia/nemotron-3.5-super-vl:free",
+  "status": "ok",
+  "dataset": {
+    "name": "gold/filing_loader",
+    "n": 15,
+    "filings": 5,
+    "split": "dev"
+  },
+  "metrics": {
+    "segmentation_accuracy": 0.9333,
+    "start_accuracy": 1.0,
+    "end_accuracy": 0.9333,
+    "per_item_accuracy": {
+      "1A": 0.8,
+      "7": 1.0,
+      "8": 1.0
+    },
+    "items_missing": 0
+  },
+  "baseline": null,
+  "notes": "Dev gold drafted from inspected parser output (not independent); see crisp_dm.md."
+}

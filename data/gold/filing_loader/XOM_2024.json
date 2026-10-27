@@ -1,0 +1,20 @@
+{
+  "ticker": "XOM",
+  "fiscal_year": 2024,
+  "accession": "0000034088-25-000010",
+  "split": "dev",
+  "items": {
+    "1A": {
+      "first": "ExxonMobil’s financial and operating results are subject to a variety of risks i",
+      "last": "Projections, estimates, and descriptions of ExxonMobil’s plans and objectives in"
+    },
+    "7": {
+      "first": "FORWARD-LOOKING STATEMENTS",
+      "last": "The Corporation is subject to income taxation in many jurisdictions around the w"
+    },
+    "8": {
+      "first": "Management, including the Corporation’s Chief Executive Officer, Chief Financial",
+      "last": "The Denbury acquisition resulted in an immaterial amount of goodwill. Revenues a"
+    }
+  }
+}

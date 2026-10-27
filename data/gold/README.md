@@ -5,7 +5,7 @@ without manual review. Planned layout:
 
 | Path | Content |
 |---|---|
-| `filing_loader/<TICKER>_<FY>.json` | per Item: expected start/end paragraph text |
+| `filing_loader/<TICKER>_<FY>.json` | per Item: first 80 chars of the expected first/last paragraph; `split` dev/test. FY2024 = dev (drafted from inspected parser output) |
 | `kpi_extractor/overrides.json` | manual corrections where XBRL is wrong/missing (with reason) |
 | `indicator_engine/hand_calcs.json` | hand-calculated indicators for a few company-years |
 | `risk_detector/paragraphs.jsonl` | `{paragraph_id, ticker, fy, text, labels, split}` |

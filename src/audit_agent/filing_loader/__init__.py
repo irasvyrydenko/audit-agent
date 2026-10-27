@@ -2,7 +2,8 @@
 
 Purpose: Locate the 10-K for (ticker, fiscal year), download the primary HTML document,
     and segment it into Item 1A (Risk Factors), Item 7 (MD&A) and Item 8 (Financial
-    Statements) with stable paragraph ids, plus extracted tables.
+    Statements) with stable paragraph ids, plus extracted tables. When Items 7/8 only point
+    to a "Financial Section" (JPM, XOM), the real sections are located by title (D-010).
 Input: ticker (str), fiscal_year (int).
 Output: `Filing` (see loader.py): metadata + sections{item -> paragraphs} + tables;
     cached as JSON in data/processed/.

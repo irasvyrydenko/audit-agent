@@ -65,8 +65,39 @@ Add an entry for every non-obvious choice. Never delete entries; mark superseded
 - **Alternatives:** swap XOM for another energy company (loses the confirmed company set).
 - **Consequences:** a CIK is an identifier, not a financial number, so the no-hardcoding rule holds.
 
+## D-009 — Fiscal year = calendar year of the 10-K period end (2026-10-27)
+- **Context:** non-calendar years: AAPL ends late September, WMT ends Jan 31.
+- **Decision:** `fiscal_year_of(reportDate) = reportDate.year`. Matches how all five companies
+  name their years (Walmart's year ending 2024-01-31 is "fiscal 2024"). Original 10-K is
+  preferred; 10-K/A only if no original exists.
+- **Consequences:** breaks for 52/53-week years ending in the first days of January (those
+  companies name the year by the previous calendar year) — none in our set.
+
+## D-010 — Item segmentation by heading candidates + pointer resolution (2026-10-27)
+- **Context:** inspected the five FY2024 10-Ks. AAPL/JNJ/WMT: Items 1A/7/8 under normal headings
+  (XOM puts headings in layout tables). JPM and XOM: Items 7 and 8 are 1–3 line pointers
+  ("Reference is made to ... in the Financial Section"); the real MD&A comes later, with the
+  title repeated as a running header on every page.
+- **Decision:**
+  1. Flatten HTML into innermost block elements; inline tags merge into their block, so
+     in-sentence references ("see Item 1A") are never heading candidates; small tables
+     without numbers count as text (layout).
+  2. Per Item (canonical order, each after the previous one), choose the heading candidate
+     followed by the longest run before a later Item's candidate → skips the table of contents.
+  3. If Item 7 is a pointer (≤250 words + "reference is made"/"financial section"/...),
+     Item 7 = first MD&A title block → first "Management's report on internal control" /
+     auditor's report / consolidated statements title; Item 8 = from there → "Supplemental
+     information" / glossary / exhibits / signatures.
+  4. Drop running headers/footers: short texts repeated ≥3 times after masking digits, page
+     numbers, one-row tables.
+- **Alternatives:** EDGAR-CORPUS (pre-split, but stops at 2020 and we need FY2024); LLM-based
+  segmentation (slow, uses free-model quota, harder to evaluate).
+- **Consequences:** dev eval 14/15 boundaries (see crisp_dm.md). For pointer filings Item 8
+  starts at management's internal-control report rather than the auditor's report (gold uses
+  the same convention).
+
 ## Open questions
 - **total_debt definition:** sum of `LongTermDebtNoncurrent + LongTermDebtCurrent + ShortTermBorrowings`? Include finance leases / commercial paper? Decide after inspecting companyfacts for the 5 companies.
 - **Altman Z variant:** original Z needs market value of equity (price data, out of scope) → Z'' (book equity, non-manufacturers) is likely. Decide in indicator_engine.
 - **Banks (JPM):** mark Altman Z / Beneish M / DSO as not applicable rather than computing them.
-- **Fiscal year matching:** use the 10-K's `reportDate` year, or the companyfacts `fy` field? (They differ for e.g. WMT.)
+- ~~**Fiscal year matching**~~ → resolved in D-009.

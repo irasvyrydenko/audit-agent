@@ -33,6 +33,9 @@ management's narrative (MD&A) matches the numbers.
 
 ### Log
 - 2026-10-23 — setup: repo skeleton created; components stubbed.
+- 2026-10-27 — setup: company set confirmed (AAPL, JPM, XOM, JNJ, WMT); LLM model fixed. [→ D-005]
+  Demo scope agreed: XBRL KPIs + indicators + LLM risks + cited report in Streamlit;
+  LLM KPI extraction, TF-IDF baseline and consistency checker follow after the demo.
 
 ## 2. Data Understanding
 

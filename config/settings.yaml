@@ -6,8 +6,9 @@ llm:
   base_url: https://openrouter.ai/api/v1
   # ONE fixed model for reproducible evaluation. Changing it invalidates eval comparisons:
   # log the change in docs/decisions.md and re-run all evals.
-  # TODO(confirm): check the model is still free at https://openrouter.ai/models?q=free
-  model: meta-llama/llama-3.3-70b-instruct:free
+  # Chosen 2026-10-27 (docs/decisions.md D-005). Re-check it is still free before eval runs:
+  # https://openrouter.ai/models?q=free
+  model: nvidia/nemotron-3-super-120b-a12b:free
   api_key_env: OPENROUTER_API_KEY
   temperature: 0.0
   max_tokens: 1024

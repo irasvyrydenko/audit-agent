@@ -1,4 +1,4 @@
-# PLACEHOLDER list — to be confirmed by the project owner (set confirmed: true).
+# Company set for development, evaluation and the demo (confirmed 2026-10-27).
 # CIKs are resolved at runtime from EDGAR company_tickers.json; do not hardcode them.
 default_fiscal_year: 2024
 
@@ -6,27 +6,27 @@ companies:
   - ticker: AAPL
     name: Apple Inc.
     sector: Technology
-    confirmed: false
+    confirmed: true
     notes: Fiscal year ends late September.
   - ticker: JPM
     name: JPMorgan Chase & Co.
     sector: Financials (bank)
-    confirmed: false
+    confirmed: true
     notes: >-
       Bank balance sheet — Altman Z, Beneish M and DSO are not meaningful; no
       current assets/liabilities split. Good stress test for "not applicable" handling.
   - ticker: XOM
     name: Exxon Mobil Corporation
     sector: Energy
-    confirmed: false
+    confirmed: true
     notes: Calendar fiscal year.
   - ticker: JNJ
     name: Johnson & Johnson
     sector: Healthcare
-    confirmed: false
+    confirmed: true
     notes: Heavy litigation disclosures (useful for risk_detector).
   - ticker: WMT
     name: Walmart Inc.
     sector: Consumer Staples (retail)
-    confirmed: false
+    confirmed: true
     notes: Fiscal year ends Jan 31 — "FY2025" covers mostly calendar 2024.

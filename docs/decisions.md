@@ -24,9 +24,16 @@ Add an entry for every non-obvious choice. Never delete entries; mark superseded
 - **Decision:** `common.tracing.JsonTracer` writes `logs/<run_id>.jsonl`; Langfuse optional (`tracing.backend`).
 - **Consequences:** zero setup; secrets redacted by key name.
 
-## D-005 — Placeholder LLM model (2026-10-23)
-- **Decision:** `meta-llama/llama-3.3-70b-instruct:free` as placeholder in `settings.yaml`.
-- **Consequences:** must be confirmed before the first eval run; changing later requires re-running all evals.
+## D-005 — LLM model: `nvidia/nemotron-3-super-120b-a12b:free` (2026-10-27)
+- **Context:** the initial placeholder `meta-llama/llama-3.3-70b-instruct:free` was no longer
+  free on OpenRouter (checked via the models API, 17 free models available).
+- **Decision:** Nemotron 3 Super 120B (MoE, 12B active): 262k context, structured outputs,
+  `seed` support, on OpenRouter since 2026-03 (less likely to disappear).
+- **Alternatives:** `google/gemma-4-31b-it:free` (JSON mode, smaller; fallback);
+  `nvidia/nemotron-3.5-super-vl:free` (newer, multimodal — not needed). Models without
+  JSON output support were excluded.
+- **Consequences:** reasoning-capable model — responses may include reasoning tokens, so
+  `max_tokens` must leave room for them. Changing the model later requires re-running all evals.
 
 ## D-006 — LLM cache key = full request hash (2026-10-23)
 - **Decision:** sha256 of canonical JSON (model, messages, temperature, max_tokens, seed, response_format).

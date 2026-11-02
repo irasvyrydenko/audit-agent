@@ -9,6 +9,7 @@ COMPONENTS = [
     "risk_detector",
     "consistency_checker",
     "report_generator",
+    "rag_chat",
     "app",
 ]
 
@@ -27,6 +28,12 @@ MODULES = [
     "audit_agent.risk_detector.llm_classifier",
     "audit_agent.consistency_checker.checker",
     "audit_agent.report_generator.generator",
+    "audit_agent.rag_chat.chunks",
+    "audit_agent.rag_chat.embeddings",
+    "audit_agent.rag_chat.store",
+    "audit_agent.rag_chat.retrieval",
+    "audit_agent.rag_chat.indexer",
+    "audit_agent.rag_chat.agent",
     "audit_agent.app.pipeline",
     "audit_agent.app.streamlit_app",
 ]

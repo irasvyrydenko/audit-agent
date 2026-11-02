@@ -23,6 +23,12 @@ flowchart LR
     LLM -.-> RISK
     LLM -.-> CC
     LLM -.-> RG
+    FL -->|"paragraphs"| IDX[("MongoDB<br/>vectors + company_years")]
+    KPI --> IDX
+    IND --> IDX
+    IDX --> CHAT[rag_chat agent]
+    CHAT -->|"cited answer"| APP
+    LLM -.-> CHAT
 ```
 
 Shared infrastructure (`src/audit_agent/common/`): `config` (settings.yaml),
@@ -86,9 +92,23 @@ Legend: solid = data, dashed = LLM call. Cylinders = external sources.
 - **Status:** implemented (D-014); faithfulness 1.0, citation correctness 1.0, perturbed
   detection 1.0 on template statements; LLM summaries pending the daily quota.
 
+## rag_chat
+- **Purpose:** answer free-text questions about one 10-K with cited sentences (RAG).
+- **Input → Output:** question + (ticker, FY) → `ChatAnswer` (cited statements, evidence,
+  plan, status).
+- **Model / tool:** LLM (planner + answer, JSON mode); local embeddings
+  (`BAAI/bge-small-en-v1.5`, fastembed); MongoDB Atlas Vector Search (Docker).
+- **Eval:** retrieval hit@k / recall@k / MRR vs TF-IDF; answer faithfulness, citation
+  correctness, uncited = 0, gold-evidence rate.
+- **Modules:** `chunks.py` (paragraph chunks), `embeddings.py`, `store.py` (MongoDB:
+  `paragraphs` + `company_years`, `$vectorSearch` with filters), `retrieval.py` (vector +
+  TF-IDF baseline), `indexer.py`, `agent.py` (LangGraph: plan → retrieve → answer →
+  verify → broaden/retry).
+- **Status:** implemented (D-018); test hit@6 0.88 vs 0.71 (TF-IDF), answers faithful 1.0.
+
 ## app
 - **Purpose:** Streamlit UI; `pipeline.run_pipeline` orchestrates components as a LangGraph
   `StateGraph` (D-017), one node and one trace span per component.
 - **Input → Output:** user selection → rendered report + `logs/<run_id>.jsonl`.
-- **Status:** implemented: pipeline (one trace span per step) + Streamlit tabs (Report, KPIs,
-  Indicators & flags, Risks, Trace); 3–6 s per company from cache.
+- **Status:** implemented: pipeline (one trace span per step) + Streamlit tabs (Report, Chat,
+  KPIs, Indicators & flags, Risks, MD&A checks, Trace); 3–6 s per company from cache.

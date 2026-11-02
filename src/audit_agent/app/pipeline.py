@@ -17,7 +17,7 @@ from langgraph.graph import END, START, StateGraph
 from langgraph.graph.state import CompiledStateGraph
 from pydantic import BaseModel
 
-from audit_agent.common.config import Company, Settings, load_companies, load_settings
+from audit_agent.common.config import Company, Settings, find_company, load_settings
 from audit_agent.common.edgar_client import EdgarClient
 from audit_agent.common.llm_client import LLMClient, LLMRateLimitError
 from audit_agent.common.tracing import JsonTracer
@@ -91,13 +91,6 @@ STEPS: list[tuple[str, str]] = [
     ("consistency_checker", "check"),
     ("report_generator", "generate"),
 ]
-
-
-def find_company(ticker: str) -> Company:
-    for company in load_companies().companies:
-        if company.ticker.upper() == ticker.upper():
-            return company
-    return Company(ticker=ticker.upper(), name=ticker.upper(), sector="unknown")
 
 
 def _risks(

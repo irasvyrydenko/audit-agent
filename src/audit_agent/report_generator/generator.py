@@ -157,7 +157,7 @@ def numbers_in(text: str) -> list[float]:
     return [float(m.replace(",", "")) for m in _NUMBER.findall(text)]
 
 
-def _number_supported(value: float, allowed: list[float]) -> bool:
+def number_supported(value: float, allowed: list[float]) -> bool:
     return any(abs(value - a) <= NUMBER_TOLERANCE * max(abs(a), 1.0) for a in allowed)
 
 
@@ -186,7 +186,7 @@ def check_faithfulness(
         citation_errors += len(bad)
         cited_text = " ".join(by_id[i].text for i in st.evidence_ids if i in by_id)
         allowed = numbers_in(cited_text)
-        missing = [n for n in numbers_in(st.text) if not _number_supported(n, allowed)]
+        missing = [n for n in numbers_in(st.text) if not number_supported(n, allowed)]
         if not st.citations or bad or missing:
             unsupported.append(idx)
             reasons[idx] = (

@@ -96,6 +96,25 @@ class EvalSettings(BaseModel):
     random_seed: int = 42
 
 
+class RagSettings(BaseModel):
+    """rag_chat: embeddings, MongoDB vector store and agent limits (D-018)."""
+
+    embedding_model: str = Field(min_length=1)
+    embedding_dim: int = Field(gt=0)
+    embedding_cache_dir: Path
+    mongodb_uri_env: str
+    mongodb_default_uri: str
+    database: str
+    vector_index: str = "paragraph_vectors"
+    items: list[str] = ["1A", "7", "8"]
+    min_words: int = Field(default=8, ge=1)
+    top_k: int = Field(default=6, ge=1)
+    num_candidates: int = Field(default=150, ge=1)
+    max_attempts: int = Field(default=2, ge=1)
+    max_answer_sentences: int = Field(default=5, ge=1)
+    max_paragraph_words: int = Field(default=250, ge=1)
+
+
 class TracingSettings(BaseModel):
     backend: Literal["json", "langfuse"] = "json"
     log_dir: Path
@@ -114,6 +133,7 @@ class Settings(BaseModel):
     consistency: ConsistencySettings
     eval: EvalSettings
     tracing: TracingSettings
+    rag: RagSettings
 
     @model_validator(mode="after")
     def _labels_defined(self) -> Settings:
@@ -149,6 +169,14 @@ def load_settings(path: Path = CONFIG_DIR / "settings.yaml") -> Settings:
 
 def load_companies(path: Path = CONFIG_DIR / "companies.yaml") -> CompanyList:
     return CompanyList.model_validate(_read_yaml(path))
+
+
+def find_company(ticker: str) -> Company:
+    """Company from companies.yaml, or a minimal unknown-sector entry."""
+    for company in load_companies().companies:
+        if company.ticker.upper() == ticker.upper():
+            return company
+    return Company(ticker=ticker.upper(), name=ticker.upper(), sector="unknown")
 
 
 def resolve_path(path: Path) -> Path:

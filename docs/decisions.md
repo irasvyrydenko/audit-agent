@@ -237,6 +237,37 @@ Add an entry for every non-obvious choice. Never delete entries; mark superseded
   companies, so no eval rerun is needed. The graph is the place to add branching later
   (e.g. an agentic Q&A over the filing with tool calls).
 
+## D-018 — rag_chat: MongoDB Atlas Vector Search + local embeddings + LangGraph agent (2026-11-02)
+- **Context:** the fixed report cannot answer follow-up questions. Answers must keep the
+  project rule "every statement cites a source"; the free LLM quota is 50 requests/day.
+- **Decision:**
+  1. Retrieval unit = one filing paragraph (Items 1A/7/8, >= 8 words), nearest heading
+     prepended for embedding; the paragraph id is the citation. 4,078 chunks for FY2024.
+  2. Embeddings: `BAAI/bge-small-en-v1.5` (384-d) run locally with fastembed (ONNX, no
+     PyTorch, no API calls, deterministic). Name in `settings.rag.embedding_model`, kept
+     apart from `llm.model`; changing it means rebuilding the index.
+  3. Store: MongoDB Atlas Local in Docker (`docker-compose.yml`). `paragraphs` = chunks +
+     vectors with a `vectorSearch` index filtered by ticker / fiscal_year / item;
+     `company_years` = one flexible document per company-year with KPIs, prior KPIs and
+     indicators (XBRL figures for numeric questions).
+  4. Agent = LangGraph graph plan -> retrieve -> answer -> verify. Planner (LLM, JSON)
+     picks a search query, Items and whether figures are needed; on LLM error it falls back
+     to "question, all Items, figures". Answer sentences must cite evidence ids; code drops
+     uncited sentences and sentences with numbers not in the cited evidence. If nothing
+     survives, one retry with the raw question and no Item filter (max_attempts = 2). No
+     answer -> status "no_answer", never an uncited sentence. 2–3 LLM calls per question.
+  5. LLM calls via `LLMClient` JSON mode, not native tool calling (free models are unreliable
+     with tools; JSON mode is cached like the other components).
+  6. Eval: 30 gold questions (agent draft, 10 dev / 20 test). Retrieval on the raw question
+     vs a TF-IDF baseline on the same chunks; answer metrics on test.
+- **Alternatives:** Atlas cloud M0 (needs an account and network; same API, switch via
+  `MONGODB_URI`); sentence-transformers (pulls PyTorch, ~1 GB); embedding API (costs, not
+  offline); hybrid BM25 + vector ($rankFusion needs MongoDB 8.1+); token chunks with
+  overlap (breaks the paragraph-id citation); native tool calling.
+- **Consequences:** new deps `pymongo`, `fastembed`; Docker needed for the chat. Indexing
+  is a one-off (~10 min on CPU for 5 filings, JPM alone ~5 min). The chat is separate from
+  `run_pipeline`; report evals are unaffected.
+
 ## Open questions
 - ~~**total_debt definition**~~ → resolved in D-011.
 - ~~**Altman Z variant**~~ / ~~**Banks (JPM)**~~ → resolved in D-012.

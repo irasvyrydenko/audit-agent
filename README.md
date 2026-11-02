@@ -9,7 +9,8 @@ short summary where every statement cites its source.
 
 **Status:** demo pipeline works end to end (filing_loader → kpi_extractor (XBRL) →
 indicator_engine → risk_detector (LLM + TF-IDF baseline) → consistency_checker → cited
-report → Streamlit), orchestrated as a LangGraph `StateGraph`. Not yet: LLM KPI extraction, Beneish M. See
+report → Streamlit), orchestrated as a LangGraph `StateGraph`, plus a RAG chat over the
+10-K (MongoDB Atlas Vector Search + LangGraph agent, cited answers). Not yet: LLM KPI extraction, Beneish M. See
 [docs/architecture.md](docs/architecture.md).
 
 ## Setup
@@ -40,6 +41,9 @@ Every `make <target>` has an equivalent `py scripts/tasks.py <target>`.
 | `make app` | Streamlit UI: pick company + year → report with citations, KPIs, indicators, risks, trace |
 | `py scripts/warm_cache.py` | run the pipeline for all companies to fill EDGAR + LLM caches before a demo |
 | `make format` | auto-format with ruff |
+| `docker compose up -d` | start MongoDB with Atlas Vector Search (needed for the chat) |
+| `py scripts/build_rag_index.py` | embed filing paragraphs + store XBRL figures in MongoDB (one-off, ~10 min on CPU) |
+| `py scripts/ask.py AAPL 2024 "question"` | ask the chat agent from the command line |
 
 Pipeline from Python: `run_pipeline(ticker, fiscal_year, JsonTracer(log_dir))` in
 `audit_agent.app.pipeline`; each run writes a JSON-lines trace to `logs/<run_id>.jsonl`.
@@ -54,7 +58,7 @@ When the quota is exhausted the report is still produced without the LLM summary
 - `config/settings.yaml` — the single fixed LLM model (OpenRouter), EDGAR rate limit,
   KPI→XBRL tag mapping, risk labels, eval thresholds.
 - `config/companies.yaml` — the company set (AAPL, JPM, XOM, JNJ, WMT; JPM flagged as bank).
-- `.env` — `EDGAR_USER_AGENT`, `OPENROUTER_API_KEY` (never committed).
+- `.env` — `EDGAR_USER_AGENT`, `OPENROUTER_API_KEY`, optional `MONGODB_URI` (never committed).
 
 ## Data
 

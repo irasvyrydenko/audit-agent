@@ -1,0 +1,16 @@
+# Local MongoDB with Atlas Vector Search for the rag_chat component (D-018).
+# Start: docker compose up -d   ·   URI: mongodb://localhost:27017/?directConnection=true
+services:
+  mongodb:
+    image: mongodb/mongodb-atlas-local:8.0
+    container_name: audit-agent-mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+      - mongo-config:/data/configdb
+    restart: unless-stopped
+
+volumes:
+  mongo-data:
+  mongo-config:

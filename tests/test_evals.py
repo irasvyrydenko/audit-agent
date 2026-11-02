@@ -15,6 +15,7 @@ ALL_EVALS = [
     "risk_detector",
     "consistency_checker",
     "report_generator",
+    "rag_chat",
 ]
 
 

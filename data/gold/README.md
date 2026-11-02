@@ -10,6 +10,7 @@ without manual review. Planned layout:
 | `indicator_engine/hand_calcs.json` | hand-calculated indicators (AAPL, WMT FY2024): inputs typed from Item 8 in $M, expected values by plain arithmetic; drafted by the agent, spot-check pending |
 | `risk_detector/paragraphs.jsonl` | `{paragraph_id, ticker, fy, text, labels, split, labeled_by}`; 80 Item 1A paragraphs from `evals/risk_detector/sample_gold.py`, 40 dev / 40 test; labels = agent draft (D-013), review pending |
 | `consistency_checker/claims.jsonl` | `{claim_id, ticker, fy, claim (structured Claim), expected_verdict, note, labeled_by}`; 26 claims from FY2024 MD&A paragraphs, agent draft (D-016) |
+| `rag_chat/questions.jsonl` | `{id, ticker, fiscal_year, split, question, gold_paragraphs, gold_metrics}`; 30 questions, 10 dev / 20 test; relevant paragraphs found by keyword search + reading (not by the retriever), agent draft (D-018) |
 | `report_generator/manual_review.jsonl` | statement-level `supported: true/false` labels |
 
 Record labeling guidelines and who labeled what in `docs/crisp_dm.md` (Data Preparation).

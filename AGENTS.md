@@ -20,6 +20,7 @@ It is an analysis tool, not investment advice. Course project, 2-week scope.
 | `src/audit_agent/risk_detector/` | paragraph risk labels: LLM vs TF-IDF+LogReg baseline |
 | `src/audit_agent/consistency_checker/` | MD&A claims → supported / contradicted / unverifiable |
 | `src/audit_agent/report_generator/` | cited summary + faithfulness check |
+| `src/audit_agent/rag_chat/` | RAG chat: MongoDB vector search + LangGraph agent, cited answers |
 | `src/audit_agent/app/` | Streamlit UI + pipeline orchestration with tracing |
 | `evals/<component>/run_eval.py` | eval script per component; results in `evals/<component>/results/` |
 | `evals/common.py` | shared results JSON format (`write_results`) |
@@ -81,6 +82,7 @@ Fixed seed and fixed model; LLM cache makes reruns reproducible.
 | risk_detector | per-class precision / recall / F1 + macro F1, **LLM vs TF-IDF+LogReg baseline** on the same test split |
 | consistency_checker | verdict accuracy incl. **perturbed-claim tests** (flipped direction / shifted number → contradicted) |
 | report_generator | faithfulness rate and citation correctness; uncited statements = 0 |
+| rag_chat | retrieval hit@k / recall@k / MRR **vs TF-IDF baseline**; answer faithfulness, citation correctness, uncited = 0 |
 
 Never tune on the test split. Report the baseline next to every LLM metric where one exists.
 

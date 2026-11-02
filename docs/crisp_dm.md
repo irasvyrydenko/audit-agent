@@ -14,6 +14,7 @@ Updated after each work session (see `.claude/skills/crisp-dm-log`). Entries are
 | consistency_checker | ✓ 2026-10-27 | ✓ 2026-10-27 | ✓ verification 2026-10-27 | verdict acc. 0.885, perturbed detection 1.0 |
 | report_generator | ✓ 2026-10-27 | ✓ 2026-10-27 | ✓ 2026-10-27 (template only) | faithfulness 1.0, perturbed detection 1.0 |
 | app | ✓ 2026-10-27 | ✓ 2026-10-27 | smoke test (AppTest) | 5/5 companies render |
+| rag_chat | ✓ 2026-11-02 | ✓ 2026-11-02 | ✓ 2026-11-02 (test, n=20) | hit@6 0.88 vs TF-IDF 0.71; answers faithful 1.0, gold-cited 1.0 |
 
 ## 1. Business Understanding
 
@@ -88,6 +89,16 @@ Open questions to answer by inspecting real data:
   rounded numbers ("$58.5 billion", "up 18%", "27 basis points"). Definitions differ from
   XBRL concepts: XOM "total cash" includes restricted cash, WMT margins use net sales (not
   total revenues), WMT/XOM quote net income incl. noncontrolling interests. [→ D-016]
+- 2026-11-02 — rag_chat — Business: the fixed report cannot answer follow-up questions
+  ("what does the company say about supply chain?", "why did margins change?"). An auditor
+  wants to ask free-text questions about one company-year and get a short answer where
+  every sentence cites a filing paragraph or XBRL-backed figure, same rule as the report.
+  Data: FY2024 Items 1A/7/8 of 5 filings = ~5,500 text paragraphs (JPM alone ~2,500);
+  median 25–100 words, max ~400 → one paragraph = one retrieval unit, its id is the
+  citation. Many paragraphs are sub-headings or table captions (< 8 words) → skipped, but
+  the nearest heading is prepended to each paragraph for context. Numbers live in XBRL,
+  not in paragraphs → numeric questions must use the KPI/indicator evidence, not text
+  retrieval. Constraint: 50 free LLM requests/day → ≤ 3 LLM calls per question. [→ D-018]
 
 ## 3. Data Preparation
 
@@ -103,6 +114,12 @@ Open questions to answer by inspecting real data:
 - 2026-10-27 — kpi_extractor — 19 KPIs as candidate expressions in settings.yaml (tag
   fallbacks, `A - B` for WMT liabilities, optional-sum for current debt, `total_debt =
   current_debt + long_term_debt`). Prior year = same 10-K, period end = FY start − 1 day.
+- 2026-11-02 — rag_chat — Index: 4,078 chunks (AAPL 260, JPM 2,456, XOM 418, JNJ 560,
+  WMT 384) + 5 `company_years` documents in MongoDB. Gold
+  `data/gold/rag_chat/questions.jsonl`: 30 questions (6 per company: risks, MD&A drivers,
+  notes, figures), relevant paragraphs found by keyword search and reading, **not** by the
+  retriever under test; agent draft, review pending. 17 test / 9 dev questions have gold
+  paragraphs; 7 have gold KPIs (revenue, net income, cash).
 
 ## 4. Modeling
 
@@ -124,6 +141,10 @@ Open questions to answer by inspecting real data:
   kind, direction, value, as_written); new KPI net_income_incl_nci; margins computed per
   year from KPIs; tolerance = half of the last written digit. Gold: 26 claims from real
   MD&A paragraphs of the 5 filings (agent draft), 19 supported / 7 unverifiable.
+- 2026-11-02 — rag_chat — LangGraph agent: plan (LLM JSON: query, Items, figures) →
+  vector search top 6 + figure evidence → answer (LLM JSON, sentences cite P/F ids) →
+  code verification → one broadened retry. Baseline retriever: TF-IDF (1–2-grams,
+  sublinear) fit per company-year on the same chunks. [→ D-018]
 - _(prompts, baseline config, rules; link decisions.md entries)_
 
 ## 5. Evaluation
@@ -171,6 +192,18 @@ what they mean.
   (+10% first number) detection 1.0. Limitation: the check verifies numbers and citations,
   not wording (a flipped rose/fell with correct numbers would pass). Next: summary run
   after quota reset, small manual review sample for judge_agreement.
+- 2026-11-02 — rag_chat — test split (commit 747aba0+, model nemotron-3.5-super-vl:free).
+  Retrieval, 17 questions with gold paragraphs, raw question as query: vector hit@1 0.47 /
+  hit@3 0.82 / hit@6 0.88 / hit@10 0.94, recall@10 0.71, MRR 0.64; TF-IDF baseline 0.47 /
+  0.65 / 0.71 / 0.76, recall@10 0.59, MRR 0.58. Dev: vector hit@6 0.80 vs 0.70. Answers
+  (20 questions, 1 skipped by quota): answered 0.95, faithfulness 1.0, citation
+  correctness 1.0, uncited 0, gold-evidence 1.0 (all 19 answers cite a gold paragraph or
+  gold KPI fact); planner never fell back, no retry needed. Takeaway: dense retrieval
+  helps mostly at k = 3–10 (paraphrased questions); at k = 1 both tie. Limits: 17 test
+  questions; gold drafted by the agent; the check verifies numbers and citations, not
+  wording; one answer mixed "consolidated net income" (incl. NCI, $16.3B, MD&A) with the
+  XBRL figure excl. NCI ($15.51B) — same definition gap as D-016. Next: rerun wmt-5 after
+  the quota reset, human review of gold, perturbed-answer test.
 
 ## 6. Deployment
 
@@ -183,3 +216,7 @@ Streamlit app (`make app`) with JSON tracing in `logs/`.
 - 2026-11-02 — app — orchestration moved to a LangGraph `StateGraph` (D-017): one node per
   component, same trace spans. `run_pipeline` output for AAPL/JPM/XOM/JNJ FY2024 is
   byte-identical to the previous version (all from cache), so eval results stay valid.
+- 2026-11-02 — rag_chat — "Chat" tab in Streamlit (questions about the selected 10-K,
+  answers with expandable citations and the agent's plan); MongoDB via
+  `docker compose up -d`, index via `py scripts/build_rag_index.py` or a button in the
+  tab; CLI `py scripts/ask.py`. Smoke-tested with Streamlit AppTest (AAPL, cached answer).

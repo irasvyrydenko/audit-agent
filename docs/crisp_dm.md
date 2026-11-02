@@ -180,3 +180,6 @@ Streamlit app (`make app`) with JSON tracing in `logs/`.
 - 2026-10-27 — app — `run_pipeline` + Streamlit UI working for all 5 companies (FY2024) from
   cache in 3–6 s each; JSON trace per run in `logs/`. Demo prep: `py scripts/warm_cache.py`
   after the LLM quota resets to add the summaries.
+- 2026-11-02 — app — orchestration moved to a LangGraph `StateGraph` (D-017): one node per
+  component, same trace spans. `run_pipeline` output for AAPL/JPM/XOM/JNJ FY2024 is
+  byte-identical to the previous version (all from cache), so eval results stay valid.

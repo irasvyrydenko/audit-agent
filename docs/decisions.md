@@ -220,6 +220,23 @@ Add an entry for every non-obvious choice. Never delete entries; mark superseded
 - **Consequences:** concept mismatches (restricted cash, net sales vs revenue) show up as
   contradicted — see error_analysis.md.
 
+## D-017 — Pipeline orchestration with LangGraph (2026-11-02)
+- **Context:** `run_pipeline` was a hand-written sequence of component calls. The project
+  should show a standard agent-orchestration framework, without touching component logic
+  or the LLM cache that makes evals reproducible.
+- **Decision:** `app/pipeline.py` builds a LangGraph `StateGraph` over a `PipelineState`
+  TypedDict: one node per component in the existing order, each wrapped in the same tracer
+  span. Clients and tracer are passed to nodes by closure, not stored in the state. LLM
+  calls still go only through `LLMClient`; LangChain model wrappers are not used. The
+  public `run_pipeline` signature and `PipelineResult` are unchanged.
+- **Alternatives:** keep plain Python (simplest, but no framework); LangChain chat models /
+  chains (would bypass the disk cache and invalidate evals); parallel risk + consistency
+  branches (both hit the same rate-limited free model; trace order would become
+  nondeterministic).
+- **Consequences:** new dependency `langgraph>=1.0`. Output verified byte-identical on 4
+  companies, so no eval rerun is needed. The graph is the place to add branching later
+  (e.g. an agentic Q&A over the filing with tool calls).
+
 ## Open questions
 - ~~**total_debt definition**~~ → resolved in D-011.
 - ~~**Altman Z variant**~~ / ~~**Banks (JPM)**~~ → resolved in D-012.

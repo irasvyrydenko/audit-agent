@@ -9,7 +9,7 @@ short summary where every statement cites its source.
 
 **Status:** demo pipeline works end to end (filing_loader → kpi_extractor (XBRL) →
 indicator_engine → risk_detector (LLM + TF-IDF baseline) → consistency_checker → cited
-report → Streamlit). Not yet: LLM KPI extraction, Beneish M. See
+report → Streamlit), orchestrated as a LangGraph `StateGraph`. Not yet: LLM KPI extraction, Beneish M. See
 [docs/architecture.md](docs/architecture.md).
 
 ## Setup

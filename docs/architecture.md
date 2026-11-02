@@ -87,7 +87,8 @@ Legend: solid = data, dashed = LLM call. Cylinders = external sources.
   detection 1.0 on template statements; LLM summaries pending the daily quota.
 
 ## app
-- **Purpose:** Streamlit UI; `pipeline.run_pipeline` orchestrates components with one trace span per step.
+- **Purpose:** Streamlit UI; `pipeline.run_pipeline` orchestrates components as a LangGraph
+  `StateGraph` (D-017), one node and one trace span per component.
 - **Input → Output:** user selection → rendered report + `logs/<run_id>.jsonl`.
 - **Status:** implemented: pipeline (one trace span per step) + Streamlit tabs (Report, KPIs,
   Indicators & flags, Risks, Trace); 3–6 s per company from cache.

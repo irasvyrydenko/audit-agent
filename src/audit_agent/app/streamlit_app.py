@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from urllib.parse import urlparse
+
 import pandas as pd
 import streamlit as st
 from pymongo.errors import PyMongoError
@@ -19,6 +21,7 @@ from audit_agent.rag_chat.store import MongoStore
 from audit_agent.report_generator.evidence import format_indicator, money
 from audit_agent.report_generator.generator import DISCLAIMER, ReportStatement
 
+IX_VIEWER = "https://www.sec.gov/ix?doc="
 SECTION_TITLES = {
     "key_figures": "Key figures",
     "profitability": "Profitability",
@@ -39,33 +42,54 @@ def filing_url(result: PipelineResult) -> str:
     )
 
 
-def citation_line(c: Citation) -> str:
+def md_escape(text: str) -> str:
+    """Stop Streamlit from rendering text between two "$" as LaTeX ("$93.74B ... $97.00B")."""
+    return text.replace("$", "\\$")
+
+
+def viewer_url(result: PipelineResult) -> str:
+    """The filing in SEC's inline XBRL viewer (paragraphs have no anchors; XBRL tags searchable)."""
+    return IX_VIEWER + urlparse(filing_url(result)).path
+
+
+def indicator_formulas(result: PipelineResult) -> dict[str, str]:
+    return {f"indicator:{i.name}": i.formula for i in result.indicators}
+
+
+def citation_line(c: Citation, viewer: str, formulas: dict[str, str]) -> str:
     if c.source_type == "section":
-        quote = f' — "{c.quote}"' if c.quote else ""
-        return f"📄 `{c.ref}`{quote}"
+        quote = f' — "{md_escape(c.quote)}"' if c.quote else ""
+        return f"📄 [`{c.ref}`]({viewer}){quote}"
     if c.source_type == "xbrl":
-        return f"🔢 XBRL `{c.ref}` (accession {c.accession})"
-    return f"🧮 `{c.ref}`"
+        return f"🔢 XBRL [`{c.ref}`]({viewer}) (accession {c.accession})"
+    formula = formulas.get(c.ref)
+    return f"🧮 `{c.ref}` = `{formula}`" if formula else f"🧮 `{c.ref}`"
 
 
-def render_statement(st_: ReportStatement) -> None:
+def render_citations(citations: list[Citation], viewer: str, formulas: dict[str, str]) -> None:
+    with st.expander("citations", expanded=False):
+        for c in citations:
+            st.markdown(citation_line(c, viewer, formulas))
+
+
+def render_statement(st_: ReportStatement, viewer: str, formulas: dict[str, str]) -> None:
     ids = ", ".join(st_.evidence_ids)
+    n = len(st_.citations)
     st.markdown(
-        f"- {st_.text}  \n  <small>sources: {ids} · {len(st_.citations)} citations</small>",
+        f"- {md_escape(st_.text)}  \n  <small>sources: {ids} · {n} citations</small>",
         unsafe_allow_html=True,
     )
-    with st.expander("citations", expanded=False):
-        for c in st_.citations:
-            st.markdown(citation_line(c))
+    render_citations(st_.citations, viewer, formulas)
 
 
 def render_report(result: PipelineResult) -> None:
     report = result.report
+    viewer, formulas = viewer_url(result), indicator_formulas(result)
     st.subheader("Summary")
     summary = report.section("summary")
     if summary:
         for s in summary:
-            render_statement(s)
+            render_statement(s, viewer, formulas)
     else:
         st.info(f"LLM summary {report.summary_status}.")
     f = result.faithfulness
@@ -78,7 +102,7 @@ def render_report(result: PipelineResult) -> None:
         if items:
             st.subheader(title)
             for s in items:
-                render_statement(s)
+                render_statement(s, viewer, formulas)
 
 
 def kpi_table(result: PipelineResult) -> pd.DataFrame:
@@ -152,15 +176,15 @@ def chat_backend() -> tuple[MongoStore, FastEmbedder]:
     return MongoStore(rag), FastEmbedder(rag)
 
 
-def render_answer(answer: ChatAnswer) -> None:
+def render_answer(answer: ChatAnswer, viewer: str, formulas: dict[str, str]) -> None:
     if not answer.statements:
         st.info(f"No cited answer ({answer.status}).")
     for s in answer.statements:
         refs = ", ".join(s.evidence_ids)
-        st.markdown(f"- {s.text}  \n  <small>sources: {refs}</small>", unsafe_allow_html=True)
-        with st.expander("citations", expanded=False):
-            for c in s.citations:
-                st.markdown(citation_line(c))
+        st.markdown(
+            f"- {md_escape(s.text)}  \n  <small>sources: {refs}</small>", unsafe_allow_html=True
+        )
+        render_citations(s.citations, viewer, formulas)
     if answer.plan is not None:
         p = answer.plan
         items = ", ".join(p.items) or "all"
@@ -199,9 +223,10 @@ def render_chat(result: PipelineResult) -> None:
         )
         with st.spinner("Searching the filing..."):
             history.insert(0, agent.ask(question, ticker, fy, result.company.name))
+    viewer, formulas = viewer_url(result), indicator_formulas(result)
     for answer in history:
-        st.markdown(f"**Q: {answer.question}**")
-        render_answer(answer)
+        st.markdown(f"**Q: {md_escape(answer.question)}**")
+        render_answer(answer, viewer, formulas)
         st.divider()
 
 

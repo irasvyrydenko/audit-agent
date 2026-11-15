@@ -71,6 +71,7 @@ Sources: EDGAR 10-K HTML, XBRL companyfacts API, optionally EDGAR-CORPUS (Huggin
 
 ## Docs
 
+- **[Project report](REPORT.md)**: scope, components, walkthrough, evaluation, CRISP-DM, agent setup
 - [Architecture](docs/architecture.md) · [CRISP-DM log](docs/crisp_dm.md) ·
   [Decisions](docs/decisions.md) · [Error analysis](docs/error_analysis.md)
 - Agent instructions: [AGENTS.md](AGENTS.md)

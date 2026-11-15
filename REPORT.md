@@ -96,6 +96,37 @@ Solid arrows = data, dashed = LLM calls, cylinders = external sources / stores.
 | `rag_chat` | Answer free-text questions about the filing with citations (agentic RAG) | question → `ChatAnswer` | planner + answer (2–3) | MongoDB Vector Search; local embeddings (fastembed) |
 | `app` | LangGraph orchestration with a trace span per node; Streamlit UI | user input → UI + `logs/<run_id>.jsonl` | through components | — |
 
+**RAG chat in detail.** Indexing runs once per filing; answering is a LangGraph agent with
+a verification step and one broader retry ([agent.py](src/audit_agent/rag_chat/agent.py)).
+
+```mermaid
+flowchart TD
+    subgraph IDX["Indexing (once per filing)"]
+        direction LR
+        F["filing_loader<br/>Items 1A / 7 / 8"] --> CH["chunks<br/>1 paragraph = 1 chunk<br/>+ nearest heading"]
+        CH --> EM["embeddings<br/>bge-small, local"]
+        EM --> MP[("MongoDB paragraphs<br/>vectors + ticker / year / item")]
+        K["kpi_extractor +<br/>indicator_engine"] --> MC[("MongoDB company_years<br/>KPIs + indicators")]
+    end
+
+    subgraph ASK["Answering a question (LangGraph agent)"]
+        Q(["question + ticker + year"]) --> PL["plan · LLM<br/>search query, Items,<br/>figures needed?"]
+        PL --> RT["retrieve · code<br/>vector search top 6 → P1…P6<br/>+ figures → F1…Fn"]
+        RT --> AN["answer · LLM<br/>1–5 sentences,<br/>each cites evidence ids"]
+        AN --> VF["verify · code<br/>drop uncited sentences and<br/>numbers not in cited evidence"]
+        VF -->|"≥ 1 sentence kept"| OK(["cited answer"])
+        VF -->|"none kept, first attempt"| BR["broaden · code<br/>raw question, all Items,<br/>with figures"]
+        BR --> RT
+        VF -->|"none kept, second attempt"| NA(["no_answer<br/>never an uncited sentence"])
+        PL -.->|"quota exhausted"| SK(["skipped"])
+    end
+
+    MP -.-> RT
+    MC -.-> RT
+```
+
+LLM calls: 2 per question, 3 with the retry. Every step writes to the run's trace.
+
 **Why these components.** Each one answers a question an auditor actually asks: *what are
 the numbers* (KPIs, from XBRL), *are they healthy* (indicators, flags), *what does
 management worry about* (risks), *does management's story match the numbers*

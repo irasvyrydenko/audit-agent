@@ -19,7 +19,7 @@ from audit_agent.rag_chat.indexer import index_company
 from audit_agent.rag_chat.retrieval import VectorRetriever
 from audit_agent.rag_chat.store import MongoStore
 from audit_agent.report_generator.evidence import format_indicator, money
-from audit_agent.report_generator.generator import DISCLAIMER, ReportStatement
+from audit_agent.report_generator.generator import ReportStatement
 
 IX_VIEWER = "https://www.sec.gov/ix?doc="
 SECTION_TITLES = {
@@ -271,7 +271,6 @@ def render_result(result: PipelineResult) -> None:
 def main() -> None:
     st.set_page_config(page_title="10-K Analyzer", layout="wide")
     st.title("10-K Financial Report Analyzer")
-    st.caption(DISCLAIMER)
 
     company_list = load_companies()
     with st.sidebar:

@@ -2,8 +2,12 @@
 {"check": "coverage", "ticker": "AAPL", "kpi": "cost_of_revenue", "present": true}
 {"check": "coverage", "ticker": "AAPL", "kpi": "operating_income", "present": true}
 {"check": "coverage", "ticker": "AAPL", "kpi": "net_income", "present": true}
+{"check": "coverage", "ticker": "AAPL", "kpi": "net_income_incl_nci", "present": true}
 {"check": "coverage", "ticker": "AAPL", "kpi": "sga", "present": true}
 {"check": "coverage", "ticker": "AAPL", "kpi": "depreciation", "present": true}
+{"check": "coverage", "ticker": "AAPL", "kpi": "pretax_income", "present": true}
+{"check": "coverage", "ticker": "AAPL", "kpi": "interest_expense", "present": false}
+{"check": "coverage", "ticker": "AAPL", "kpi": "ebit", "present": true}
 {"check": "coverage", "ticker": "AAPL", "kpi": "operating_cash_flow", "present": true}
 {"check": "coverage", "ticker": "AAPL", "kpi": "cash", "present": true}
 {"check": "coverage", "ticker": "AAPL", "kpi": "accounts_receivable", "present": true}
@@ -21,8 +25,11 @@
 {"check": "table", "ticker": "AAPL", "kpi": "cost_of_revenue", "found": true}
 {"check": "table", "ticker": "AAPL", "kpi": "operating_income", "found": true}
 {"check": "table", "ticker": "AAPL", "kpi": "net_income", "found": true}
+{"check": "table", "ticker": "AAPL", "kpi": "net_income_incl_nci", "found": true}
 {"check": "table", "ticker": "AAPL", "kpi": "sga", "found": true}
 {"check": "table", "ticker": "AAPL", "kpi": "depreciation", "found": true}
+{"check": "table", "ticker": "AAPL", "kpi": "pretax_income", "found": true}
+{"check": "table", "ticker": "AAPL", "kpi": "ebit", "found": true}
 {"check": "table", "ticker": "AAPL", "kpi": "operating_cash_flow", "found": true}
 {"check": "table", "ticker": "AAPL", "kpi": "cash", "found": true}
 {"check": "table", "ticker": "AAPL", "kpi": "accounts_receivable", "found": true}
@@ -38,8 +45,11 @@
 {"check": "cross_filing", "ticker": "AAPL", "kpi": "cost_of_revenue", "this_filing": 214137000000.0, "earlier_filing": 214137000000.0, "agree": true}
 {"check": "cross_filing", "ticker": "AAPL", "kpi": "operating_income", "this_filing": 114301000000.0, "earlier_filing": 114301000000.0, "agree": true}
 {"check": "cross_filing", "ticker": "AAPL", "kpi": "net_income", "this_filing": 96995000000.0, "earlier_filing": 96995000000.0, "agree": true}
+{"check": "cross_filing", "ticker": "AAPL", "kpi": "net_income_incl_nci", "this_filing": 96995000000.0, "earlier_filing": 96995000000.0, "agree": true}
 {"check": "cross_filing", "ticker": "AAPL", "kpi": "sga", "this_filing": 24932000000.0, "earlier_filing": 24932000000.0, "agree": true}
 {"check": "cross_filing", "ticker": "AAPL", "kpi": "depreciation", "this_filing": 11519000000.0, "earlier_filing": 11519000000.0, "agree": true}
+{"check": "cross_filing", "ticker": "AAPL", "kpi": "pretax_income", "this_filing": 113736000000.0, "earlier_filing": 113736000000.0, "agree": true}
+{"check": "cross_filing", "ticker": "AAPL", "kpi": "ebit", "this_filing": 114301000000.0, "earlier_filing": 114301000000.0, "agree": true}
 {"check": "cross_filing", "ticker": "AAPL", "kpi": "operating_cash_flow", "this_filing": 110543000000.0, "earlier_filing": 110543000000.0, "agree": true}
 {"check": "cross_filing", "ticker": "AAPL", "kpi": "cash", "this_filing": 29965000000.0, "earlier_filing": 29965000000.0, "agree": true}
 {"check": "cross_filing", "ticker": "AAPL", "kpi": "accounts_receivable", "this_filing": 29508000000.0, "earlier_filing": 29508000000.0, "agree": true}
@@ -57,8 +67,12 @@
 {"check": "coverage", "ticker": "JPM", "kpi": "cost_of_revenue", "present": false}
 {"check": "coverage", "ticker": "JPM", "kpi": "operating_income", "present": false}
 {"check": "coverage", "ticker": "JPM", "kpi": "net_income", "present": true}
+{"check": "coverage", "ticker": "JPM", "kpi": "net_income_incl_nci", "present": true}
 {"check": "coverage", "ticker": "JPM", "kpi": "sga", "present": false}
 {"check": "coverage", "ticker": "JPM", "kpi": "depreciation", "present": true}
+{"check": "coverage", "ticker": "JPM", "kpi": "pretax_income", "present": true}
+{"check": "coverage", "ticker": "JPM", "kpi": "interest_expense", "present": false}
+{"check": "coverage", "ticker": "JPM", "kpi": "ebit", "present": false}
 {"check": "coverage", "ticker": "JPM", "kpi": "operating_cash_flow", "present": true}
 {"check": "coverage", "ticker": "JPM", "kpi": "cash", "present": false}
 {"check": "coverage", "ticker": "JPM", "kpi": "accounts_receivable", "present": false}
@@ -74,7 +88,9 @@
 {"check": "coverage", "ticker": "JPM", "kpi": "total_debt", "present": false}
 {"check": "table", "ticker": "JPM", "kpi": "revenue", "found": true}
 {"check": "table", "ticker": "JPM", "kpi": "net_income", "found": true}
+{"check": "table", "ticker": "JPM", "kpi": "net_income_incl_nci", "found": true}
 {"check": "table", "ticker": "JPM", "kpi": "depreciation", "found": true}
+{"check": "table", "ticker": "JPM", "kpi": "pretax_income", "found": true}
 {"check": "table", "ticker": "JPM", "kpi": "operating_cash_flow", "found": true}
 {"check": "table", "ticker": "JPM", "kpi": "total_assets", "found": true}
 {"check": "table", "ticker": "JPM", "kpi": "stockholders_equity", "found": true}
@@ -83,7 +99,9 @@
 {"check": "table", "ticker": "JPM", "kpi": "current_debt", "found": true}
 {"check": "cross_filing", "ticker": "JPM", "kpi": "revenue", "this_filing": 158104000000.0, "earlier_filing": 158104000000.0, "agree": true}
 {"check": "cross_filing", "ticker": "JPM", "kpi": "net_income", "this_filing": 49552000000.0, "earlier_filing": 49552000000.0, "agree": true}
+{"check": "cross_filing", "ticker": "JPM", "kpi": "net_income_incl_nci", "this_filing": 49552000000.0, "earlier_filing": 49552000000.0, "agree": true}
 {"check": "cross_filing", "ticker": "JPM", "kpi": "depreciation", "this_filing": 7512000000.0, "earlier_filing": 7512000000.0, "agree": true}
+{"check": "cross_filing", "ticker": "JPM", "kpi": "pretax_income", "this_filing": 61612000000.0, "earlier_filing": 61612000000.0, "agree": true}
 {"check": "cross_filing", "ticker": "JPM", "kpi": "operating_cash_flow", "this_filing": 12974000000.0, "earlier_filing": 12974000000.0, "agree": true}
 {"check": "cross_filing", "ticker": "JPM", "kpi": "total_assets", "this_filing": 3875393000000.0, "earlier_filing": 3875393000000.0, "agree": true}
 {"check": "cross_filing", "ticker": "JPM", "kpi": "stockholders_equity", "this_filing": 327878000000.0, "earlier_filing": 327878000000.0, "agree": true}
@@ -94,8 +112,12 @@
 {"check": "coverage", "ticker": "XOM", "kpi": "cost_of_revenue", "present": false}
 {"check": "coverage", "ticker": "XOM", "kpi": "operating_income", "present": false}
 {"check": "coverage", "ticker": "XOM", "kpi": "net_income", "present": true}
+{"check": "coverage", "ticker": "XOM", "kpi": "net_income_incl_nci", "present": true}
 {"check": "coverage", "ticker": "XOM", "kpi": "sga", "present": true}
 {"check": "coverage", "ticker": "XOM", "kpi": "depreciation", "present": true}
+{"check": "coverage", "ticker": "XOM", "kpi": "pretax_income", "present": true}
+{"check": "coverage", "ticker": "XOM", "kpi": "interest_expense", "present": true}
+{"check": "coverage", "ticker": "XOM", "kpi": "ebit", "present": true}
 {"check": "coverage", "ticker": "XOM", "kpi": "operating_cash_flow", "present": true}
 {"check": "coverage", "ticker": "XOM", "kpi": "cash", "present": true}
 {"check": "coverage", "ticker": "XOM", "kpi": "accounts_receivable", "present": true}
@@ -111,8 +133,11 @@
 {"check": "coverage", "ticker": "XOM", "kpi": "total_debt", "present": true}
 {"check": "table", "ticker": "XOM", "kpi": "revenue", "found": true}
 {"check": "table", "ticker": "XOM", "kpi": "net_income", "found": true}
+{"check": "table", "ticker": "XOM", "kpi": "net_income_incl_nci", "found": true}
 {"check": "table", "ticker": "XOM", "kpi": "sga", "found": true}
 {"check": "table", "ticker": "XOM", "kpi": "depreciation", "found": true}
+{"check": "table", "ticker": "XOM", "kpi": "pretax_income", "found": true}
+{"check": "table", "ticker": "XOM", "kpi": "interest_expense", "found": true}
 {"check": "table", "ticker": "XOM", "kpi": "operating_cash_flow", "found": true}
 {"check": "table", "ticker": "XOM", "kpi": "cash", "found": true}
 {"check": "table", "ticker": "XOM", "kpi": "accounts_receivable", "found": true}
@@ -127,8 +152,12 @@
 {"check": "table", "ticker": "XOM", "kpi": "long_term_debt", "found": true}
 {"check": "cross_filing", "ticker": "XOM", "kpi": "revenue", "this_filing": 344582000000.0, "earlier_filing": 344582000000.0, "agree": true}
 {"check": "cross_filing", "ticker": "XOM", "kpi": "net_income", "this_filing": 36010000000.0, "earlier_filing": 36010000000.0, "agree": true}
+{"check": "cross_filing", "ticker": "XOM", "kpi": "net_income_incl_nci", "this_filing": 37354000000.0, "earlier_filing": 37354000000.0, "agree": true}
 {"check": "cross_filing", "ticker": "XOM", "kpi": "sga", "this_filing": 9919000000.0, "earlier_filing": 9919000000.0, "agree": true}
 {"check": "cross_filing", "ticker": "XOM", "kpi": "depreciation", "this_filing": 20641000000.0, "earlier_filing": 20641000000.0, "agree": true}
+{"check": "cross_filing", "ticker": "XOM", "kpi": "pretax_income", "this_filing": 52783000000.0, "earlier_filing": 52783000000.0, "agree": true}
+{"check": "cross_filing", "ticker": "XOM", "kpi": "interest_expense", "this_filing": 849000000.0, "earlier_filing": 849000000.0, "agree": true}
+{"check": "cross_filing", "ticker": "XOM", "kpi": "ebit", "this_filing": 53632000000.0, "earlier_filing": 53632000000.0, "agree": true}
 {"check": "cross_filing", "ticker": "XOM", "kpi": "operating_cash_flow", "this_filing": 55369000000.0, "earlier_filing": 55369000000.0, "agree": true}
 {"check": "cross_filing", "ticker": "XOM", "kpi": "cash", "this_filing": 31539000000.0, "earlier_filing": 31539000000.0, "agree": true}
 {"check": "cross_filing", "ticker": "XOM", "kpi": "accounts_receivable", "this_filing": 30296000000.0, "earlier_filing": 30296000000.0, "agree": true}
@@ -146,8 +175,12 @@
 {"check": "coverage", "ticker": "JNJ", "kpi": "cost_of_revenue", "present": true}
 {"check": "coverage", "ticker": "JNJ", "kpi": "operating_income", "present": false}
 {"check": "coverage", "ticker": "JNJ", "kpi": "net_income", "present": true}
+{"check": "coverage", "ticker": "JNJ", "kpi": "net_income_incl_nci", "present": true}
 {"check": "coverage", "ticker": "JNJ", "kpi": "sga", "present": true}
 {"check": "coverage", "ticker": "JNJ", "kpi": "depreciation", "present": true}
+{"check": "coverage", "ticker": "JNJ", "kpi": "pretax_income", "present": true}
+{"check": "coverage", "ticker": "JNJ", "kpi": "interest_expense", "present": true}
+{"check": "coverage", "ticker": "JNJ", "kpi": "ebit", "present": true}
 {"check": "coverage", "ticker": "JNJ", "kpi": "operating_cash_flow", "present": true}
 {"check": "coverage", "ticker": "JNJ", "kpi": "cash", "present": true}
 {"check": "coverage", "ticker": "JNJ", "kpi": "accounts_receivable", "present": true}
@@ -164,8 +197,11 @@
 {"check": "table", "ticker": "JNJ", "kpi": "revenue", "found": true}
 {"check": "table", "ticker": "JNJ", "kpi": "cost_of_revenue", "found": true}
 {"check": "table", "ticker": "JNJ", "kpi": "net_income", "found": true}
+{"check": "table", "ticker": "JNJ", "kpi": "net_income_incl_nci", "found": true}
 {"check": "table", "ticker": "JNJ", "kpi": "sga", "found": true}
 {"check": "table", "ticker": "JNJ", "kpi": "depreciation", "found": true}
+{"check": "table", "ticker": "JNJ", "kpi": "pretax_income", "found": true}
+{"check": "table", "ticker": "JNJ", "kpi": "interest_expense", "found": true}
 {"check": "table", "ticker": "JNJ", "kpi": "operating_cash_flow", "found": true}
 {"check": "table", "ticker": "JNJ", "kpi": "cash", "found": true}
 {"check": "table", "ticker": "JNJ", "kpi": "accounts_receivable", "found": true}
@@ -181,8 +217,12 @@
 {"check": "cross_filing", "ticker": "JNJ", "kpi": "revenue", "this_filing": 85159000000.0, "earlier_filing": 85159000000.0, "agree": true}
 {"check": "cross_filing", "ticker": "JNJ", "kpi": "cost_of_revenue", "this_filing": 26553000000.0, "earlier_filing": 26553000000.0, "agree": true}
 {"check": "cross_filing", "ticker": "JNJ", "kpi": "net_income", "this_filing": 35153000000.0, "earlier_filing": 35153000000.0, "agree": true}
+{"check": "cross_filing", "ticker": "JNJ", "kpi": "net_income_incl_nci", "this_filing": 35153000000.0, "earlier_filing": 35153000000.0, "agree": true}
 {"check": "cross_filing", "ticker": "JNJ", "kpi": "sga", "this_filing": 21512000000.0, "earlier_filing": 21512000000.0, "agree": true}
 {"check": "cross_filing", "ticker": "JNJ", "kpi": "depreciation", "this_filing": 7486000000.0, "earlier_filing": 7486000000.0, "agree": true}
+{"check": "cross_filing", "ticker": "JNJ", "kpi": "pretax_income", "this_filing": 15062000000.0, "earlier_filing": 15062000000.0, "agree": true}
+{"check": "cross_filing", "ticker": "JNJ", "kpi": "interest_expense", "this_filing": 772000000.0, "earlier_filing": 772000000.0, "agree": true}
+{"check": "cross_filing", "ticker": "JNJ", "kpi": "ebit", "this_filing": 15834000000.0, "earlier_filing": 15834000000.0, "agree": true}
 {"check": "cross_filing", "ticker": "JNJ", "kpi": "operating_cash_flow", "this_filing": 22791000000.0, "earlier_filing": 22791000000.0, "agree": true}
 {"check": "cross_filing", "ticker": "JNJ", "kpi": "cash", "this_filing": 21859000000.0, "earlier_filing": 21859000000.0, "agree": true}
 {"check": "cross_filing", "ticker": "JNJ", "kpi": "accounts_receivable", "this_filing": 14873000000.0, "earlier_filing": 14873000000.0, "agree": true}
@@ -200,8 +240,12 @@
 {"check": "coverage", "ticker": "WMT", "kpi": "cost_of_revenue", "present": true}
 {"check": "coverage", "ticker": "WMT", "kpi": "operating_income", "present": true}
 {"check": "coverage", "ticker": "WMT", "kpi": "net_income", "present": true}
+{"check": "coverage", "ticker": "WMT", "kpi": "net_income_incl_nci", "present": true}
 {"check": "coverage", "ticker": "WMT", "kpi": "sga", "present": true}
 {"check": "coverage", "ticker": "WMT", "kpi": "depreciation", "present": true}
+{"check": "coverage", "ticker": "WMT", "kpi": "pretax_income", "present": true}
+{"check": "coverage", "ticker": "WMT", "kpi": "interest_expense", "present": true}
+{"check": "coverage", "ticker": "WMT", "kpi": "ebit", "present": true}
 {"check": "coverage", "ticker": "WMT", "kpi": "operating_cash_flow", "present": true}
 {"check": "coverage", "ticker": "WMT", "kpi": "cash", "present": true}
 {"check": "coverage", "ticker": "WMT", "kpi": "accounts_receivable", "present": true}
@@ -219,8 +263,12 @@
 {"check": "table", "ticker": "WMT", "kpi": "cost_of_revenue", "found": true}
 {"check": "table", "ticker": "WMT", "kpi": "operating_income", "found": true}
 {"check": "table", "ticker": "WMT", "kpi": "net_income", "found": true}
+{"check": "table", "ticker": "WMT", "kpi": "net_income_incl_nci", "found": true}
 {"check": "table", "ticker": "WMT", "kpi": "sga", "found": true}
 {"check": "table", "ticker": "WMT", "kpi": "depreciation", "found": true}
+{"check": "table", "ticker": "WMT", "kpi": "pretax_income", "found": true}
+{"check": "table", "ticker": "WMT", "kpi": "interest_expense", "found": true}
+{"check": "table", "ticker": "WMT", "kpi": "ebit", "found": true}
 {"check": "table", "ticker": "WMT", "kpi": "operating_cash_flow", "found": true}
 {"check": "table", "ticker": "WMT", "kpi": "cash", "found": true}
 {"check": "table", "ticker": "WMT", "kpi": "accounts_receivable", "found": true}
@@ -235,8 +283,12 @@
 {"check": "cross_filing", "ticker": "WMT", "kpi": "cost_of_revenue", "this_filing": 463721000000.0, "earlier_filing": 463721000000.0, "agree": true}
 {"check": "cross_filing", "ticker": "WMT", "kpi": "operating_income", "this_filing": 20428000000.0, "earlier_filing": 20428000000.0, "agree": true}
 {"check": "cross_filing", "ticker": "WMT", "kpi": "net_income", "this_filing": 11680000000.0, "earlier_filing": 11680000000.0, "agree": true}
+{"check": "cross_filing", "ticker": "WMT", "kpi": "net_income_incl_nci", "this_filing": 11292000000.0, "earlier_filing": 11292000000.0, "agree": true}
 {"check": "cross_filing", "ticker": "WMT", "kpi": "sga", "this_filing": 127140000000.0, "earlier_filing": 127140000000.0, "agree": true}
 {"check": "cross_filing", "ticker": "WMT", "kpi": "depreciation", "this_filing": 10945000000.0, "earlier_filing": 10945000000.0, "agree": true}
+{"check": "cross_filing", "ticker": "WMT", "kpi": "pretax_income", "this_filing": 17016000000.0, "earlier_filing": 17016000000.0, "agree": true}
+{"check": "cross_filing", "ticker": "WMT", "kpi": "interest_expense", "this_filing": 1787000000.0, "earlier_filing": 1787000000.0, "agree": true}
+{"check": "cross_filing", "ticker": "WMT", "kpi": "ebit", "this_filing": 20428000000.0, "earlier_filing": 20428000000.0, "agree": true}
 {"check": "cross_filing", "ticker": "WMT", "kpi": "operating_cash_flow", "this_filing": 28841000000.0, "earlier_filing": 28841000000.0, "agree": true}
 {"check": "cross_filing", "ticker": "WMT", "kpi": "cash", "this_filing": 8625000000.0, "earlier_filing": 8625000000.0, "agree": true}
 {"check": "cross_filing", "ticker": "WMT", "kpi": "accounts_receivable", "this_filing": 7933000000.0, "earlier_filing": 7933000000.0, "agree": true}

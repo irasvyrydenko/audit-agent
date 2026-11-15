@@ -1,0 +1,23 @@
+{
+  "component": "report_generator",
+  "timestamp": "2026-11-15T06:36:44.157332+00:00",
+  "git_commit": "447df1c",
+  "model": "nvidia/nemotron-3.5-super-vl:free",
+  "status": "ok",
+  "dataset": {
+    "name": "pipeline_reports",
+    "n": 5,
+    "fiscal_year": 2024
+  },
+  "metrics": {
+    "faithfulness_rate": 1.0,
+    "summary_faithfulness_rate": 1.0,
+    "citation_correctness": 1.0,
+    "uncited_statement_count": 0,
+    "perturbed_detection_rate": 1.0,
+    "summaries_generated": 5,
+    "judge_agreement": null
+  },
+  "baseline": null,
+  "notes": "Deterministic faithfulness check (citations resolve, numbers in cited evidence). LLM summaries depend on the free daily quota; no manual sample yet."
+}

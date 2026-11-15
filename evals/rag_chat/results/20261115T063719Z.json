@@ -1,0 +1,63 @@
+{
+  "component": "rag_chat",
+  "timestamp": "2026-11-15T06:37:19.266786+00:00",
+  "git_commit": "447df1c",
+  "model": "nvidia/nemotron-3.5-super-vl:free",
+  "status": "ok",
+  "dataset": {
+    "name": "gold/rag_chat",
+    "n": 30,
+    "split": {
+      "test": 20,
+      "dev": 10
+    }
+  },
+  "metrics": {
+    "hit@1": 0.4706,
+    "hit@3": 0.8235,
+    "hit@6": 0.8824,
+    "hit@10": 0.9412,
+    "recall@6": 0.5542,
+    "recall@10": 0.7073,
+    "mrr@10": 0.6431,
+    "dev": {
+      "hit@1": 0.6,
+      "hit@3": 0.8,
+      "hit@6": 0.8,
+      "hit@10": 1.0,
+      "recall@6": 0.4383,
+      "recall@10": 0.671,
+      "mrr@10": 0.7087
+    },
+    "answer": {
+      "n": 20,
+      "skipped_quota": 0,
+      "answered_rate": 1.0,
+      "faithfulness_rate": 1.0,
+      "citation_correctness": 1.0,
+      "uncited_statement_count": 0,
+      "gold_evidence_rate": 1.0,
+      "mean_attempts": 1.0
+    }
+  },
+  "baseline": {
+    "hit@1": 0.4706,
+    "hit@3": 0.6471,
+    "hit@6": 0.7059,
+    "hit@10": 0.7647,
+    "recall@6": 0.5011,
+    "recall@10": 0.5885,
+    "mrr@10": 0.579,
+    "dev": {
+      "hit@1": 0.5,
+      "hit@3": 0.7,
+      "hit@6": 0.7,
+      "hit@10": 0.7,
+      "recall@6": 0.59,
+      "recall@10": 0.6067,
+      "mrr@10": 0.5667
+    },
+    "answer": null
+  },
+  "notes": "retrieval: raw question as query, no Item filter; baseline = TF-IDF over the same chunks. answer metrics on test only."
+}

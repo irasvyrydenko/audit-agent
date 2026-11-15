@@ -1,7 +1,7 @@
 {
   "component": "rag_chat",
-  "timestamp": "2026-11-02T07:10:00.030481+00:00",
-  "git_commit": "747aba0",
+  "timestamp": "2026-11-15T06:37:19.266786+00:00",
+  "git_commit": "447df1c",
   "model": "nvidia/nemotron-3.5-super-vl:free",
   "status": "ok",
   "dataset": {
@@ -31,13 +31,13 @@
     },
     "answer": {
       "n": 20,
-      "skipped_quota": 1,
-      "answered_rate": 0.95,
+      "skipped_quota": 0,
+      "answered_rate": 1.0,
       "faithfulness_rate": 1.0,
       "citation_correctness": 1.0,
       "uncited_statement_count": 0,
       "gold_evidence_rate": 1.0,
-      "mean_attempts": 0.95
+      "mean_attempts": 1.0
     }
   },
   "baseline": {

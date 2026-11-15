@@ -1,0 +1,220 @@
+{
+  "component": "risk_detector",
+  "timestamp": "2026-11-15T06:35:50.256469+00:00",
+  "git_commit": "447df1c",
+  "model": "nvidia/nemotron-3.5-super-vl:free",
+  "status": "ok",
+  "dataset": {
+    "name": "gold/risk_detector",
+    "n": 40,
+    "split": "test",
+    "train_n_dev": 40,
+    "labeled_by": [
+      "agent-draft"
+    ]
+  },
+  "metrics": {
+    "per_class": {
+      "going_concern": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 0
+      },
+      "litigation": {
+        "precision": 0.4286,
+        "recall": 1.0,
+        "f1": 0.6,
+        "support": 3
+      },
+      "customer_concentration": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 0
+      },
+      "debt_covenants": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 0
+      },
+      "cybersecurity": {
+        "precision": 0.5,
+        "recall": 0.8333,
+        "f1": 0.625,
+        "support": 6
+      },
+      "liquidity": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 0
+      },
+      "regulatory": {
+        "precision": 0.6667,
+        "recall": 1.0,
+        "f1": 0.8,
+        "support": 12
+      },
+      "supply_chain": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 0
+      },
+      "none": {
+        "precision": 1.0,
+        "recall": 0.619,
+        "f1": 0.7647,
+        "support": 21
+      }
+    },
+    "macro_f1": 0.675,
+    "macro_f1_labels": [
+      "litigation",
+      "cybersecurity",
+      "regulatory"
+    ],
+    "micro_f1": 0.7097,
+    "exact_match": 0.625,
+    "llm_unclassified": 0
+  },
+  "baseline": {
+    "gold_dev": {
+      "per_class": {
+        "going_concern": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 0
+        },
+        "litigation": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 3
+        },
+        "customer_concentration": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 0
+        },
+        "debt_covenants": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 0
+        },
+        "cybersecurity": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 6
+        },
+        "liquidity": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 0
+        },
+        "regulatory": {
+          "precision": 0.8333,
+          "recall": 0.8333,
+          "f1": 0.8333,
+          "support": 12
+        },
+        "supply_chain": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 0
+        },
+        "none": {
+          "precision": 0.7143,
+          "recall": 0.9524,
+          "f1": 0.8163,
+          "support": 21
+        }
+      },
+      "macro_f1": 0.2778,
+      "macro_f1_labels": [
+        "litigation",
+        "cybersecurity",
+        "regulatory"
+      ],
+      "micro_f1": 0.7317,
+      "exact_match": 0.725,
+      "train_n": 40
+    },
+    "silver_llm": {
+      "per_class": {
+        "going_concern": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 0
+        },
+        "litigation": {
+          "precision": 0.3333,
+          "recall": 1.0,
+          "f1": 0.5,
+          "support": 3
+        },
+        "customer_concentration": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 0
+        },
+        "debt_covenants": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 0
+        },
+        "cybersecurity": {
+          "precision": 0.8333,
+          "recall": 0.8333,
+          "f1": 0.8333,
+          "support": 6
+        },
+        "liquidity": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 0
+        },
+        "regulatory": {
+          "precision": 0.7059,
+          "recall": 1.0,
+          "f1": 0.8276,
+          "support": 12
+        },
+        "supply_chain": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 0
+        },
+        "none": {
+          "precision": 1.0,
+          "recall": 0.8095,
+          "f1": 0.8947,
+          "support": 21
+        }
+      },
+      "macro_f1": 0.7203,
+      "macro_f1_labels": [
+        "litigation",
+        "cybersecurity",
+        "regulatory"
+      ],
+      "micro_f1": 0.7957,
+      "exact_match": 0.7,
+      "train_n": 440
+    }
+  },
+  "notes": "Gold labels are an agent draft pending human review; n=40 test paragraphs, so per-class numbers are noisy. LLM = cached pipeline predictions."
+}

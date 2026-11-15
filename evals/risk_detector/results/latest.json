@@ -1,7 +1,7 @@
 {
   "component": "risk_detector",
-  "timestamp": "2026-10-27T18:51:46.756068+00:00",
-  "git_commit": "023657c",
+  "timestamp": "2026-11-15T06:35:50.256469+00:00",
+  "git_commit": "447df1c",
   "model": "nvidia/nemotron-3.5-super-vl:free",
   "status": "ok",
   "dataset": {

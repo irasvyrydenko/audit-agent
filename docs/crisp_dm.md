@@ -8,13 +8,13 @@ Updated after each work session (see `.claude/skills/crisp-dm-log`). Entries are
 | Component | Bus./Data understanding | Built | Eval run | Key metric |
 |---|---|---|---|---|
 | filing_loader | ✓ 2026-10-27 | ✓ 2026-10-27 | ✓ 2026-10-27 (dev) | segmentation acc. 0.933 (14/15) |
-| kpi_extractor | ✓ 2026-10-27 | ✓ XBRL part 2026-10-27 | ✓ 2026-10-27 (XBRL checks) | table match 0.987, coverage 0.86 |
+| kpi_extractor | ✓ 2026-10-27 | ✓ XBRL part 2026-10-27 | ✓ 2026-11-15 (XBRL checks) | table match 0.989, coverage 0.86 |
 | indicator_engine | ✓ 2026-10-27 | ✓ 2026-10-27 (no Beneish) | ✓ 2026-10-27 | hand-calc match 1.0 (22/22) |
 | risk_detector | ✓ 2026-10-27 | ✓ LLM + baseline 2026-10-27 | ✓ 2026-10-27 (test, n=40) | macro-F1 LLM 0.675 vs baseline 0.278 (dev-trained) / 0.720 (silver) |
 | consistency_checker | ✓ 2026-10-27 | ✓ 2026-10-27 | ✓ verification 2026-10-27 | verdict acc. 0.885, perturbed detection 1.0 |
-| report_generator | ✓ 2026-10-27 | ✓ 2026-10-27 | ✓ 2026-10-27 (template only) | faithfulness 1.0, perturbed detection 1.0 |
+| report_generator | ✓ 2026-10-27 | ✓ 2026-10-27 | ✓ 2026-11-15 (with LLM summaries) | faithfulness 1.0 (summary 21/21), perturbed detection 1.0 |
 | app | ✓ 2026-10-27 | ✓ 2026-10-27 | smoke test (AppTest) | 5/5 companies render |
-| rag_chat | ✓ 2026-11-02 | ✓ 2026-11-02 | ✓ 2026-11-02 (test, n=20) | hit@6 0.88 vs TF-IDF 0.71; answers faithful 1.0, gold-cited 1.0 |
+| rag_chat | ✓ 2026-11-02 | ✓ 2026-11-02 | ✓ 2026-11-15 (test, n=20) | hit@6 0.88 vs TF-IDF 0.71; 20/20 answered, faithful 1.0, gold-cited 1.0 |
 
 ## 1. Business Understanding
 
@@ -204,6 +204,16 @@ what they mean.
   wording; one answer mixed "consolidated net income" (incl. NCI, $16.3B, MD&A) with the
   XBRL figure excl. NCI ($15.51B) — same definition gap as D-016. Next: rerun wmt-5 after
   the quota reset, human review of gold, perturbed-answer test.
+- 2026-11-15 — all components — full rerun of every eval (commit 447df1c, same model) after
+  the daily quota reset; `rag_chat` added to `scripts/tasks.py eval`, where it was missing.
+  Changes: report_generator now has LLM summaries for all 5 companies, summary faithfulness
+  1.0 (21/21 sentences, 0 dropped as uncited), overall 150/150, perturbed 149/149;
+  rag_chat answers 20/20 (wmt-5 now answered, cites gold item_7:p28), other answer metrics
+  unchanged at 1.0, retrieval unchanged; kpi_extractor table match 0.989 (89/90),
+  cross-filing 99/99, coverage 0.861 — 23 KPIs per company now (19 at the last run), so
+  more values are checked; rates unchanged. filing_loader, indicator_engine, risk_detector and consistency_checker
+  identical. Takeaway: summary faithfulness and full chat coverage now measured; remaining
+  gaps are human review of gold and a wording check (`judge_agreement`).
 
 ## 6. Deployment
 
